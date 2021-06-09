@@ -1,0 +1,14 @@
+package com.paulkapa.btd6gamelogger.database.system;
+
+import com.paulkapa.btd6gamelogger.models.system.User;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+@Repository
+@Transactional(readOnly = true)
+public interface UserInterface extends JpaRepository<User, Integer> {
+    User findByNameAndPassword(String name, String password);
+    User getByNameAndPassword(String name, String password);
+}
