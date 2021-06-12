@@ -6,11 +6,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.paulkapa.btd6gamelogger.models.base.BaseUpgradeEntity;
+import com.paulkapa.btd6gamelogger.models.helper.BaseUpgradeEntity;
 
 /**
  * Class that defines the attributes af an Upgrade Path in BTD6.
- * 
+ *
  * @see BaseUpgradeEntity
  */
 @Entity(name = "Upgrade")
@@ -18,7 +18,7 @@ import com.paulkapa.btd6gamelogger.models.base.BaseUpgradeEntity;
 public class UpgradeEntity extends BaseUpgradeEntity {
 
     /**
-     * 
+     *
      */
     @Transient
     private boolean isLocked;
@@ -33,29 +33,29 @@ public class UpgradeEntity extends BaseUpgradeEntity {
     public UpgradeEntity() {
         super();
         this.isLocked = false;
-        this.tower = new TowerEntity();
+        this.tower = null;
     }
 
     /**
-     * 
+     *
      */
     public UpgradeEntity(String name) {
         super(name);
         this.isLocked = false;
-        this.tower = new TowerEntity();
+        this.tower = null;
     }
 
     /**
-     * 
+     *
      */
     public UpgradeEntity(String name, short path, short tier, double baseCost) {
         super(name, path, tier, baseCost);
         this.isLocked = false;
-        this.tower = new TowerEntity();
+        this.tower = null;
     }
 
     /**
-     * 
+     *
      */
     public UpgradeEntity(String name, short path, short tier, double baseCost, boolean isLocked,
             TowerEntity tower) {

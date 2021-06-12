@@ -9,11 +9,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.paulkapa.btd6gamelogger.models.base.BaseTowerEntity;
+import com.paulkapa.btd6gamelogger.models.helper.BaseTowerEntity;
 
 /**
  * Class that defines the properties of a Tower in BTD6.
- * 
+ *
  * @see BaseTowerEntity
  */
 @Entity(name = "Tower")
@@ -21,31 +21,31 @@ import com.paulkapa.btd6gamelogger.models.base.BaseTowerEntity;
 public class TowerEntity extends BaseTowerEntity {
 
     /**
-     * 
+     *
      */
     @Transient
     private double cost;
 
     /**
-     * 
+     *
      */
     @Transient
     private double sellValue;
 
     /**
-     * 
+     *
      */
     @Transient
     private long pops;
 
     /**
-     * 
+     *
      */
     @Transient
     private long cashGenerated;
 
     /**
-     * 
+     *
      */
     @OneToMany(cascade=CascadeType.ALL, mappedBy="tower")
     private List<UpgradeEntity> upgrades;
@@ -63,7 +63,7 @@ public class TowerEntity extends BaseTowerEntity {
     }
 
     /**
-     * 
+     *
      */
     public TowerEntity(String name) {
         super(name);
@@ -75,7 +75,7 @@ public class TowerEntity extends BaseTowerEntity {
     }
 
     /**
-     * 
+     *
      */
     public TowerEntity(String name, String towerClass, double baseCost, double baseSellValue) {
         super(name, towerClass, baseCost, baseSellValue);
@@ -87,7 +87,7 @@ public class TowerEntity extends BaseTowerEntity {
     }
 
     /**
-     * 
+     *
      */
     public TowerEntity(String name, String towerClass, double baseCost, double baseSellValue, double cost,
             double sellValue, long pops, long cashGenerated, List<UpgradeEntity> upgrades) {

@@ -5,25 +5,23 @@ import java.util.HashMap;
 import com.paulkapa.btd6gamelogger.models.system.User;
 
 /**
- * Container class for top level game entities, such as
- * maps, and real entities, such as users.
- * <p>
- * One game can have only one real entity <code>User</code>.
+ * Container class game entities, such as
+ * maps, towers, upgrades and users.
  */
 public class GameEntity {
 
     /**
-     * The <code>User</code> loggedin into this <code>Game</code>.
+     * The current loggedin <code>User</code>.
      */
     private User user;
+
     /**
-     * The <code>Map</code> entities belonging to the <code>Game</code>
-     * instance.
+     * The <code>MapEntity</code> objects.
      */
     private HashMap<String, MapEntity> maps;
+
     /**
-     * The <code>BaseTowerEntity</code> objects belonging to the <code>Game</code>
-     * instance.
+     * The <code>TowerEntity</code>.
      */
     private HashMap<String, TowerEntity> towers;
 
@@ -31,40 +29,40 @@ public class GameEntity {
      * Default constructor.
      */
     public GameEntity() {
-        this.user = new User();
-        this.maps = new HashMap<>();
-        this.towers = new HashMap<>();
+        this.user = null;
+        this.maps = null;
+        this.towers = null;
     }
 
     /**
-     * 
+     *
      */
     public GameEntity(User user) {
         this.user = user;
-        this.maps = new HashMap<>();
-        this.towers = new HashMap<>();
+        this.maps = null;
+        this.towers = null;
     }
-    
+
     /**
-     * 
+     *
      */
     public GameEntity(User user, MapEntity map) {
         this.user = user;
         this.addMap(map);
-        this.towers = new HashMap<>();
+        this.towers = null;
     }
-    
+
     /**
-     * 
+     *
      */
     public GameEntity(User user, HashMap<String, MapEntity> maps) {
         this.user = user;
         this.maps = maps;
-        this.towers = new HashMap<>();
+        this.towers = null;
     }
-    
+
     /**
-     * 
+     *
      */
     public GameEntity(User user, HashMap<String, MapEntity> maps, HashMap<String, TowerEntity> towers) {
         this.user = user;
@@ -73,32 +71,29 @@ public class GameEntity {
     }
 
     /**
-     * Sets the <code>User</code> loggedin into
-     * this instance of <code>Game</code>.
+     * Sets the <code>User</code> object.
      */
     public void setUser(User user) {
-        this.user = (user == null) ? new User() : user;
+        this.user = user;
     }
 
     /**
-     * Gets the <code>User</code> loggedin into
-     * this instance of <code>Game</code>.
+     * Gets the <code>User</code> object.
      */
     public User getUser() {
-        return (this.user == null) ? new User() : this.user;
+        return this.user;
     }
 
     /**
-     * Sets the <code>Map</code> entities belonging
-     * to this instance of <code>Game</code>.
+     * Sets the <code>MapEntity</code> objects.
      */
     public void setMaps(HashMap<String, MapEntity> maps) {
-        this.maps = (maps == null) ? new HashMap<>() : maps;
+        this.maps = maps;
     }
 
     /**
-     * Adds a <code>Map</code> to the list of <code>Map</code>
-     * entities belonging to this instance of <code>Game</code>.
+     * Adds a <code>MapEntity</code> object to the collection of
+     * <code>MapEntity</code> objects.
      */
     public void addMap(MapEntity e) {
         if(this.maps != null)
@@ -110,8 +105,7 @@ public class GameEntity {
     }
 
     /**
-     * Gets the <code>Map</code> entities belonging
-     * to this instance of <code>Game</code>.
+     * Gets the <code>MapEntity</code> objects.
      */
     public HashMap<String, MapEntity> getMaps() {
         if(this.maps != null)
@@ -123,28 +117,29 @@ public class GameEntity {
     }
 
     /**
-     * Gets a <code>Map</code> entity by specifying it's name.
+     * Gets a <code>MapEntity</code> object using the
+     * provided <code>name</code> parameter.
+     * <p>
+     * Returns <code>null</code> if not found.
      */
     public MapEntity getMap(String name) {
-        if(this.maps != null)
+        if(this.maps != null && this.maps.keySet().contains(name))
             return this.maps.get(name);
         else {
-            this.maps = new HashMap<>();
-            return new MapEntity();
+            return null;
         }
-    }
-    
-    /**
-     * Sets the <code>BaseTowerEntity</code> objects belonging
-     * to this instance of <code>Game</code>.
-     */
-    public void SetTowers(HashMap<String, TowerEntity> towers) {
-        this.towers = (towers == null) ? new HashMap<>() : towers;
     }
 
     /**
-     * Adds a <code>BaseTowerEntity</code> to the list of <code>BaseTowerEntity</code>
-     * objects belonging to this instance of <code>Game</code>.
+     * Sets the <codeTowerEntity</code> objects.
+     */
+    public void SetTowers(HashMap<String, TowerEntity> towers) {
+        this.towers = towers;
+    }
+
+    /**
+     * Adds a <code>TowerEntity</code> object to the collection of
+     * <code>TowerEntity</code> objects.
      */
     public void addTower(TowerEntity e) {
         if(this.towers != null)
@@ -156,8 +151,7 @@ public class GameEntity {
     }
 
     /**
-     * Gets the <code>BaseTowerEntity</code> objects belonging
-     * to this instance of <code>Game</code>.
+     * Gets the <code>TowerEntity</code> objects.
      */
     public HashMap<String, TowerEntity> getTowers() {
         if(this.towers != null)
@@ -169,14 +163,16 @@ public class GameEntity {
     }
 
     /**
-     * Gets a <code>BaseTowerEntity</code> object by specifying it's name.
+     * Gets a <code>TowerEntity</code> object using the
+     * provided <code>name</code> parameter.
+     * <p>
+     * Returns <code>null</code> if not found.
      */
     public TowerEntity getTower(String name) {
-        if(this.towers != null)
+        if(this.towers != null && this.towers.keySet().contains(name))
             return this.towers.get(name);
         else {
-            this.towers = new HashMap<>();
-            return new TowerEntity();
+            return null;
         }
     }
 }

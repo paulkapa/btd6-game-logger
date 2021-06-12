@@ -4,14 +4,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.paulkapa.btd6gamelogger.models.base.NamedEntity;
+import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 
 /**
  * Class that defines the attributes of a real user of this application.
+ * <p>
+ * Extends <code>BaseEntity</code> class which provides the base attributes
+ * and methods for handling user data.
+ *
+ * @see BaseEntity
  */
 @Entity(name = "User")
 @Table(name = "users")
-public class User extends NamedEntity {
+public class User extends BaseEntity {
 
     /**
      * The <code>password</code> value associated with this <code>User</code>
@@ -26,22 +31,27 @@ public class User extends NamedEntity {
      */
     @Column(name = "email")
     private String email;
-    
+
     /**
      * Default constructor.
+     * <p>
+     * Calls the super class constructor {@link BaseEntity#BaseEntity(String, String)}
+     * providing as parameters "<code>User</code>" and <code>null</code>.
+     * <p>
+     * Sets the rest of the user attributes to null.
      */
     public User() {
-        super("User");
+        super("User", null);
         this.password = null;
         this.email = null;
     }
 
     /**
-     * Constructor that takes a variable <code>name</code> as parameter
-     * containing the name of the <code>User</code> entity that is being created
-     * and saves it in memory.
+     * Constructor that initializes a <code>User</code> object with
+     * the provided <code>name</code> parameter.
      * <p>
-     * The value is added up the chain to the top super class.
+     * Applies the same principles as the default constructor
+     * {@link User#User()}
      */
     public User(String name) {
         super("User", name);
@@ -50,11 +60,11 @@ public class User extends NamedEntity {
     }
 
     /**
-     * Constructor that takes two variables, <code>name</code> and <code>password</code>,
-     * as parameters, containing the name and the password of the <code>User</code>
-     * entity that is being created, and saves them in memory.
+     * Constructor that initializes a <code>User</code> object with
+     * the provided <code>name</code> and <code>password</code> parameters.
      * <p>
-     * The <code>name</code> value is added up the chain to the top super class.
+     * Applies the same principles as the default constructor
+     * {@link User#User()}
      */
     public User(String name, String password) {
         super("User", name);
@@ -63,11 +73,12 @@ public class User extends NamedEntity {
     }
 
     /**
-     * Constructor that takes 3 variables, <code>name</code>, <code>password</code> and
-     * <code>email</code>, as parameters, containing the name, password and email of the
-     * <code>User</code> entity that is being created, and saves them in memory.
+     * Constructor that initializes a <code>User</code> object with
+     * the provided <code>name</code>, <code>password</code> and
+     * <code>email</code> parameters.
      * <p>
-     * The <code>name</code> value is added up the chain to the top super class.
+     * Applies the same principles as the default constructor
+     * {@link User#User()}
      */
     public User(String name, String password, String email) {
         super("User", name);
@@ -76,44 +87,48 @@ public class User extends NamedEntity {
     }
 
     /**
-     * Sets the <code>password</code> attribute of the current instance.
+     * Sets the <code>password</code> attribute for this object.
+     * <p>
+     * Applies trim() on the string before it is stored.
      */
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password.trim();
     }
 
     /**
-     * Gets the <code>password</code> attribute of the current instance.
+     * Gets the <code>password</code> attribute of this object.
      */
     public String getPassword() {
         return this.password;
     }
 
     /**
-     * Sets the <code>email</code> attribute of the current instance.
+     * Sets the <code>email</code> attribute for this object.
+     * <p>
+     * Applies trim() on the string before it is stored.
      */
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.trim();
     }
 
     /**
-     * Gets the <code>password</code> attribute of the current instance.
+     * Gets the <code>password</code> attribute of this object.
      */
     public String getEmail() {
         return this.email;
     }
 
-    /**
-     * Concatenates the private attributes of this instance into a string
-     * and return it.
-     */
+    @Override
     public String createString() {
-        return "password=" + this.password + ", email=" + this.email;
+        return super.createString() + ", password=" + this.password + ", email=" + this.email;
     }
 
+    /**
+     * @see #createString()
+     */
     @Override
     public String toString() {
-        return "{User [" + super.createString() + ", password=" + this.password + ", email=" + this.email + "]}";
+        return "{User [" + this.createString() + "]}";
     }
 
     @Override

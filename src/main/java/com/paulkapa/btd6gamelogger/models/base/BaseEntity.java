@@ -5,24 +5,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-//import javax.persistence.Version;
 import javax.persistence.Transient;
 
 /**
- * Top level class of all entities. Implements <code>EntityTypeInterface</code>
+ * Base level class of all entities. Implements {@link iEntityType}
  * which provides methods for handling the base aspects of an entity.
  * <p>
- * More complex entities provide their own implementations of the interface methods
- * implemented here.
- * 
- * @see EntityTypeInterface
+ * More complex entities should provide their own implementations of
+ * the interface methods implemented here.
+ *
+ * @see iEntityType
+ * @MappedSuperClass
  */
 @MappedSuperclass
-public class BaseEntity implements EntityTypeInterface {
+public class BaseEntity implements iEntityType {
 
     /**
      * The <code>ID</code> value matching the Auto-Incrementing ID field
-     * value acting as Primary Key in the working Table. 
+     * value acting as Primary Key of the working table.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,95 +30,120 @@ public class BaseEntity implements EntityTypeInterface {
     private int ID;
 
     /**
-     * The <code>type</code> field stores the type of the child
-     * class that extends this instance of the <code>BaseEntity</code>.
+     * The <code>name</code> value stored in the corresponding field of
+     * the working table.
      * <p>
-     * Is set by the child class at instantiation, otherwise always null.
+     * It may be used to store either of:
+     * <ul>
+     * <li>Username;
+     * <li>First Name;
+     * <li>Last Name;
+     * <li>Full Name;
+     * </ul>
+     * depending on the situation.
+     * <p>
+     * Is set explicitly through the constructor
+     * {@link BaseEntity#BaseEntity(String, String)}, otherwise always null.
+     *
+     * @see BaseEntity#BaseEntity(String, String)
+     */
+    @Column(name = "name")
+    private String name;
+
+    /**
+     * Stores the type of entity that extends
+     * this instance of <code>BaseEntity</code>.
+     * <p>
+     * Is set explicitly through the constructors
+     * {@link BaseEntity#BaseEntity(String)} or {@link BaseEntity#BaseEntity(String, String)},
+     * otherwise always null.
+     *
+     * @see BaseEntity#BaseEntity(String)
+     * @see BaseEntity#BaseEntity(String, String)
      */
     @Transient
     private String type;
 
-    /**@Version
-    private int version;*/
-
     /**
      * Default constructor.
+     * <p>
+     * Initializes a <code>BaseEntity</code> object with a null
+     * <code>type</code> and <code>name</code>.
      */
     public BaseEntity() {
         this.type = null;
+        this.name= null;
     }
 
     /**
-     * Constructor that takes a variable <code>type</code> as parameter
-     * containing the type of the child class that called the constructor
-     * and saves it in memory.
+     * Constructor that initializes a <code>BaseEntity</code> object
+     * with the provided <code>type</code> parameter.
      */
     public BaseEntity(String type) {
         this.type = type;
     }
 
     /**
-     * Returns the stored <code>ID</code> of the current object that has
-     * <code>BaseEntity</code> as super class.
+     * Constructor that initializes a <code>BaseEntity</code> object
+     * with the provided <code>type</code> and <code>name</code> parameters.
      */
+    public BaseEntity(String type, String name) {
+        this.type = type;
+        this.name = name;
+    }
+
+    @Override
     public int getID() {
         return this.ID;
     }
-    
-    /**
-     * Returns the stored <code>type</code> of the child class.
-     */
+
     @Override
     public String getType() {
         return this.type;
     }
 
-    /**
-     * Returns true if the current class has a <code>name</code> attribute.
-     * <p>
-     * This method always returns <code>false</code> since <code>BaseEntity</code>
-     * has no <code>name</code> attribute.
-     */
     @Override
     public boolean isNamedEntity() {
-        return false;
+        if(this.name != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    /**
-     * Sets the <code>name</code> attribute for the current instance
-     * and returns it.
-     * <p>
-     * This method has no effect and return <code>null</code>
-     * since <code>BaseEntity</code> has no <code>name</code>
-     * attribute.
-     */
     @Override
     public String setName(String name) {
-        return null;
+        this.name = name;
+        return this.name;
     }
 
-    /**
-     * Gets the <code>name</code> attribute for the current instance.
-     * <p>
-     * This method return <code>null</code> since <code>BaseEntity</code>
-     * has no <code>name</code> attribute.
-     */
     @Override
     public String getName() {
-        return null;
+        if(this.isNamedEntity()) {
+            return this.name;
+        } else {
+            return null;
+        }
     }
-    
+
     /**
      * Concatenates the private attributes of this instance into a string
      * and return it.
+     * <p>
+     * Format example: "Attribute1=<code>Attribute1</code>,
+     * Attribute2=<code>Attribute2</code>, ..."
      */
     public String createString() {
-        return "ID=" + this.ID + ", type=" + this.type;
+        return "ID=" + this.ID + ", type=" + this.type + ", name=" + this.name;
     }
 
+    /**
+     * Format example: "{{@link this#getClass()#getName()} [ {@link this#createString()} ] }"
+     * @see #createString()
+     */
     @Override
     public String toString() {
-        return "{BaseEntity [ID=" + ID + ", type=" + type + "]}";
+        return "{BaseEntity [" + this.createString() + "]}";
     }
 
     @Override
@@ -126,6 +151,7 @@ public class BaseEntity implements EntityTypeInterface {
         final int prime = 31;
         int result = 1;
         result = prime * result + ID;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
@@ -140,6 +166,11 @@ public class BaseEntity implements EntityTypeInterface {
             return false;
         BaseEntity other = (BaseEntity) obj;
         if (ID != other.ID)
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
             return false;
         if (type == null) {
             if (other.type != null)

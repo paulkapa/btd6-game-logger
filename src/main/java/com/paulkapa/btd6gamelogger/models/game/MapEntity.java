@@ -5,87 +5,93 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.paulkapa.btd6gamelogger.models.base.NamedEntity;
+import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 
 /**
  * Class that defines the properties of a Map in BTD6.
- * 
- * @see NamedEntity
+ *
+ * @see BaseEntity
  */
 @Entity(name = "Map")
 @Table(name = "maps")
-public class MapEntity extends NamedEntity {
+public class MapEntity extends BaseEntity {
 
     /**
-     * 
+     *
      */
     @Column(name = "type")
     private String mapType;
 
     /**
-     * 
+     *
      */
     @Column(name = "base_starting_cash")
     private double baseStartingCash;
 
     /**
-     * 
+     *
      */
     @Column(name = "base_starting_lives")
     private int baseStartingLives;
 
     /**
-     * 
+     *
      */
     @Transient
     private String currentDifficulty;
 
     /**
-     * 
+     *
      */
     @Transient
     private String currentGameMode;
 
     /**
-     * 
+     *
      */
     @Transient
     private double startingCash;
 
     /**
-     * 
+     *
      */
     @Transient
     private int startingLives;
 
     /**
-     * 
+     *
      */
     @Transient
     private int currentCash;
 
     /**
-     * 
+     *
      */
     @Transient
     private int currentLives;
-    
+
     /**
      * Default constructor.
      */
     public MapEntity() {
-        super("Map");
+        super("Map", null);
+        this.mapType = null;
+        this.baseStartingCash = 0.0d;
+        this.baseStartingLives = 0;
     }
 
     /**
-     * 
+     *
      */
     public MapEntity(String name) {
         super("Map", name);
+        this.mapType = null;
+        this.baseStartingCash = 0.0d;
+        this.baseStartingLives = 0;
     }
 
     /**
-     * 
+     *
      */
     public MapEntity(String name, String mapType, double baseStartingCash, int baseStartingLives) {
         super("Map", name);

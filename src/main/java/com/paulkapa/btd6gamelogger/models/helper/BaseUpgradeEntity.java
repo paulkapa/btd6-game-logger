@@ -1,30 +1,32 @@
-package com.paulkapa.btd6gamelogger.models.base;
+package com.paulkapa.btd6gamelogger.models.helper;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
+
 /**
  * Class that defines the base properties of an Upgrade in BTD6.
- * 
+ *
  * @see NamedEntity
  */
 @MappedSuperclass
-public class BaseUpgradeEntity extends NamedEntity {
+public class BaseUpgradeEntity extends BaseEntity {
 
     /**
-     * 
+     *
      */
     @Column(name = "path")
     private short path;
-    
+
     /**
-     * 
+     *
      */
     @Column(name = "tier")
     private short tier;
-    
+
     /**
-     * 
+     *
      */
     @Column(name = "base_cost")
     private double baseCost;
@@ -34,18 +36,24 @@ public class BaseUpgradeEntity extends NamedEntity {
      * Default constructor.
      */
     public BaseUpgradeEntity() {
-        super("Upgrade");
+        super("Upgrade", null);
+        this.path = 0;
+        this.tier = 0;
+        this.baseCost = 0.0d;
     }
 
     /**
-     * 
+     *
      */
     public BaseUpgradeEntity(String name) {
         super("Upgrade", name);
+        this.path = 0;
+        this.tier = 0;
+        this.baseCost = 0.0d;
     }
 
     /**
-     * 
+     *
      */
     public BaseUpgradeEntity(String name, short path, short tier, double baseCost) {
         super("Upgrade", name);
