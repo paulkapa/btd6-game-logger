@@ -13,22 +13,29 @@
   </head>
   <body id="errorPageBody" class="bg-dark user-select-none">
 
-    <section class="container-fluid mt-2 mb-5 p-5">
-      <!-- Redirect to login button -->
+    <section id="errorInfoGrid" class="container-fluid mt-2 mb-5 p-5">
       <div class="row flex-row">
-        <form method="get" action="" th:action="@{/}">
-          <button class="btn btn-lg btn-primary" type="submit">Back to Login</button>
-        </form>
-      </div>
-      <div class="row flex-row">
-        <!-- Error output -->
-        <div id="errorOutputContainer" class="bg-danger col flex-column p-5 m-5" th:if="${errorInfo}">
-          <p class="text-light p-5" th:text="${errorInfo}"></p>
-        </div>
-        <!-- Placeholder - flex-column -->
         <div class="col col-auto">
-          <label class="invisible">Placeholder</label>
+          <!-- Redirect to login button -->
+          <form method="get" action="" th:action="@{/}">
+            <button class="btn btn-lg btn-primary" type="submit">Back to Login</button>
+          </form>
         </div>
+        <!-- Problem descritpion -->
+        <div class="col flex-column">
+          <p class="text-info" th:text="${statusCode} == null ? null : ${statusCode}"></p>
+          <p class="text-info" th:text="${exceptionCause} == null ? null : ${exceptionCause}"></p>
+          <p class="text-warning">If problem persists, try getting in touch with developer!</p>
+        </div>
+      </div>
+      <!-- Error output -->
+      <div id="errorOutputContainer" class="bg-danger row flex-row p-5 m-5">
+        <p class="text-light p-5" th:text="${exceptionMessage} == null ? null : ${exceptionMessage}"></p>
+        <p class="text-light p-5" th:text="${lastError} != null ? ${lastError} : 'No previous application error found! Probably view template error...'"></p>
+      </div>
+      <!-- Placeholder row -->
+      <div class="row flex-row">
+        <label class="invisible">Placeholder</label>
       </div>
     </section>
 

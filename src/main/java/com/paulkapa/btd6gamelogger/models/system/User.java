@@ -92,7 +92,7 @@ public class User extends BaseEntity {
      * Applies trim() on the string before it is stored.
      */
     public void setPassword(String password) {
-        this.password = password.trim();
+        this.password = (password == null) ? null : password.trim();
     }
 
     /**
@@ -108,7 +108,7 @@ public class User extends BaseEntity {
      * Applies trim() on the string before it is stored.
      */
     public void setEmail(String email) {
-        this.email = email.trim();
+        this.email = (email == null) ? null : email.trim();
     }
 
     /**
