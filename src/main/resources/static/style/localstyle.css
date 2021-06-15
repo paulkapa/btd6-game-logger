@@ -1,29 +1,67 @@
-@keyframes opacity {
-  0%  {opacity: 0.5;}
-  80% {opacity: 0.8;}
+@keyframes opacity-slow {
+  0%  {opacity: 0;}
+  98% {opacity: 0.2;}
   100% {opacity: 1;}
+}
+@keyframes opacity-fast {
+  0%  {opacity: 0;}
+  40% {opacity: 0.5;}
+  50% {opacity: 1;}
+  100% {opacity: 1;}
+}
+@keyframes visibility {
+  0%  {visibility: hidden;}
+  100% {visibility: visible;}
+}
+
+#spinnerContainer {
+  display: block;
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  top: calc(50% - (100px / 2));
+  left: calc(50% - (100px / 2));
+  background-color: black;
+  border-radius: 30%;
+  text-align: center;
+  justify-items: center;
+  animation: opacity-fast 1.5s ease-out 0s 1 normal none;
+  opacity: 0;
+}
+
+#spinnerGrow {
+  display: block;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  margin: 0 auto;
+  top: calc(50% - (40px / 2));
+  left: calc(50% - (40px / 2));
 }
 
 #loginGrid {
   width: 100%;
   height: 100%;
-  /**background-image: url(/images/gradient-bg.png)!important;
-  background-size: cover!important;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;*/
-}
-
-#form-container {
-  opacity: 0.8;
+  animation: opacity-slow 1s ease-out 1s 1 normal both;
 }
 
 #registerGrid {
+  opacity: 0;
   width: 100%;
   height: 100%;
-  /**background-image: url(/images/gradient-bg.png)!important;
-  background-size: cover!important;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;*/
+  animation: opacity-slow 1s ease-out 1s 1 normal both;
+}
+
+#homeGrid {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  animation: opacity-slow 1s ease-out 1s 1 normal both;
+}
+
+#homeContentGrid {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  animation: opacity-slow 1s ease-out 1s 1 normal both;
 }

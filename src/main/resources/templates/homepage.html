@@ -4,6 +4,7 @@
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- ^ Required meta tags ^ -->
+    <!--script src="https://kit.fontawesome.com/3b3b81e1a6.js" crossorigin="anonymous"></script-->
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <!-- Local CSS -->
@@ -12,8 +13,12 @@
     <title>BTD6 G-L | Home</title>
   </head>
   <body class="bg-dark user-select-none" onload="startLoginTimeout()">
+
+    <div id="spinnerContainer">
+      <span id="spinnerGrow" class="spinner-border bg-warning"></span>
+    </div>
     <!-- Site navigation and navbar content -->
-    <section class="container-fluid">
+    <section id="homeGrid" class="container-fluid" >
       <!-- Toggleable navbar content - Loged-in user information and account controls -->
       <div class="collapse" id="navbarToggleExternalContent">
         <div class="bg-dark p-4">
@@ -36,14 +41,14 @@
             <!-- Username -->
             <div class="col-auto">
               <div class="form-floating">
-                <input class="form-control" id="floatingInputUsername" type="username" placeholder="username" th:value="${username}" disabled/>
+                <input class="form-control" id="floatingInputUsername" type="text" placeholder="username" th:value="${username}" disabled/>
                 <label for="floatingInputUsername">Username</label>
               </div>
             </div>
             <!-- Email -->
             <div class="col-auto">
               <div class="form-floating">
-                <input class="form-control" id="floatingInputEmail" type="email" placeholder="name@example.com" th:value="${email}==null ? 'not set' : ${email}" disabled/>
+                <input class="form-control" id="floatingInputEmail" type="text" placeholder="name@example.com" th:value="${email}==null ? 'not set' : ${email}" disabled/>
                 <label for="floatingInputEmail">Email address</label>
               </div>
             </div>
@@ -81,7 +86,7 @@
     <!--
       3*2 grid empty
     -->
-    <section class="container-fluid bg-dark">
+    <section id="homeContentGrid" class="container-fluid bg-dark">
       <div class="row row-cols-2">
         <div class="col bg-primary">
           <h1>col1.1</h1>

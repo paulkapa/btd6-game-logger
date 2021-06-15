@@ -176,19 +176,19 @@ public class User extends BaseEntity {
         while(difference != 0) {
             if(difference < 1000) {
                 // return milliseconds
-                ms = String.format(". %03d ms", difference);
+                ms = String.format(". %03dms", difference);
                 difference = 0;
             } else if(difference < 60000) {
                     // return seconds
-                    s = String.format(": %02d s ", difference/1000);
+                    s = String.format(": %02ds ", difference/1000);
                     difference = difference%1000;
             } else if(difference < 3600000l) {
                 // return minutes
-                m = String.format(": %02d m ", difference/60000);
+                m = String.format(": %02dm ", difference/60000);
                 difference = difference%60000;
             } else if(difference < 86400000l) {
                 // return hours
-                h = String.format("%02d h ", difference/3600000);
+                h = String.format("%02dh ", difference/3600000);
                 difference = difference%3600000;
             } else if(difference < 31536000000l) {
                 // return days

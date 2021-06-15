@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- ^ Required meta tags ^ -->
+    <script src="https://kit.fontawesome.com/3b3b81e1a6.js" crossorigin="anonymous"></script>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <!-- Local CSS -->
@@ -12,6 +13,10 @@
     <title>BTD6 G-L | Register</title>
   </head>
   <body id="registerPageBody" class="bg-dark user-select-none">
+
+    <div id="spinnerContainer">
+      <span id="spinnerGrow" class="spinner-border bg-warning"></span>
+    </div>
     <!-- Container for applying background -->
     <section id="registerGrid" class="bg-transparent container-fluid mt-5 mb-5 p-5">
       <!-- Grid container, where displayed elements are marked with an E:
@@ -29,73 +34,75 @@
         *                 |------------X-----------X------------|
         *                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       -->
-      <!-- Registration form + info container -->
-      <div id="registerGridChild" class="container-fluid text-center">
-        <!-- E - Registration form - row grid-3: (0.1)-2 -->
-        <div id="registerForm" class="row g-3 justify-content-center">
-          <!--
-            Disabled col: (0.1)-2.1
-          -->
-          <!-- E - col col-auto: (0.1)-2.2 -->
-          <div class="col col-auto p-2 m-2">
-            <!-- E - flex-col-reverse: (0.1)-2.2 -->
-            <div class="col flex-column-reverse justify-content-center text-center m-0 p-0">
-              <!-- Placeholder - flex-row-reverse: (0.1)-(2.2)-1 -->
-              <div class="row flex-row-reverse p-5">
-                <label class="invisible">Placeholder</label>
-              </div>
-              <!-- E - flex-row-reverse: (0.1)-(2.2)-2 -->
-              <div class="bg-primary row flex-row-reverse rounded-3">
-                <div class="container">
-                  <!-- Register form -->
-                  <form method="post" action="" th:action="@{/signup}" th:object="${registerInfo}">
-                    <h2 class="form-control-plaintext text-light">Please enter your details</h2>
-                    <div class="form-floating m-4">
-                      <input id="floatingInputUsername" class="form-control" type="text" name="username" value="" th:field="*{name}" placeholder="Username" autocomplete="username" required>
-                      <label for="floatingInputUsername">Username</label>
-                    </div>
-                    <div class="form-floating m-4">
-                      <input id="floatingInputPassword" class="form-control" type="password" name="password" value="" th:field="*{password}" placeholder="Password" autocomplete="new-password" required>
-                      <label for="floatingInputPassword">Password</label>
-                    </div>
-                    <div class="form-floating m-4">
-                      <input id="floatingInputEmail" class="form-control" type="text" name="email" value="" th:field="*{email}" placeholder="email@example.com" autocomplete="email">
-                      <label for="floatingInputEmail">Email</label>
-                    </div>
-                    <p class="container text-warning">Email is Optional!</p>
-                    <button class="btn btn-lg btn-secondary m-3 d-inline" type="submit">Register</button>
-                    <input class="btn btn-md btn-secondary m-3" type="reset" value="Reset Form"><br>
-                  </form>
-                  <!-- Redirect to login -->
-                  <form class="p-2" method="post" action="" th:action="@{/login}">
-                    <div class="form-floating">
-                      <span class="form-control-plaintext text-light d-inline">Already have an account?</span>
-                      <button class="bg-transparent btn btn-link border-0 shadow-none text-warning d-inline m-1" type="submit">Login</button>
-                    </div>
-                  </form>
-                </div>
+      <!-- E - Registration form - row grid-3: (0.1)-2 -->
+      <div id="registerForm" class="row g-3 justify-content-center">
+        <!--
+          Disabled col: (0.1)-2.1
+        -->
+        <!-- E - col col-auto: (0.1)-2.2 -->
+        <div class="col col-auto">
+          <!-- E - flex-col-reverse: (0.1)-2.2 -->
+          <div class="col flex-column-reverse m-0 p-0 justify-content-center text-center">
+            <!-- Placeholder - flex-row-reverse: (0.1)-(2.2)-1 -->
+            <div class="row flex-row-reverse p-5">
+              <label class="invisible">Placeholder</label>
+            </div>
+            <!-- E - flex-row-reverse: (0.1)-(2.2)-2 -->
+            <div class="bg-primary row flex-row-reverse rounded-3">
+              <div id="form-container" class="container">
+                <!-- Register form -->
+                <form method="post" action="" th:action="@{/signup}" th:object="${registerInfo}">
+                  <h2 class="form-control-plaintext text-light">Please enter your details</h2>
+                  <div class="form-floating m-4">
+                    <input id="floatingInputUsername" class="form-control" type="text" name="username" value="" th:field="*{name}" placeholder="Username" autocomplete="username" required>
+                    <label for="floatingInputUsername">Username</label>
+                  </div>
+                  <div class="form-floating m-4">
+                    <input id="floatingInputPassword" class="form-control" type="password" name="password" value="" th:field="*{password}" placeholder="Password" autocomplete="new-password" required>
+                    <label for="floatingInputPassword">Password</label>
+                  </div>
+                  <div class="form-floating m-4">
+                    <input id="floatingInputEmail" class="form-control" type="text" name="email" value="" th:field="*{email}" placeholder="email@example.com" autocomplete="email">
+                    <label for="floatingInputEmail">Email</label>
+                  </div>
+                  <p class="container text-warning">Email is Optional!</p>
+                  <button class="btn btn-lg btn-secondary m-3 d-inline" type="submit">Register</button>
+                  <input class="btn btn-md btn-secondary m-3" type="reset" value="Reset Form"><br>
+                </form>
+                <!-- Redirect to login -->
+                <form class="p-2" method="post" action="" th:action="@{/login}">
+                  <div class="form-floating">
+                    <span class="form-control-plaintext text-light d-inline">Already have an account?</span>
+                    <button class="bg-transparent btn btn-link border-0 shadow-none text-warning d-inline m-1" type="submit">Login</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-          <!--
-            Disabled col: (0.1)-2.3
-          -->
+          <!-- Placeholder flex-column: 1.3 -->
+          <div class="row flex-row-reverse p-5">
+            <label class="invisible">Placeholder</label>
+          </div>
         </div>
+        <!--
+          Disabled col: (0.1)-2.3
+        -->
         <!-- E - Registration info - row grid-3: (0.1)-3 -->
-        <button id="registerInfoToggle" class="bg-secondary btn btn-lg m-3 text-light" onclick="registerInfoToggleVisibility()">
-          <span class="carousel-control-prev-icon"></span>
-          Show more information
-        </button>
-        <div class="collapse row g-3 justify-content-center m-2 invisible">
-          <!--
-            Disabled col: (0.1)-3.1
-          -->
+        <div class="row rounded-3 justify-content-center">
+          <button id="registerInfoToggle" class="bg-secondary btn btn-lg text-light" onclick="registerInfoToggleVisibility()" data-bs-toggle="collapse" data-bs-target="#registerInfo" aria-expanded="false" aria-controls="registerInfoToggle">Show More Information</button>
+        </div>
+        <!-- Registration info - invisible -->
+        <div id="registerInfo" class="collapse row g-3 justify-content-center mt-2 mb-2">
           <!-- E - col col-auto: (0.1)-3.2 -->
           <div class="col col-auto">
             <!-- E - flex-col-reverse: (0.1)-3.2 -->
-            <div class="col flex-column-reverse justify-content-center text-center m-0 p-0">
+            <div class="col flex-column-reverse m-0 p-0 justify-content-center text-center">
+              <!-- Placeholder column: 1.1 -->
+              <div class="row flex-row-reverse p-5">
+                <label class="invisible">Placeholder</label>
+              </div>
               <!-- E - flex-row-reverse: (0.1)-(3.2)-2 -->
-              <div id="registerInfo" class="bg-secondary row flex-row-reverse rounded-3">
+              <div class="bg-secondary row flex-row-reverse rounded-3">
                 <div class="container text-light p-2">
                   <p class="container">
                     Creating an account will allow you to save your activity.
@@ -103,6 +110,14 @@
                   </p>
                   <!-- Info - row grid-3: (0.1)-(3.2)-2-1 -->
                   <div class="row g-3 justify-content-center text-center p-2">
+                    <!-- Anonymous-info - col-auto: (0.1)-(3.2)-2-1.2 -->
+                    <div class="bg-dark col-auto border border-primary text-start text-info">
+                      <ul class="p-2" style="list-style: inside;">
+                        Anonymous account:
+                        <li>Username: user</li>
+                        <li>Password: password</li>
+                      </ul>
+                    </div>
                     <!-- Info-email - col-auto: (0.1)-(3.2)-2-1.1 -->
                     <div class="bg-dark col-auto border border-primary text-start text-warning">
                       <ul class="p-2" style="list-style: inside;">
@@ -111,14 +126,6 @@
                         <li>Have an extra identifier for your account;</li>
                         <li>Send inquiries or suggestions directly from this app;</li>
                         <li>Nothing else implemented for email LOL.</li>
-                      </ul>
-                    </div>
-                    <!-- Anonymous-info - col-auto: (0.1)-(3.2)-2-1.2 -->
-                    <div class="bg-dark col-auto border border-primary text-start text-info">
-                      <ul class="p-2" style="list-style: inside;">
-                        Anonymous account:
-                        <li>Username: user</li>
-                        <li>Password: password</li>
                       </ul>
                     </div>
                     <br>
@@ -141,6 +148,9 @@
             Disabled col: (0.1)-3.3
           -->
         </div>
+        <!--
+          Disabled column: 0.3
+        -->
       </div>
     </section>
 

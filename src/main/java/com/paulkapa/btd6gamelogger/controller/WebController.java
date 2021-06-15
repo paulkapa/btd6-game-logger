@@ -108,7 +108,6 @@ public class WebController implements ErrorController, CommandLineRunner {
                     rootModel.addAttribute("email", this.user.getEmail());
                     rootModel.addAttribute("creationDate", this.user.getCreationDate().toString());
                     long accountAge = this.user.setAccountAge(System.currentTimeMillis() - this.user.getCreationDate().getTime());
-                    logger.info(String.valueOf(accountAge));
                     rootModel.addAttribute("accountAge", User.visualizeAccountAge(accountAge));
                     return "homepage";
                 } else if(!this.isLoggedIn && this.isFailedRegisterAttempt && this.lastError == null) {
