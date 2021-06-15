@@ -1,19 +1,17 @@
-document.onload = function() {
-  if(localStorage.getItem("_activityTimeout") == null) {
-    localStorage.setItem("_activityTimeout", 10000);
-    localStorage.setItem("_reloadTime", Date.now());
-  }
-  setTimeout(function() {
-    const timeNow = Date.now();
-    var currTimeout = localStorage.getItem("_activityTimeout");
-    if(timeNow - localStorage.getItem("_reloadTime") <= currTimeout) {
-      localStorage.setItem("_reloadTime", timeNow);
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "/logout", true);
-      xhr.send();
-    }
-  }, 100);
-};
+var loginTimeoutHandler;
+
+/**
+ * Enables redirect to login if home page was inactive for 10 seconds.
+ */
+function startLoginTimeout() {
+  window.sessionStorage.setItem("_time_since_active", 0);
+  window.sessionStorage.setItem("_timeout", 600000);
+  window.addEventListener("mousemove", function(ev) {
+    this.window.sessionStorage.setItem("_time_since_active", 0);
+  });
+  const timeout = 1000;
+  loginTimeoutHandler = window.setInterval(function() { sessionActivityCheck(timeout); console.log("pass");}, timeout);
+}
 
 /**
  * Toggles visibility of extra login information.
@@ -72,5 +70,34 @@ function privateEmailToggleVisibility() {
   } else {
     privateEmailToggle.innerText = "Show";
     privateEmail.classList.add("invisible");
+  }
+}
+
+/**
+ * Redirects to login if inactivity detected for 10s.
+ */
+function sessionActivityCheck(timeout) {
+  var time_since_active = Number.parseInt(window.sessionStorage.getItem("_time_since_active"));
+  if( time_since_active >= Number.parseInt(window.sessionStorage.getItem("_timeout")) ) {
+    window.sessionStorage.setItem("_time_since_active", 0);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/logout", true);
+    xhr.send();
+    alert("You have been inactive for too long. Redirecting to login...");
+    window.location.reload();
+  } else {
+    window.sessionStorage.setItem("_time_since_active", time_since_active + timeout);
+    time_since_active = Number.parseInt(window.sessionStorage.getItem("_time_since_active"));
+    var timeoutCounter;
+    try {
+      timeoutCounter = document.getElementById("timeout");
+      timeoutCounter.innerHTML = "Inactivity timer (ms):" + time_since_active;
+    } catch(error) {
+      timeoutCounter = document.createElement("div");
+      timeoutCounter.id = "timeout";
+      timeoutCounter.className = "row flex-row m-5 p-5 text-info";
+      document.body.appendChild(timeoutCounter);
+      timeoutCounter.innerHTML = "Inactivity timer (ms):" + time_since_active;
+    }
   }
 }

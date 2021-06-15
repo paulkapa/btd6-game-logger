@@ -164,39 +164,50 @@ public class User extends BaseEntity {
     }
 
     /**
-     * Transforms the milliseconds stored in <code>accountAge</code>
-     * to the highest whole unit of time possible, and returns it.
+     * Transforms the milliseconds provided in <code>accountAge</code>
+     * to a readable time string, and returns it.
      * @param accountAge current account age in milliseconds
-     * @return a <code>String</code> containing the converted time with
-     * a label at the end specifying the unit of measure
+     * @return a <code>String</code> containing the converted time
      */
     public static String visualizeAccountAge(long accountAge) {
-        if(accountAge <= 31536000000l) {
-            if(accountAge <= 86400000) {
-                if(accountAge <= 3600000) {
-                    if(accountAge <= 60000) {
-                        if(accountAge <= 1000) {
-                            // return milliseconds
-                            return String.format("%.2f ms", (double)accountAge/1.0d);
-                        } else {
-                            // return seconds
-                            return String.format("%.2f sec", (double)accountAge/1000.0d);
-                        }
-                    } else {
-                        // return minutes
-                        return String.format("%.2f min", (double)accountAge/60000.0d);
-                    }
-                } else {
-                    // return hours
-                    return String.format("%.2f hr", (double)accountAge/3600000.0d);
-                }
-            } else {
+        long difference = accountAge;
+        StringBuilder sb = new StringBuilder();
+        String y = null, d = null, h = "00 h ", m = ": 00 m ", s = ": 00 s", ms = ". 000 ms";
+        while(difference != 0) {
+            if(difference < 1000) {
+                // return milliseconds
+                ms = String.format(". %03d ms", difference);
+                difference = 0;
+            } else if(difference < 60000) {
+                    // return seconds
+                    s = String.format(": %02d s ", difference/1000);
+                    difference = difference%1000;
+            } else if(difference < 3600000l) {
+                // return minutes
+                m = String.format(": %02d m ", difference/60000);
+                difference = difference%60000;
+            } else if(difference < 86400000l) {
+                // return hours
+                h = String.format("%02d h ", difference/3600000);
+                difference = difference%3600000;
+            } else if(difference < 31536000000l) {
                 // return days
-                return String.format("%.2f days", (double)accountAge/86400000.0d);
+                d = String.format("%d day(s)", difference/86400000l);
+                difference = difference%86400000l;
+            } else {
+                // return years
+                y = String.format("%d year(s), ", difference/31536000000l);
+                difference = difference%31536000000l;
+            }
+        }
+        if(d != null) {
+            if(y != null) {
+                return sb.append(y).append(d).toString();
+            } else {
+                return sb.append(d).toString();
             }
         } else {
-            // return years
-            return String.format("%.2f years", (double)accountAge/31536000000.0d);
+            return sb.append(h).append(m).append(s).append(ms).toString();
         }
     }
 

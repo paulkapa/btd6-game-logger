@@ -85,7 +85,7 @@ public class WebController implements ErrorController, CommandLineRunner {
         } catch(Exception e) {
             this.lastError = e;
             logger.error("Error when constructing \"com.paulkapa.btd6gamelogger.controller.WebController\". " +
-                "It is advised to check and fix any problems and then restart the application!",
+                "It is advised to check and fix any problems and then restart the application! If no solution can be found, contact developer.",
                 e.getCause());
             throw e;
         }
@@ -108,6 +108,7 @@ public class WebController implements ErrorController, CommandLineRunner {
                     rootModel.addAttribute("email", this.user.getEmail());
                     rootModel.addAttribute("creationDate", this.user.getCreationDate().toString());
                     long accountAge = this.user.setAccountAge(System.currentTimeMillis() - this.user.getCreationDate().getTime());
+                    logger.info(String.valueOf(accountAge));
                     rootModel.addAttribute("accountAge", User.visualizeAccountAge(accountAge));
                     return "homepage";
                 } else if(!this.isLoggedIn && this.isFailedRegisterAttempt && this.lastError == null) {
@@ -131,7 +132,7 @@ public class WebController implements ErrorController, CommandLineRunner {
                         "\nRegistration : {failed : " + this.isFailedRegisterAttempt + "}" +
                         "\nApplication : {started : " + this.isApplicationStarted + "}" +
                         "\nLast error: " + this.lastError.toString());
-                    rootModel.addAttribute("lastError", ((this.lastError == null) ? "Message: unknown" : this.lastError.toString()));
+                    rootModel.addAttribute("lastError", ((this.lastError == null) ? "Message: unknown" : this.lastError.getMessage()));
                     this.lastError = null;
                     return "/error";
                 }
@@ -146,7 +147,7 @@ public class WebController implements ErrorController, CommandLineRunner {
                         "\nRegistration : {failed : " + this.isFailedRegisterAttempt + "}" +
                         "\nApplication : {started : " + this.isApplicationStarted + "}" +
                         "\nLast error: " + this.lastError.toString());
-                rootModel.addAttribute("lastError", ((this.lastError == null) ? "Message: unknown" : this.lastError.toString()));
+                rootModel.addAttribute("lastError", ((this.lastError == null) ? "Previous error: unknown" : "Previous error: " + this.lastError.getMessage()));
                 this.lastError = null;
                 return "error";
             } else {
