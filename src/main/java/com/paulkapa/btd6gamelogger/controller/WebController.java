@@ -1,5 +1,6 @@
 package com.paulkapa.btd6gamelogger.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 @Controller
 @Component
 @Transactional(readOnly = false)
@@ -40,6 +42,7 @@ public class WebController implements ErrorController, CommandLineRunner {
     private boolean isLoggedIn;
     private boolean isfailedLoginAttempt;
     private boolean isFailedRegisterAttempt;
+    private boolean isApplicationStarted;
     private Exception lastError;
 
     private GameEntity btd6;
@@ -59,12 +62,12 @@ public class WebController implements ErrorController, CommandLineRunner {
     private User user;
     private List<MapEntity> maps;
     private List<TowerEntity> towers;
-    private List<UpgradeEntity> upgradePaths;
+    private List<UpgradeEntity> upgrades;
 
     /**
      * Default constructor.
      * <p>
-     * Performs <code>null</code> or <code>new</code> initializations.
+     * Performs <code>false</code>, <code>null</code> or <code>new</code> initializations.
      */
     @Autowired
     public WebController() {
@@ -73,15 +76,16 @@ public class WebController implements ErrorController, CommandLineRunner {
             this.isLoggedIn = false;
             this.isfailedLoginAttempt = false;
             this.isFailedRegisterAttempt = false;
+            this.isApplicationStarted = false;
             this.user = null;
             this.maps = new ArrayList<>();
             this.towers = new ArrayList<>();
-            this.upgradePaths = new ArrayList<>();
+            this.upgrades = new ArrayList<>();
             this.btd6 = new GameEntity();
         } catch(Exception e) {
             this.lastError = e;
-            logger.error("Error when construction \"com.paulkapa.btd6gamelogger.controller.WebController\"." +
-                "\nIt is advised to check and fix any problems and then restart the application!\n",
+            logger.error("Error when constructing \"com.paulkapa.btd6gamelogger.controller.WebController\". " +
+                "It is advised to check and fix any problems and then restart the application!",
                 e.getCause());
             throw e;
         }
@@ -97,51 +101,72 @@ public class WebController implements ErrorController, CommandLineRunner {
         try {
             rootModel.addAttribute("isFailedLoginAttempt", isfailedLoginAttempt);
             rootModel.addAttribute("isFailedRegisterAttempt", isFailedRegisterAttempt);
-            if(this.isLoggedIn & !this.isfailedLoginAttempt & !this.isFailedRegisterAttempt & this.lastError == null) {
-                logger.info("Sign up process complete for: " + this.user.toString() + ". Welcome!");
-                rootModel.addAttribute("username", this.user.getName());
-                rootModel.addAttribute("email", this.user.getEmail());
-                return "homepage";
-            } else if(!this.isLoggedIn & this.isFailedRegisterAttempt & this.lastError == null) {
-                logger.warn("Registration status: {failed : " + this.isFailedRegisterAttempt + "}. Returning to registration form.");
-                this.isFailedRegisterAttempt = false;
-                rootModel.addAttribute("registerInfo", new User());
-                return "register";
-            } else if(!this.isLoggedIn & this.isfailedLoginAttempt & this.lastError == null) {
-                logger.warn("Login status: {failed : " + this.isfailedLoginAttempt + "}. Returning to login form.");
-                this.isfailedLoginAttempt = false;
-                rootModel.addAttribute("loginInfo", new User());
-                return "login";
-            } else if(!this.isLoggedIn & this.lastError == null) {
-                logger.warn("Performing first time login. Returning to login form.");
-                rootModel.addAttribute("loginInfo", new User());
-                return "login";
-            } else {
+            if(!this.isApplicationStarted && this.lastError == null) {
+                if(this.isLoggedIn && !this.isfailedLoginAttempt && !this.isFailedRegisterAttempt && this.lastError == null) {
+                    logger.info("Sign up process complete for: " + this.user.toString() + ". Welcome!");
+                    rootModel.addAttribute("username", this.user.getName());
+                    rootModel.addAttribute("email", this.user.getEmail());
+                    rootModel.addAttribute("creationDate", this.user.getCreationDate().toString());
+                    long accountAge = this.user.setAccountAge(System.currentTimeMillis() - this.user.getCreationDate().getTime());
+                    rootModel.addAttribute("accountAge", User.visualizeAccountAge(accountAge));
+                    return "homepage";
+                } else if(!this.isLoggedIn && this.isFailedRegisterAttempt && this.lastError == null) {
+                    logger.warn("Registration status: {failed : " + this.isFailedRegisterAttempt + "}. Returning to registration form.");
+                    this.isFailedRegisterAttempt = false;
+                    rootModel.addAttribute("registerInfo", new User());
+                    return "register";
+                } else if(!this.isLoggedIn && this.isfailedLoginAttempt && this.lastError == null) {
+                    logger.warn("Login status: {failed : " + this.isfailedLoginAttempt + "}. Returning to login form.");
+                    this.isfailedLoginAttempt = false;
+                    rootModel.addAttribute("loginInfo", new User());
+                    return "login";
+                } else if(!this.isLoggedIn && this.lastError == null) {
+                    logger.warn("Performing first time login. Returning to login form.");
+                    rootModel.addAttribute("loginInfo", new User());
+                    return "login";
+                } else {
+                    logger.error("Could not perform any view operations. Error controller called!\n" +
+                        "Login Status : {isLoggedIn : " + this.isLoggedIn + "}" +
+                        "\nLogin : {failed : " + this.isfailedLoginAttempt + "}" +
+                        "\nRegistration : {failed : " + this.isFailedRegisterAttempt + "}" +
+                        "\nApplication : {started : " + this.isApplicationStarted + "}" +
+                        "\nLast error: " + this.lastError.toString());
+                    rootModel.addAttribute("lastError", ((this.lastError == null) ? "Message: unknown" : this.lastError.toString()));
+                    this.lastError = null;
+                    return "/error";
+                }
+            } else if(this.isApplicationStarted && this.lastError == null) {
+                logger.info("Request to access application detected! Enabling functionality allowed. Enjoy!");
+                rootModel.addAttribute("isApplicationStarted", this.isApplicationStarted);
+                return "logger";
+            } else if(this.lastError != null) {
                 logger.error("Could not perform any view operations. Error controller called!\n" +
-                    "Login Status : {isLoggedIn : " + this.isLoggedIn + "}" +
-                    "\nLogin : {failed : " + this.isfailedLoginAttempt + "}" +
-                    "\nRegistration : {failed : " + this.isFailedRegisterAttempt + "}" +
-                    "\nLast error: " + this.lastError.toString());
-                rootModel.addAttribute("lastError", ((this.lastError == null) ? "No error message available!" : this.lastError.toString()));
+                        "Login Status : {isLoggedIn : " + this.isLoggedIn + "}" +
+                        "\nLogin : {failed : " + this.isfailedLoginAttempt + "}" +
+                        "\nRegistration : {failed : " + this.isFailedRegisterAttempt + "}" +
+                        "\nApplication : {started : " + this.isApplicationStarted + "}" +
+                        "\nLast error: " + this.lastError.toString());
+                rootModel.addAttribute("lastError", ((this.lastError == null) ? "Message: unknown" : this.lastError.toString()));
                 this.lastError = null;
-                return "/error";
+                return "error";
+            } else {
+                throw new Exception("Exception in root controller! No view could be selected.");
             }
         } catch (Exception e) {
             this.lastError = e;
-            throw e;
+            logger.error("Exception in root controller!", e);
+            return "redirect:/";
         }
     }
 
     /**
-     * Performs register operations. ^/ checked ^/
+     * Performs register operations.
      * @param formInfo used to retrieve information from login form
      * @param model used to pass a user template to the form
      * @return redirects to "/"
      */
     @PostMapping("/signup")
     public String registerForm(@ModelAttribute User formInfo, Model model) {
-        this.user = new User();
-        model.addAttribute("registerInfo", this.user);
         this.isLoggedIn = false;
         if(formInfo.getName() == null) {
             this.isFailedRegisterAttempt = true;
@@ -152,7 +177,8 @@ public class WebController implements ErrorController, CommandLineRunner {
                 var newUser = new User(
                     formInfo.getName().trim(),
                     formInfo.getPassword().trim(),
-                    (formInfo.getEmail() != null & formInfo.getEmail().trim() != "") ? formInfo.getEmail().trim() : null
+                    (formInfo.getEmail().trim() != null && formInfo.getEmail().trim() != "") ? formInfo.getEmail().trim() : null,
+                    new Timestamp(System.currentTimeMillis())
                     );
                 if(this.ui.findByNameAndPassword(newUser.getName(), newUser.getPassword()) != null) {
                     this.isFailedRegisterAttempt = true;
@@ -165,7 +191,8 @@ public class WebController implements ErrorController, CommandLineRunner {
                     logger.info("Register attempt: [" +
                         newUser.getName() + "] [" +
                         newUser.getPassword() + "] [" +
-                        newUser.getEmail() + "] {" +
+                        newUser.getEmail() + "] [" +
+                        newUser.getCreationDate() + "] {" +
                         ((this.isFailedRegisterAttempt) ? "failed" : "successful") + "}");
                 }
             } catch(Exception e) {
@@ -182,15 +209,13 @@ public class WebController implements ErrorController, CommandLineRunner {
     }
 
     /**
-     * Performs login operations. ^/ checked ^/
+     * Performs login operations.
      * @param formInfo used to retrieve information from login form
      * @param model used to pass a user template to the form
      * @return redirects to "/"
      */
     @PostMapping("/login")
     public String loginForm(@ModelAttribute User formInfo, Model model) {
-        this.user = new User();
-        model.addAttribute("loginInfo", this.user);
         this.isLoggedIn = false;
         if(formInfo.getName() == null) {
             this.isfailedLoginAttempt = true;
@@ -201,17 +226,17 @@ public class WebController implements ErrorController, CommandLineRunner {
                 var newUser = new User(formInfo.getName().trim(), formInfo.getPassword().trim());
                 var result = ui.findByNameAndPassword(newUser.getName(), newUser.getPassword());
                 if(result == null) {
-                    this.isLoggedIn = false;
                     this.isfailedLoginAttempt = true;
                 } else {
                     newUser.setEmail(result.getEmail());
+                    newUser.setCreationDate(result.getCreationDate());
                     this.user = newUser;
                     this.isLoggedIn = true;
                     this.isfailedLoginAttempt = false;
                 }
                 logger.info("Sign in attempt: [" + newUser.getName() + "] [" +
                     newUser.getPassword() + "] {" +
-                    ((this.isLoggedIn & !this.isfailedLoginAttempt) ? "successful" : "failed") + "}");
+                    ((this.isLoggedIn && !this.isfailedLoginAttempt) ? "successful" : "failed") + "}");
             } catch(Exception e) {
                 this.isfailedLoginAttempt = true;
                 this.lastError = e;
@@ -232,10 +257,10 @@ public class WebController implements ErrorController, CommandLineRunner {
     @PostMapping("/logout")
     public String logoutButton() {
         try {
-            this.lastError = null;
             this.isLoggedIn = false;
             this.isfailedLoginAttempt = false;
             this.isFailedRegisterAttempt = false;
+            this.isApplicationStarted = false;
             this.user = null;
         } catch (Exception e) {
             this.lastError = e;
@@ -247,11 +272,36 @@ public class WebController implements ErrorController, CommandLineRunner {
     /**
      * Handles main application page. ^/
      * @return redirect to "/"
-     * @throws Exception
      */
     @PostMapping("/logger")
-    public String mainApplication() throws Exception {
-        throw new Exception("logger page not ready");
+    public String mainApplication() {
+        try {
+            if(this.isLoggedIn && !this.isfailedLoginAttempt) {
+                this.isApplicationStarted = true;
+            } else {
+                this.isApplicationStarted = false;
+            }
+            return "redirect:/";
+        } catch (Exception e) {
+            this.lastError = e;
+            throw e;
+        }
+    }
+
+    /**
+     * Handler for return to home request.
+     * @return redirect to "/"
+     */
+    @PostMapping(value="/home")
+    public String postMethodName() {
+        try {
+            this.isApplicationStarted = false;
+        } catch (Exception e) {
+            this.lastError = e;
+            logger.error("Error when redirecting to home page:", e);
+            throw e;
+        }
+        return "redirect:/";
     }
 
     /**
@@ -264,10 +314,9 @@ public class WebController implements ErrorController, CommandLineRunner {
     public String handleError(HttpServletRequest request, Model errorInfo) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
-        errorInfo.addAttribute("statusCode", "Status code: " + statusCode);
-        errorInfo.addAttribute("exceptionCause", "Cause: " + exception == null ? null : exception.getCause());
-        errorInfo.addAttribute("exceptionMessage", "Message: " + exception == null ? null : exception.getMessage());
-        errorInfo.addAttribute("lastError", this.lastError == null ? "No previous error found! Probably you have manually accessed this page..." : this.lastError.toString());
+        errorInfo.addAttribute("statusCode", "Status code: " + ((statusCode == null) ? "unknow" : statusCode));
+        errorInfo.addAttribute("exceptionCause", "Cause: " + ((exception == null) ? "unkown" : exception.getCause()));
+        errorInfo.addAttribute("exceptionMessage", "Message: " + ((exception == null) ? "unknown" : exception.getMessage()));
         return "error";
     }
 
@@ -299,12 +348,24 @@ public class WebController implements ErrorController, CommandLineRunner {
     public void run(String... args) {
         try {
             this.truncate("users");
-        this.ui.save(new User("user", "password"));
-        this.lastError = null;
-        this.isLoggedIn = false;
-        this.isfailedLoginAttempt = false;
-        this.isFailedRegisterAttempt = false;
-        this.user = null;
+            this.truncate("maps");
+            this.truncate("upgrades");
+            this.truncate("towers");
+            this.ui.save(new User("user", "password", null, new Timestamp(System.currentTimeMillis())));
+            mi.save(new MapEntity("Monkey Lane", "Begginer", 800.0d, 100));
+            ti.save(new TowerEntity("Dart Monkey", "Primary", 0.0d, 0.0d));
+            upi.save(new UpgradeEntity("Sharper Darts", 1, 1, 170.0d, ti.findByName("Dart Monkey")));
+            logger.info(ui.findByName("user").toString());
+            logger.info("Saved default user in database!");
+            this.maps = mi.findAll();
+            logger.info(this.maps.toString());
+            logger.info("Retrieved maps from database!");
+            this.towers = ti.findAll();
+            logger.info(this.towers.toString());
+            logger.info("Retrieved towers from database!");
+            this.upgrades = upi.findAll();
+            logger.info(this.upgrades.toString());
+            logger.info("Retrieved upgrades from database!");
         } catch (Exception e) {
             this.lastError = e;
             logger.error("Run method error: ", e);

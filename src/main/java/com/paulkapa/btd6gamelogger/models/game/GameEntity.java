@@ -133,7 +133,7 @@ public class GameEntity {
     /**
      * Sets the <codeTowerEntity</code> objects.
      */
-    public void SetTowers(HashMap<String, TowerEntity> towers) {
+    public void setTowers(HashMap<String, TowerEntity> towers) {
         this.towers = towers;
     }
 
@@ -174,5 +174,10 @@ public class GameEntity {
         else {
             return null;
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.user.toString() + "\n" + this.maps.toString() + "\n" + this.towers.toString();
     }
 }

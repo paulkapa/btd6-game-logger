@@ -47,6 +47,13 @@
                 <label for="floatingInputEmail">Email address</label>
               </div>
             </div>
+            <!-- Account age -->
+            <div class="col-auto">
+              <div class="form-floating">
+                <input class="form-control" id="floatingInputAge" type="text" placeholder="not available" th:value="${accountAge}==null ? 'not set' : ${accountAge}" disabled/>
+                <label for="floatingInputAge">Account age</label>
+              </div>
+            </div>
             <div class="col-auto">
               <div class="form-floating">
                 <select class="form-select" id="floatingSelectControls">

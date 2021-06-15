@@ -48,7 +48,7 @@ public class UpgradeEntity extends BaseUpgradeEntity {
     /**
      *
      */
-    public UpgradeEntity(String name, short path, short tier, double baseCost) {
+    public UpgradeEntity(String name, int path, int tier, double baseCost) {
         super(name, path, tier, baseCost);
         this.isLocked = false;
         this.tower = null;
@@ -57,10 +57,9 @@ public class UpgradeEntity extends BaseUpgradeEntity {
     /**
      *
      */
-    public UpgradeEntity(String name, short path, short tier, double baseCost, boolean isLocked,
-            TowerEntity tower) {
+    public UpgradeEntity(String name, int path, int tier, double baseCost, TowerEntity tower) {
         super(name, path, tier, baseCost);
-        this.isLocked = isLocked;
+        this.isLocked = false;
         this.tower = tower;
     }
 
@@ -78,5 +77,43 @@ public class UpgradeEntity extends BaseUpgradeEntity {
 
     public void setTower(TowerEntity tower) {
         this.tower = tower;
+    }
+
+    @Override
+    public String createString() {
+        return super.createString();
+    }
+
+    @Override
+    public String toString() {
+        return "{UpgradeEntity " + this.createString() + "]}";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (isLocked ? 1231 : 1237);
+        result = prime * result + ((tower == null) ? 0 : tower.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UpgradeEntity other = (UpgradeEntity) obj;
+        if (isLocked != other.isLocked)
+            return false;
+        if (tower == null) {
+            if (other.tower != null)
+                return false;
+        } else if (!tower.equals(other.tower))
+            return false;
+        return true;
     }
 }

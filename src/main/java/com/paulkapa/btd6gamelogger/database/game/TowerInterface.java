@@ -9,5 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional(readOnly = true)
 public interface TowerInterface extends JpaRepository<TowerEntity, Integer> {
-    
+    TowerEntity findByName(String name);
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional(readOnly = true)
 public interface UserInterface extends JpaRepository<User, Integer> {
+    User findByName(String name);
     User findByNameAndPassword(String name, String password);
     User getByNameAndPassword(String name, String password);
 }

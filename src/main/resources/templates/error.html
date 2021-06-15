@@ -23,14 +23,14 @@
         </div>
         <!-- Problem descritpion -->
         <div class="col flex-column">
-          <p class="text-info" th:text="${statusCode} == null ? null : ${statusCode}"></p>
-          <p class="text-info" th:text="${exceptionCause} == null ? null : ${exceptionCause}"></p>
+          <p class="text-info" th:text="${statusCode} == null ? 'Status code: unknown' : ${statusCode}"></p>
+          <p class="text-info" th:text="${exceptionCause} == null ? 'Cause: unknown' : ${exceptionCause}"></p>
           <p class="text-warning">If problem persists, try getting in touch with developer!</p>
         </div>
       </div>
       <!-- Error output -->
       <div id="errorOutputContainer" class="bg-danger row flex-row p-5 m-5">
-        <p class="text-light p-5" th:text="${exceptionMessage} == null ? null : ${exceptionMessage}"></p>
+        <p class="text-light p-5" th:text="${exceptionMessage} == null ? 'Message: unknown' : ${exceptionMessage}"></p>
         <p class="text-light p-5" th:text="${lastError} != null ? ${lastError} : 'No previous application error found! Probably view template error...'"></p>
       </div>
       <!-- Placeholder row -->

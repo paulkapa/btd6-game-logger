@@ -84,4 +84,48 @@ public class BaseTowerEntity extends BaseEntity {
     public void setBaseSellValue(double baseSellValue) {
         this.baseSellValue = baseSellValue;
     }
+
+    @Override
+    public String createString() {
+        return super.createString() + ", towerType=" + this.towerType + ", baseCost=" + this.baseCost + ", baseSellValue=" + this.baseSellValue;
+    }
+
+    @Override
+    public String toString() {
+        return "{BaseTowerEntity [" + this.createString() + "]}";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        long temp;
+        temp = Double.doubleToLongBits(baseCost);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(baseSellValue);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((towerType == null) ? 0 : towerType.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BaseTowerEntity other = (BaseTowerEntity) obj;
+        if (Double.doubleToLongBits(baseCost) != Double.doubleToLongBits(other.baseCost))
+            return false;
+        if (Double.doubleToLongBits(baseSellValue) != Double.doubleToLongBits(other.baseSellValue))
+            return false;
+        if (towerType == null) {
+            if (other.towerType != null)
+                return false;
+        } else if (!towerType.equals(other.towerType))
+            return false;
+        return true;
+    }
 }

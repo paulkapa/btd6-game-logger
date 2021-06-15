@@ -171,4 +171,72 @@ public class MapEntity extends BaseEntity {
     public void setCurrentLives(int currentLives) {
         this.currentLives = currentLives;
     }
+
+    @Override
+    public String createString() {
+        return super.createString() + ", mapType=" + this.mapType + ", baseStartingCash=" + this.baseStartingCash + ", baseStartingLives=" + this.baseStartingLives;
+    }
+
+    @Override
+    public String toString() {
+        return "{MapEntity " + this.createString() + "]}";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        long temp;
+        temp = Double.doubleToLongBits(baseStartingCash);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + baseStartingLives;
+        result = prime * result + currentCash;
+        result = prime * result + ((currentDifficulty == null) ? 0 : currentDifficulty.hashCode());
+        result = prime * result + ((currentGameMode == null) ? 0 : currentGameMode.hashCode());
+        result = prime * result + currentLives;
+        result = prime * result + ((mapType == null) ? 0 : mapType.hashCode());
+        temp = Double.doubleToLongBits(startingCash);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + startingLives;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MapEntity other = (MapEntity) obj;
+        if (Double.doubleToLongBits(baseStartingCash) != Double.doubleToLongBits(other.baseStartingCash))
+            return false;
+        if (baseStartingLives != other.baseStartingLives)
+            return false;
+        if (currentCash != other.currentCash)
+            return false;
+        if (currentDifficulty == null) {
+            if (other.currentDifficulty != null)
+                return false;
+        } else if (!currentDifficulty.equals(other.currentDifficulty))
+            return false;
+        if (currentGameMode == null) {
+            if (other.currentGameMode != null)
+                return false;
+        } else if (!currentGameMode.equals(other.currentGameMode))
+            return false;
+        if (currentLives != other.currentLives)
+            return false;
+        if (mapType == null) {
+            if (other.mapType != null)
+                return false;
+        } else if (!mapType.equals(other.mapType))
+            return false;
+        if (Double.doubleToLongBits(startingCash) != Double.doubleToLongBits(other.startingCash))
+            return false;
+        if (startingLives != other.startingLives)
+            return false;
+        return true;
+    }
 }

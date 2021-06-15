@@ -60,7 +60,7 @@ public class TowerEntity extends BaseTowerEntity {
         this.sellValue = 0.0d;
         this.pops = 0;
         this.cashGenerated = 0;
-        this.upgrades = new ArrayList<>();
+        this.upgrades = null;
     }
 
     /**
@@ -72,7 +72,7 @@ public class TowerEntity extends BaseTowerEntity {
         this.sellValue = 0.0d;
         this.pops = 0;
         this.cashGenerated = 0;
-        this.upgrades = new ArrayList<>();
+        this.upgrades = null;
     }
 
     /**
@@ -84,19 +84,18 @@ public class TowerEntity extends BaseTowerEntity {
         this.sellValue = 0.0d;
         this.pops = 0;
         this.cashGenerated = 0;
-        this.upgrades = new ArrayList<>();
+        this.upgrades = null;
     }
 
     /**
      *
      */
-    public TowerEntity(String name, String towerClass, double baseCost, double baseSellValue, double cost,
-            double sellValue, long pops, long cashGenerated, List<UpgradeEntity> upgrades) {
+    public TowerEntity(String name, String towerClass, double baseCost, double baseSellValue, List<UpgradeEntity> upgrades) {
         super(name, towerClass, baseCost, baseSellValue);
-        this.cost = cost;
-        this.sellValue = sellValue;
-        this.pops = pops;
-        this.cashGenerated = cashGenerated;
+        this.cost = 0.0d;
+        this.sellValue = 0.0d;
+        this.pops = 0;
+        this.cashGenerated = 0;
         this.upgrades = upgrades;
     }
 
@@ -164,5 +163,55 @@ public class TowerEntity extends BaseTowerEntity {
             this.upgrades = new ArrayList<>();
             return this.upgrades;
         }
+    }
+
+    @Override
+    public String createString() {
+        return super.createString();
+    }
+
+    @Override
+    public String toString() {
+        return "{TowerEntity " + this.createString() + "]}";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (int) (cashGenerated ^ (cashGenerated >>> 32));
+        long temp;
+        temp = Double.doubleToLongBits(cost);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + (int) (pops ^ (pops >>> 32));
+        temp = Double.doubleToLongBits(sellValue);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((upgrades == null) ? 0 : upgrades.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        TowerEntity other = (TowerEntity) obj;
+        if (cashGenerated != other.cashGenerated)
+            return false;
+        if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
+            return false;
+        if (pops != other.pops)
+            return false;
+        if (Double.doubleToLongBits(sellValue) != Double.doubleToLongBits(other.sellValue))
+            return false;
+        if (upgrades == null) {
+            if (other.upgrades != null)
+                return false;
+        } else if (!upgrades.equals(other.upgrades))
+            return false;
+        return true;
     }
 }
