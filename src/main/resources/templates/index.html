@@ -17,7 +17,7 @@
 
     <!-- Page navigation bar and expandable content -->
     <th:block th:unless="${currentPageTitle} == 'Error'">
-      <section id="navGrid" th:replace="starter/navigation :: navigation"></section>
+      <section id="navGrid" th:replace="layout/navigation :: navigation"></section>
     </th:block>
 
     <!-- Shows up for every page load as a indicator that the page contents are being loaded -->
