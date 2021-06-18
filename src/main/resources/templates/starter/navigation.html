@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  </head>
+  <body>
+    <section id="navGrid" th:fragment="navigation">
+      <!-- Toggleable navbar content - Loged-in user information and account controls -->
+      <div id="navbarToggleContent" class="collapse">
+        <!-- Work in Progress notifier -->
+        <span style="color: grey; position:absolute; top:1%; left:calc(50% - 120px); opacity:0.2; z-index:10110;">
+          <i class="fas fa-bug fa-10x"></i>
+          <i class="fas fa-skull-crossbones fa-5x"></i>
+        </span>
+        <div class="bg-dark row g-3 justify-content-between p-4">
+          <!-- Section information -->
+          <div class="col col-auto p-1">
+            <h5 class="text-white h4">Personal Account</h5>
+            <span class="text-muted">Here you can find all account controls.</span>
+          </div>
+          <!-- Select user control option -->
+          <div class="col col-auto p-1">
+            <div class="row justify-content-end">
+              <!-- Selector for what user information to display -->
+              <div class="col col-auto">
+                <div class="form-floating">
+                  <select id="floatingSelectControls" class="form-select">
+                    <option selected="">Select...</option>
+                    <option value="1">Profile</option>
+                    <option value="2">Saved data</option>
+                    <option value="3">Personal Information</option>
+                  </select>
+                  <label for="floatingSelectControls">Account Controls</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Disabled inputs to display user information. Can be enabled to change user information -->
+          <form id="userControlForm" class="row justify-content-end p-4" method="post" action=""
+                  th:action="@{/modifyUser}" th:object="${newUser}" th:with="u=${currUser}">
+            <!-- Username -->
+            <div class="col col-auto p-1">
+              <div id="usernameField" class="form-floating collapse">
+                <input class="form-control" id="navUsername" type="text" name="name" value="" required disabled
+                        th:value="${u.name}"/>
+                <label for="navUsername">Username</label>
+              </div>
+            </div>
+            <!-- Password -->
+            <div class="col col-auto p-1">
+              <div id="passwordField" class="form-floating collapse">
+                <input class="form-control" id="navPassword" type="password" name="password" value="" required disabled
+                        th:value="${u.password}"/>
+                <label for="navPassword">Password</label>
+              </div>
+            </div>
+            <!-- Email -->
+            <div class="col col-auto p-1">
+              <div id="emailField" class="form-floating collapse">
+                <input class="form-control" id="navEmail" type="text" name="email" value="" disabled
+                        th:value="${u.email}"/>
+                <label for="navEmail">Email address</label>
+              </div>
+            </div>
+            <!-- Account age -->
+            <div class="col col-auto p-1">
+              <div id="accountAgeField" class="form-floating collapse">
+                <input class="form-control" id="navUserAge" type="text" name="accountAge" disabled
+                        th:value="${accountAge}"/>
+                <label for="navUserAge">Account age</label>
+              </div>
+            </div>
+            <!-- Allow account information to be edited, and submit changes -->
+            <div class="row g-1 justify-content-end">
+              <!-- Submits account changes -->
+              <button id="saveChangesButton" class="col col-auto btn btn-lg btn-primary collapse" type="submit">Save Changes</button>
+              <!-- Enables input fields and submit button -->
+              <button id="allowEditButton" class="col col-auto btn btn-lg btn-warning collapse" type="button">
+                <span style="color: black;">
+                  <i class="fas fa-edit"></i>
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Navigation bar -->
+      <nav class="navbar navbar-dark bg-dark justify-content-between p-2">
+        <!-- Toggle navbar content button -->
+        <div class="col col-auto">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleContent" aria-controls="navbarToggleContent" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <!-- Logout button -->
+        <div class="col col-auto">
+          <form method="post" action="" th:action="@{/logout}">
+            <button class="btn btn-lg btn-primary" type="submit">Logout</button>
+          </form>
+        </div>
+      </nav>
+    </section>
+  </body>
+</html>

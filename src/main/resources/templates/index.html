@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- ^ Required meta tags ^ -->
+    <!-- Font Awesome SVG -->
+    <script src="https://kit.fontawesome.com/3b3b81e1a6.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="/style/localstyle.css">
+    <!-- END <head> info -->
+    <title th:text="'BTD6 G-L | ' + ${currentPageTitle}"></title>
+  </head>
+  <body class="user-select-none">
+
+    <!-- Page navigation bar and expandable content -->
+    <th:block th:unless="${currentPageTitle} == 'Error'">
+      <section id="navGrid" th:replace="starter/navigation :: navigation"></section>
+    </th:block>
+
+    <!-- Shows up for every page load as a indicator that the page contents are being loaded -->
+    <div id="spinnerContainer"><span id="spinnerBorder" class="spinner-border bg-warning"></span></div>
+
+    <!-- Page content -->
+    <th:block th:switch="${currentPageTitle}">
+      <th:block th:case="Error">
+        <section th:replace="error/error :: error"></section>
+      </th:block>
+      <th:block th:case="Login">
+      <section th:replace="login/login :: login"></section>
+      </th:block>
+      <th:block th:case="Register">
+        <section th:replace="login/register :: register"></section>
+      </th:block>
+      <th:block th:case="Home">
+        <section th:replace="app/homepage :: homepage"></section>
+      </th:block>
+      <th:block th:case="App">
+        <section th:replace="app/logger :: logger"></section>
+      </th:block>
+      <th:block th:case="*">
+        <p>Error</p>
+      </th:block>
+    </th:block>
+
+    <!-- Page footer -->
+    <section id="footerGrid"></section>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <!-- jQuerry -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Local Script -->
+    <script src="/script/localscript.js"></script>
+  </body>
+</html>

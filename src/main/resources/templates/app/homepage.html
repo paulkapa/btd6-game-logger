@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  </head>
+  <body class="bg-dark user-select-none" onload="startLoginTimeout()">
+    <section id="homeContentGrid" class="container-fluid bg-dark" th:fragment="homepage">
+      <div class="row row-cols-2">
+        <div class="col bg-primary">
+          <h1>col1.1</h1>
+          <form method="post" action="" th:action="@{/logger}">
+            <button class="btn btn-secondary btn-md" type=submit>Go To Logger</button>
+          </form>
+        </div>
+        <div class="col bg-secondary">
+          <h1>col1.2</h1>
+        </div>
+      </div>
+      <div class="row row-cols-2">
+        <div class="col bg-secondary">
+          <h1>col2.1</h1>
+        </div>
+        <div class="col bg-primary">
+          <h1>col2.2</h1>
+        </div>
+      </div>
+      <div class="row row-cols-2">
+        <div class="col bg-primary">
+          <h1>col3.1</h1>
+        </div>
+        <div class="col bg-secondary">
+          <h1>col3.2</h1>
+        </div>
+      </div>
+      <div class="row row-cols-2">
+        <div class="col bg-secondary">
+          <h1>col4.1</h1>
+        </div>
+        <div class="col bg-primary">
+          <h1>col4.2</h1>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

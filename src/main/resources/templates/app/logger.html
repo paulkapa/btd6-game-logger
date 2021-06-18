@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  </head>
+  <body class="bg-dark user-select-none">
+    <section id="loggerContentGrid" class="container-fluid" th:fragment="logger">
+      <!-- Extra Navigation - Temporary Placement -->
+      <header class="modal-header">
+        <nav class="navbar nav">
+          <form class="nav-item m-2" method="post" action="" th:action="@{/home}">
+            <button class="btn btn-primary" type="submit">Back Home</button>
+          </form>
+          <form class="nav-item m-2" method="post" action="" th:action="@{/save}" th:object="${loggerData}">
+            <button class="btn btn-primary" type="submit">Save All</button>
+          </form>
+          <form class="nav-item m-2" method="request" action="" th:action="@{/error}">
+            <button class="btn btn-primary" type="submit">Check Errors</button>
+          </form>
+        </nav>
+      </header>
+      <div class="row flex-row">
+        <label class="inisible">Placeholder</label>
+      </div>
+    </section>
+  </body>
+</html>

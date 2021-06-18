@@ -1,10 +1,10 @@
-var loginTimeoutHandler = null;
+var intervalTimeout = 1000;
 var bodyScrollHeight = null;
-var initialX = null;
-var initialY = null;
+var touchInitialX = null;
+var touchInitialY = null;
 var timeSinceActive = null;
 var inactivityTimeout = null;
-var intervalTimeout = 1000;
+var loginTimeoutHandler = null;
 
 /**
  * Toggles visibility of extra login information.
@@ -103,7 +103,7 @@ function sessionActivityCheck(timeout) {
  */
 function startLoginTimeout() {
   timeSinceActive = 0;
-  inactivityTimeout = 10000; //600000
+  inactivityTimeout = 600000;
   window.addEventListener("mousemove", (event) => {
     timeSinceActive = 0;
   });
@@ -118,9 +118,9 @@ function startLoginTimeout() {
  * @param {*} e the touch event
  */
 function startTouch(e) {
-  initialX = e.touches[0].clientX;
-  initialY = e.touches[0].clientY;
-};
+  touchInitialX = e.touches[0].clientX;
+  touchInitialY = e.touches[0].clientY;
+}
 
 /**
  * Computes the direction of the current touch move.
@@ -128,16 +128,16 @@ function startTouch(e) {
  */
 function moveTouch(e) {
   var registerElement = document.getElementById("registerInfoToggle");
-  if (initialX === null) {
+  if (touchInitialX === null) {
     return;
   }
-  if (initialY === null) {
+  if (touchInitialY === null) {
     return;
   }
   var currentX = e.touches[0].clientX;
   var currentY = e.touches[0].clientY;
-  var diffX = initialX - currentX;
-  var diffY = initialY - currentY;
+  var diffX = touchInitialX - currentX;
+  var diffY = touchInitialY - currentY;
   if (Math.abs(diffX) > Math.abs(diffY)) {
     // sliding horizontally
     if (diffX > 0) {
@@ -163,25 +163,89 @@ function moveTouch(e) {
       console.log("swiped down");
     }
   }
-  initialX = null;
-  initialY = null;
+  touchInitialX = null;
+  touchInitialY = null;
   e.preventDefault();
-};
-
-/**
- * Listens for swipes.
- */
-if(document.title == "BTD6 G-L | Register") {
-  setTimeout(function() {
-    try {
-        window.addEventListener("touchstart", startTouch, false);
-        window.addEventListener("touchmove", moveTouch, false);
-    } catch (error) {}
-  }, 100);
 }
 
 /**
- * Warns if leaving page may lead to loss of unsaved data.
+ * Handling touch swipes on pages supporting touch actions.
+ */
+if(document.title == "BTD6 G-L | Register") {
+  try {
+    window.addEventListener("touchstart", startTouch, false);
+    window.addEventListener("touchmove", moveTouch, false);
+  } catch (error) {}
+}
+
+/**
+ * Handling user account controls.
+ */
+if(document.title == "BTD6 G-L | Home") {
+  document.getElementById("floatingSelectControls").addEventListener(`change`, (e) => {
+    var usernameField = document.getElementById("usernameField");
+    var passwordField = document.getElementById("passwordField");
+    var emailField = document.getElementById("emailField");
+    var accountAgeField = document.getElementById("accountAgeField");
+    var allowEditButton = document.getElementById("allowEditButton");
+    var select = e.target;
+    //const value = select.value;
+    var desc = select.options[select.selectedIndex].text;
+    switch(desc) {
+      case "Profile" : {
+        usernameField.classList.remove("collapse");
+        passwordField.classList.add("collapse");
+        emailField.classList.remove("collapse");
+        accountAgeField.classList.add("collapse");
+        allowEditButton.classList.add("collapse");
+        break;
+      } case "Personal Information" : {
+        usernameField.classList.remove("collapse");
+        passwordField.classList.remove("collapse");
+        emailField.classList.remove("collapse");
+        accountAgeField.classList.remove("collapse");
+        allowEditButton.classList.remove("collapse");
+        break;
+      } case "Saved Information" : {
+      } default : {
+        usernameField.classList.add("collapse");
+        passwordField.classList.add("collapse");
+        emailField.classList.add("collapse");
+        accountAgeField.classList.add("collapse");
+        allowEditButton.classList.add("collapse");
+        break;
+      }
+    }
+  });
+  document.getElementById("allowEditButton").addEventListener('click', (e) => {
+    var allowEditButton = document.getElementById("allowEditButton");
+    var userControlForm = document.getElementById("userControlForm");
+    var saveChangesButton = document.getElementById("saveChangesButton");
+    var navUsername = document.getElementById("navUsername");
+    var navPassword = document.getElementById("navPassword");
+    var navEmail = document.getElementById("navEmail");
+    if(allowEditButton.classList.contains("btn-warning")) {
+      allowEditButton.classList.add("btn-info");
+      allowEditButton.classList.remove("btn-warning");
+      saveChangesButton.classList.remove("collapse");
+      navUsername.removeAttribute("disabled");
+      navPassword.removeAttribute("disabled");
+      navEmail.removeAttribute("disabled");
+      userControlForm.reset();
+    } else {
+      allowEditButton.classList.add("btn-warning");
+      allowEditButton.classList.remove("btn-info");
+      saveChangesButton.classList.add("collapse");
+      navUsername.setAttribute("disabled", "");
+      navPassword.setAttribute("disabled", "");
+      navEmail.setAttribute("disabled", "");
+      userControlForm.reset();
+    }
+  });
+}
+
+/**
+ * Warns if leaving App page may lead to loss of unsaved data.
  */
 if(document.title == "BTD6 G-L | App") {
   window.addEventListener('beforeunload', (event) => {
