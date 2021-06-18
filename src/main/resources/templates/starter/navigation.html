@@ -16,6 +16,7 @@
           <div class="col col-auto p-1">
             <h5 class="text-white h4">Personal Account</h5>
             <span class="text-muted">Here you can find all account controls.</span>
+            <span class="text-warning">Only works on Home page!</span>
           </div>
           <!-- Select user control option -->
           <div class="col col-auto p-1">
@@ -36,28 +37,27 @@
           </div>
           <!-- Disabled inputs to display user information. Can be enabled to change user information -->
           <form id="userControlForm" class="row justify-content-end p-4" method="post" action=""
-                  th:action="@{/modifyUser}" th:object="${newUser}" th:with="u=${currUser}">
+                  th:action="@{/modifyUser}" th:object="${newUser}">
             <!-- Username -->
             <div class="col col-auto p-1">
               <div id="usernameField" class="form-floating collapse">
                 <input class="form-control" id="navUsername" type="text" name="name" value="" required disabled
-                        th:value="${u.name}"/>
+                        th:value="${uname}"/>
                 <label for="navUsername">Username</label>
               </div>
             </div>
             <!-- Password -->
             <div class="col col-auto p-1">
               <div id="passwordField" class="form-floating collapse">
-                <input class="form-control" id="navPassword" type="password" name="password" value="" required disabled
-                        th:value="${u.password}"/>
-                <label for="navPassword">Password</label>
+                <input class="form-control" id="navPassword" type="password" name="password" value="" required disabled/>
+                <label for="navPassword">New Password</label>
               </div>
             </div>
             <!-- Email -->
             <div class="col col-auto p-1">
               <div id="emailField" class="form-floating collapse">
                 <input class="form-control" id="navEmail" type="text" name="email" value="" disabled
-                        th:value="${u.email}"/>
+                        th:value="${uemail}"/>
                 <label for="navEmail">Email address</label>
               </div>
             </div>
@@ -65,12 +65,12 @@
             <div class="col col-auto p-1">
               <div id="accountAgeField" class="form-floating collapse">
                 <input class="form-control" id="navUserAge" type="text" name="accountAge" disabled
-                        th:value="${accountAge}"/>
+                        th:value="${uaccountAge}"/>
                 <label for="navUserAge">Account age</label>
               </div>
             </div>
             <!-- Allow account information to be edited, and submit changes -->
-            <div class="row g-1 justify-content-end">
+            <div class="row g-1 justify-content-end" th:unless="${uname} == 'btd6gluser'">
               <!-- Submits account changes -->
               <button id="saveChangesButton" class="col col-auto btn btn-lg btn-primary collapse" type="submit">Save Changes</button>
               <!-- Enables input fields and submit button -->

@@ -50,7 +50,7 @@ public class MapEntity extends BaseEntity {
      *
      */
     @Transient
-    private double startingCash;
+    private Double startingCash;
 
     /**
      *
@@ -108,7 +108,7 @@ public class MapEntity extends BaseEntity {
         this.mapType = mapType;
     }
 
-    public double getBaseStartingCash() {
+    public Double getBaseStartingCash() {
         return baseStartingCash;
     }
 
@@ -195,8 +195,7 @@ public class MapEntity extends BaseEntity {
         result = prime * result + ((currentGameMode == null) ? 0 : currentGameMode.hashCode());
         result = prime * result + currentLives;
         result = prime * result + ((mapType == null) ? 0 : mapType.hashCode());
-        temp = Double.doubleToLongBits(startingCash);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((startingCash == null) ? 0 : startingCash.hashCode());
         result = prime * result + startingLives;
         return result;
     }
@@ -233,7 +232,10 @@ public class MapEntity extends BaseEntity {
                 return false;
         } else if (!mapType.equals(other.mapType))
             return false;
-        if (Double.doubleToLongBits(startingCash) != Double.doubleToLongBits(other.startingCash))
+        if (startingCash == null) {
+            if (other.startingCash != null)
+                return false;
+        } else if (!startingCash.equals(other.startingCash))
             return false;
         if (startingLives != other.startingLives)
             return false;

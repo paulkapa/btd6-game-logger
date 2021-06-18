@@ -34,20 +34,20 @@
                     <label for="floatingInputPassword">Password</label>
                   </div>
                   <button class="btn btn-lg btn-secondary m-3 d-inline" type="submit">Sign in</button>
-                  <input class="btn btn-md btn-warning m-3 d-inline" type="reset" value="Reset"><br>
+                  <input class="btn btn-lg btn-secondary m-3 d-inline" type="reset" value="Reset"><br>
                 </form>
                 <!-- Login information -->
                 <div class="container bg-secondary rounded-3 p-2 mb-2">
                   <span class="text-light">
                     <br>
                     <!-- Redirect to register page -->
-                    <form method="post" action="" th:action="@{/signup}">
+                    <form class="p-2" method="post" action="" th:action="@{/signup}">
                       <div class="form-floating">
                         <span class="form-control-plaintext text-light d-inline">Don't have an account?</span>
-                        <button class="btn btn-md btn-link text-warning d-inline" style="text-decoration: none;" type="submit">Register</button><br>
+                        <button class="bg-transparent btn btn-md shadow-none text-warning d-inline m-1" style="text-decoration: none; border-width: 2px; border-color: var(--bs-warning);" type="submit">Register</button><br>
                       </div>
                     </form>
-                    <p>
+                    <p class="p-2">
                       More information about accounts can be found on the register page.
                     </p>
                   </span>

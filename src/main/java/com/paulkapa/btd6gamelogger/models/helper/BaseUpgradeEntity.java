@@ -29,7 +29,7 @@ public class BaseUpgradeEntity extends BaseEntity {
      *
      */
     @Column(name = "base_cost")
-    private double baseCost;
+    private Double baseCost;
 
 
     /**
@@ -78,7 +78,7 @@ public class BaseUpgradeEntity extends BaseEntity {
         this.tier = tier;
     }
 
-    public double getBaseCost() {
+    public Double getBaseCost() {
         return baseCost;
     }
 

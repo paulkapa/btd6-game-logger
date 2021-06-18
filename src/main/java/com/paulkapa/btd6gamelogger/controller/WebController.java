@@ -101,13 +101,14 @@ public class WebController implements ErrorController, CommandLineRunner {
             rootModel.addAttribute("isFailedLoginAttempt", isfailedLoginAttempt);
             rootModel.addAttribute("isFailedRegisterAttempt", isFailedRegisterAttempt);
             rootModel.addAttribute("isApplicationStarted", isApplicationStarted);
-            rootModel.addAttribute("currUser", ((this.user == null) ? new User() : this.user));
             rootModel.addAttribute("newUser", new User());
             if(!this.isApplicationStarted && this.lastError == null) {
                 if(this.isLoggedIn && !this.isfailedLoginAttempt && !this.isFailedRegisterAttempt && this.lastError == null) {
                     logger.info("Sign up process complete for: " + this.user.toString() + ". Welcome!");
                     long accountAge = this.user.setAccountAge(System.currentTimeMillis() - this.user.getCreationDate().getTime());
-                    rootModel.addAttribute("accountAge", User.visualizeAccountAge(accountAge));
+                    rootModel.addAttribute("uname", ((this.user == null) ? null : this.user.getName()));
+                    rootModel.addAttribute("uemail", ((this.user == null) ? null : this.user.getEmail()));
+                    rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(accountAge));
                     rootModel.addAttribute("currentPageTitle", "Home");
                     return "index";
                 } else if(!this.isLoggedIn && this.isFailedRegisterAttempt && this.lastError == null) {
@@ -137,6 +138,11 @@ public class WebController implements ErrorController, CommandLineRunner {
                 }
             } else if(this.isApplicationStarted && this.lastError == null) {
                 logger.info("Request to access application detected! Enabling functionality allowed. Enjoy!");
+                rootModel.addAttribute("maps", this.maps);
+                logger.info(this.maps.toString());
+                rootModel.addAttribute("towers", this.towers);
+                rootModel.addAttribute("upgrades", this.upgrades);
+                rootModel.addAttribute("game", this.btd6);
                 rootModel.addAttribute("currentPageTitle", "App");
                 return "index";
             } else if(this.lastError != null) {
@@ -179,11 +185,10 @@ public class WebController implements ErrorController, CommandLineRunner {
             return "redirect:/";
         } else {
             try {
-                var newUser = new User(
-                    formInfo.getName().trim(),
-                    formInfo.getPassword().trim(),
-                    (formInfo.getEmail().trim() != null && formInfo.getEmail().trim() != "") ? formInfo.getEmail().trim() : null,
-                    new Timestamp(System.currentTimeMillis()));
+                var newUser = new User(formInfo.getName().trim(),
+                                        User.encryptPassword(formInfo.getPassword().trim()),
+                                        (formInfo.getEmail().trim() != null && formInfo.getEmail().trim() != "") ? formInfo.getEmail().trim() : null,
+                                        new Timestamp(System.currentTimeMillis()));
                 if(this.ui.findByNameAndPassword(newUser.getName(), newUser.getPassword()) != null) {
                     this.isFailedRegisterAttempt = true;
                     logger.warn("Register attempt: User [" + newUser.getName() + "] already exists in database. " +
@@ -224,7 +229,7 @@ public class WebController implements ErrorController, CommandLineRunner {
             return "redirect:/";
         } else {
             try {
-                var newUser = new User(formInfo.getName().trim(), formInfo.getPassword().trim());
+                var newUser = new User(formInfo.getName().trim(), User.encryptPassword(formInfo.getPassword().trim()));
                 var result = ui.findByNameAndPassword(newUser.getName(), newUser.getPassword());
                 if(result == null) {
                     this.isfailedLoginAttempt = true;
@@ -346,8 +351,8 @@ public class WebController implements ErrorController, CommandLineRunner {
      * May be called again at any time by classes with access to it.
      * <p>
      * <code>User created:
-     * <li>Username: user;
-     * <li>Password: password;
+     * <li>Username: btd6gluser;
+     * <li>Password: pass;
      * <li>Email: null.</code>
      */
     @Override
@@ -357,11 +362,17 @@ public class WebController implements ErrorController, CommandLineRunner {
             this.truncate("maps");
             this.truncate("upgrades");
             this.truncate("towers");
-            this.ui.save(new User("user", "password", null, new Timestamp(System.currentTimeMillis())));
+            this.ui.save(new User("btd6gluser", User.encryptPassword("pass"), null, new Timestamp(System.currentTimeMillis())));
             mi.save(new MapEntity("Monkey Lane", "Begginer", 800.0d, 100));
             ti.save(new TowerEntity("Dart Monkey", "Primary", 0.0d, 0.0d));
+            ti.save(new TowerEntity("Boomerang Thrower", "Primary", 0.0d, 0.0d));
             upi.save(new UpgradeEntity("Sharper Darts", 1, 1, 170.0d, ti.findByName("Dart Monkey")));
-            logger.info(ui.findByName("user").toString());
+            upi.save(new UpgradeEntity("Even Sharper Darts", 1, 1, 170.0d, ti.findByName("Dart Monkey")));
+            upi.save(new UpgradeEntity("Longer Range", 1, 1, 170.0d, ti.findByName("Boomerang Thrower")));
+            upi.save(new UpgradeEntity("Even Longer Range", 1, 1, 170.0d, ti.findByName("Boomerang Thrower")));
+            upi.save(new UpgradeEntity("Sharper Darts", 1, 1, 170.0d, ti.findByName("Dart Monkey")));
+            upi.save(new UpgradeEntity("Longer Range", 1, 1, 170.0d, ti.findByName("Boomerang Thrower")));
+            logger.info(ui.findByName("btd6gluser").toString());
             logger.info("Saved default user in database!");
             this.maps = mi.findAll();
             logger.info(this.maps.toString());

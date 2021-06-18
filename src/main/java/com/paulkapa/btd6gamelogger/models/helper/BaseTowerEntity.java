@@ -23,13 +23,13 @@ public class BaseTowerEntity extends BaseEntity {
      *
      */
     @Column(name = "base_cost")
-    private double baseCost;
+    private Double baseCost;
 
     /**
      *
      */
     @Column(name = "base_sell_value")
-    private double baseSellValue;
+    private Double baseSellValue;
 
     /**
      * Default constructor.
@@ -69,7 +69,7 @@ public class BaseTowerEntity extends BaseEntity {
         this.towerType = towerClass;
     }
 
-    public double getBaseCost() {
+    public Double getBaseCost() {
         return baseCost;
     }
 
@@ -77,7 +77,7 @@ public class BaseTowerEntity extends BaseEntity {
         this.baseCost = baseCost;
     }
 
-    public double getBaseSellValue() {
+    public Double getBaseSellValue() {
         return baseSellValue;
     }
 
@@ -99,11 +99,8 @@ public class BaseTowerEntity extends BaseEntity {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        long temp;
-        temp = Double.doubleToLongBits(baseCost);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(baseSellValue);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((baseCost == null) ? 0 : baseCost.hashCode());
+        result = prime * result + ((baseSellValue == null) ? 0 : baseSellValue.hashCode());
         result = prime * result + ((towerType == null) ? 0 : towerType.hashCode());
         return result;
     }
@@ -117,9 +114,15 @@ public class BaseTowerEntity extends BaseEntity {
         if (getClass() != obj.getClass())
             return false;
         BaseTowerEntity other = (BaseTowerEntity) obj;
-        if (Double.doubleToLongBits(baseCost) != Double.doubleToLongBits(other.baseCost))
+        if (baseCost == null) {
+            if (other.baseCost != null)
+                return false;
+        } else if (!baseCost.equals(other.baseCost))
             return false;
-        if (Double.doubleToLongBits(baseSellValue) != Double.doubleToLongBits(other.baseSellValue))
+        if (baseSellValue == null) {
+            if (other.baseSellValue != null)
+                return false;
+        } else if (!baseSellValue.equals(other.baseSellValue))
             return false;
         if (towerType == null) {
             if (other.towerType != null)

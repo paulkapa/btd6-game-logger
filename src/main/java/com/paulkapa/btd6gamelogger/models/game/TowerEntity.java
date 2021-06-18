@@ -25,13 +25,13 @@ public class TowerEntity extends BaseTowerEntity {
      *
      */
     @Transient
-    private double cost;
+    private Double cost;
 
     /**
      *
      */
     @Transient
-    private double sellValue;
+    private Double sellValue;
 
     /**
      *
@@ -99,7 +99,7 @@ public class TowerEntity extends BaseTowerEntity {
         this.upgrades = upgrades;
     }
 
-    public double getCost() {
+    public Double getCost() {
         return cost;
     }
 
@@ -107,7 +107,7 @@ public class TowerEntity extends BaseTowerEntity {
         this.cost = cost;
     }
 
-    public double getSellValue() {
+    public Double getSellValue() {
         return sellValue;
     }
 

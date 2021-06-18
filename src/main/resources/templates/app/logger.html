@@ -19,7 +19,79 @@
         </nav>
       </header>
       <div class="row flex-row">
-        <label class="inisible">Placeholder</label>
+        <label class="invisible">Placeholder</label>
+      </div>
+      <div class="container">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Type</td>
+              <td>Starting Cash</td>
+              <td>Starting Lives</td>
+            </tr>
+          </th>
+          <th:block>
+            <tbody>
+              <tr th:each="m : ${maps}">
+                <td th:text="${m.name}"></td>
+                <td th:text="${m.mapType}"></td>
+                <td th:text="${m.baseStartingCash.intValue()}"></td>
+                <td th:text="${m.baseStartingLives}"></td>
+              </tr>
+            </tbody>
+          </th:block>
+        </table>
+      </div>
+      <div class="container">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Type</td>
+              <td>Base Cost</td>
+              <td>Base Sell Value</td>
+            </tr>
+          </th>
+          <th:block>
+            <tbody>
+              <tr th:each="t : ${towers}">
+                <td th:text="${t.name}"></td>
+                <td th:text="${t.type}"></td>
+                <td th:text="${t.baseCost.intValue()}"></td>
+                <td th:text="${t.baseSellValue.intValue()}"></td>
+              </tr>
+            </tbody>
+          </th:block>
+        </table>
+      </div>
+      <div class="container">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Path</td>
+              <td>Tier</td>
+              <td>Base Cost</td>
+              <td>
+                <select id="viewUpgradesSelect" class="form-select">
+                  <option value="">Choose Tower...</option>
+                </select>
+              </td>
+            </tr>
+          </th>
+          <th:block>
+            <tbody>
+              <tr th:each="up, iter : ${upgrades}">
+                <td class="collapsed" th:text="${up.name}"></td>
+                <td class="collapsed" th:text="${up.path}"></td>
+                <td class="collapsed" th:text="${up.tier}"></td>
+                <td class="collapsed" th:text="${up.baseCost.intValue()}"></td>
+                <td class="table-info" th:classappend="${iter.index} > 0 ? (${upgrades[iter.index - 1].tower.getName()} != ${up.tower.getName()} ? 'table-warning' : 'table-info') : ''" th:text="${up.tower.getName()}"></td>
+              </tr>
+            </tbody>
+          </th:block>
+        </table>
       </div>
     </section>
   </body>

@@ -1,5 +1,7 @@
 package com.paulkapa.btd6gamelogger.models.system;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -112,6 +114,29 @@ public class User extends BaseEntity {
      */
     public void setPassword(String password) {
         this.password = (password == null) ? null : password.trim();
+    }
+
+    /**
+     * Encrypts a password provided as parameter.
+     * @param password the password to encrypt
+     * @return encrypted password
+     */
+    public static String encryptPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            StringBuffer sb = new StringBuffer();
+            byte[] saltBytes = "this is a password".getBytes();
+            md.update(saltBytes);
+            byte[] passBytes = (password == null) ? "password".getBytes() : password.trim().getBytes();
+            md.update(passBytes);
+            byte[] bytes = md.digest();
+            for(byte b : bytes) {
+                sb.append(b);
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            return password;
+        }
     }
 
     /**
