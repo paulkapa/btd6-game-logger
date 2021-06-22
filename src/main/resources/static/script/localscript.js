@@ -155,9 +155,9 @@ function moveTouch(e) {
 }
 
 /**
- * Handles function to run at documet load.
+ * Handles function to run at document load.
  */
-document.onload = function() {
+document.body.onload = function() {
   /**
    * Enables redirect to login if page was inactive for a while.
    */
@@ -287,17 +287,18 @@ document.onload = function() {
       userControlForm.reset();
     }
   });
-  /**
-   * Warns if leaving App page may lead to loss of unsaved data.
-   */
-  if(currPageTitle == "BTD6 G-L | App") {
-    window.addEventListener('beforeunload', (event) => {
-      try {
-        // Cancel the event as stated by the standard.
-        event.preventDefault();
-        // Chrome requires returnValue to be set.
-        event.returnValue = '';
-      } catch(error) {}
-    });
-  }
+}
+
+/**
+ * Warns if leaving App page may lead to loss of unsaved data.
+ */
+if(currPageTitle == "BTD6 G-L | App") {
+  window.addEventListener('beforeunload', (event) => {
+    try {
+      // Cancel the event as stated by the standard.
+      event.preventDefault();
+      // Chrome requires returnValue to be set.
+      event.returnValue = '';
+    } catch(error) {}
+  });
 }
