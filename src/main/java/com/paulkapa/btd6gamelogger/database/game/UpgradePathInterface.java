@@ -8,6 +8,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface UpgradePathInterface extends JpaRepository<UpgradeEntity, Integer> {
-    
-}
+public interface UpgradePathInterface extends JpaRepository<UpgradeEntity, Integer> {}

@@ -195,44 +195,48 @@ public class User extends BaseEntity {
      * @return a <code>String</code> containing the converted time
      */
     public static String visualizeAccountAge(long accountAge) {
-        long difference = accountAge;
-        StringBuilder sb = new StringBuilder();
-        String y = null, d = null, h = "00 h ", m = ": 00 m ", s = ": 00 s", ms = ". 000 ms";
-        while(difference != 0) {
-            if(difference < 1000) {
-                // return milliseconds
-                ms = String.format(". %03dms", difference);
-                difference = 0;
-            } else if(difference < 60000) {
-                    // return seconds
-                    s = String.format(": %02ds ", difference/1000);
-                    difference = difference%1000;
-            } else if(difference < 3600000l) {
-                // return minutes
-                m = String.format(": %02dm ", difference/60000);
-                difference = difference%60000;
-            } else if(difference < 86400000l) {
-                // return hours
-                h = String.format("%02dh ", difference/3600000);
-                difference = difference%3600000;
-            } else if(difference < 31536000000l) {
-                // return days
-                d = String.format("%d day(s)", difference/86400000l);
-                difference = difference%86400000l;
-            } else {
-                // return years
-                y = String.format("%d year(s), ", difference/31536000000l);
-                difference = difference%31536000000l;
+        if(accountAge != 0l) {
+            long difference = accountAge;
+            StringBuilder sb = new StringBuilder();
+            String y = null, d = null, h = "00 h ", m = ": 00 m ", s = ": 00 s", ms = ". 000 ms";
+            while(difference != 0) {
+                if(difference < 1000) {
+                    // return milliseconds
+                    ms = String.format(". %03dms", difference);
+                    difference = 0;
+                } else if(difference < 60000) {
+                        // return seconds
+                        s = String.format(": %02ds ", difference/1000);
+                        difference = difference%1000;
+                } else if(difference < 3600000l) {
+                    // return minutes
+                    m = String.format(": %02dm ", difference/60000);
+                    difference = difference%60000;
+                } else if(difference < 86400000l) {
+                    // return hours
+                    h = String.format("%02dh ", difference/3600000);
+                    difference = difference%3600000;
+                } else if(difference < 31536000000l) {
+                    // return days
+                    d = String.format("%d day(s)", difference/86400000l);
+                    difference = difference%86400000l;
+                } else {
+                    // return years
+                    y = String.format("%d year(s), ", difference/31536000000l);
+                    difference = difference%31536000000l;
+                }
             }
-        }
-        if(d != null) {
-            if(y != null) {
-                return sb.append(y).append(d).toString();
+            if(d != null) {
+                if(y != null) {
+                    return sb.append(y).append(d).toString();
+                } else {
+                    return sb.append(d).toString();
+                }
             } else {
-                return sb.append(d).toString();
+                return sb.append(h).append(m).append(s).append(ms).toString();
             }
         } else {
-            return sb.append(h).append(m).append(s).append(ms).toString();
+            return null;
         }
     }
 

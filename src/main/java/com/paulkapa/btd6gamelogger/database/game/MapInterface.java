@@ -8,6 +8,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface MapInterface extends JpaRepository<MapEntity, Integer> {
-    
-}
+public interface MapInterface extends JpaRepository<MapEntity, Integer> {}

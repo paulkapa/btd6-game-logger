@@ -5,6 +5,7 @@ var touchInitialY = null;
 var timeSinceActive = null;
 var inactivityTimeout = null;
 var loginTimeoutHandler = null;
+var currPageTitle = document.title;
 
 /**
  * Toggles visibility of extra login information.
@@ -99,25 +100,10 @@ function sessionActivityCheck(timeout) {
 }
 
 /**
- * Enables redirect to login if home page was inactive for a while.
- */
-function startLoginTimeout() {
-  timeSinceActive = 0;
-  inactivityTimeout = 600000;
-  window.addEventListener("mousemove", (event) => {
-    timeSinceActive = 0;
-  });
-  window.addEventListener("touchmove", (event) => {
-    timeSinceActive = 0;
-  });
-  loginTimeoutHandler = window.setInterval(function() {sessionActivityCheck(intervalTimeout)}, intervalTimeout);
-}
-
-/**
  * Saves the point on the screen where a touch move starts.
  * @param {*} e the touch event
  */
-function startTouch(e) {
+ function startTouch(e) {
   touchInitialX = e.touches[0].clientX;
   touchInitialY = e.touches[0].clientY;
 }
@@ -169,20 +155,36 @@ function moveTouch(e) {
 }
 
 /**
- * Handling touch swipes on pages supporting touch actions.
+ * Handles function to run at documet load.
  */
-if(document.title == "BTD6 G-L | Register") {
-  try {
-    window.addEventListener("touchstart", startTouch, false);
-    window.addEventListener("touchmove", moveTouch, false);
-  } catch (error) {}
-}
-
-/**
- * Handling user account controls.
- */
-if(document.title == "BTD6 G-L | Home") {
-  document.getElementById("floatingSelectControls").addEventListener(`change`, (e) => {
+document.onload = function() {
+  /**
+   * Enables redirect to login if page was inactive for a while.
+   */
+  timeSinceActive = 0;
+  inactivityTimeout = 600000;
+  window.addEventListener("mousemove", (event) => {
+    timeSinceActive = 0;
+  });
+  window.addEventListener("touchmove", (event) => {
+    timeSinceActive = 0;
+  });
+  loginTimeoutHandler = window.setInterval(function() {sessionActivityCheck(intervalTimeout)}, intervalTimeout);
+  /**
+   * Handling touch swipes on pages supporting touch actions.
+   */
+  if(currPageTitle == "BTD6 G-L | Register") {
+    try {
+      window.addEventListener("touchstart", startTouch, false);
+      window.addEventListener("touchmove", moveTouch, false);
+    } catch (error) {}
+  }
+  /**
+   * Handling user account controls.
+   */
+  document.getElementById("navSelectControls").addEventListener(`change`, (e) => {
+    var message1 = document.getElementById("navMess1");
+    var message2 = document.getElementById("navMess2");
     var usernameField = document.getElementById("usernameField");
     var passwordField = document.getElementById("passwordField");
     var emailField = document.getElementById("emailField");
@@ -191,32 +193,75 @@ if(document.title == "BTD6 G-L | Home") {
     var select = e.target;
     //const value = select.value;
     var desc = select.options[select.selectedIndex].text;
-    switch(desc) {
-      case "Profile" : {
-        usernameField.classList.remove("collapse");
-        passwordField.classList.add("collapse");
-        emailField.classList.remove("collapse");
-        accountAgeField.classList.add("collapse");
-        allowEditButton.classList.add("collapse");
-        break;
-      } case "Personal Information" : {
-        usernameField.classList.remove("collapse");
-        passwordField.classList.remove("collapse");
-        emailField.classList.remove("collapse");
-        accountAgeField.classList.remove("collapse");
-        allowEditButton.classList.remove("collapse");
-        break;
-      } case "Saved Information" : {
-      } default : {
-        usernameField.classList.add("collapse");
-        passwordField.classList.add("collapse");
-        emailField.classList.add("collapse");
-        accountAgeField.classList.add("collapse");
-        allowEditButton.classList.add("collapse");
-        break;
+    if(currPageTitle == "BTD6 G-L | Home") {
+      switch(desc) {
+        case "Profile" : {
+          usernameField.classList.remove("collapse");
+          passwordField.classList.add("collapse");
+          emailField.classList.remove("collapse");
+          accountAgeField.classList.add("collapse");
+          if(!allowEditButton.classList.contains("collapse") && allowEditButton.classList.contains("btn-info")) {
+            allowEditButton.click();
+          }
+          allowEditButton.classList.add("collapse");
+          break;
+        } case "Personal Information" : {
+          usernameField.classList.remove("collapse");
+          passwordField.classList.remove("collapse");
+          emailField.classList.remove("collapse");
+          accountAgeField.classList.remove("collapse");
+          allowEditButton.classList.remove("collapse");
+          break;
+        } case "Saved Information" : {
+        } default : {
+          usernameField.classList.add("collapse");
+          passwordField.classList.add("collapse");
+          emailField.classList.add("collapse");
+          accountAgeField.classList.add("collapse");
+          if(!allowEditButton.classList.contains("collapse") && allowEditButton.classList.contains("btn-info")) {
+            allowEditButton.click();
+          }
+          allowEditButton.classList.add("collapse");
+          break;
+        }
+      }
+    } else {
+      switch(desc) {
+        case "Profile" : {
+          if(currPageTitle == "BTD6 G-L | App") {
+            message2.classList.remove("d-none");
+            message1.classList.add("d-none");
+          } else {
+            message2.classList.add("d-none");
+            message1.classList.remove("d-none");
+          }
+          break;
+        } case "Personal Information" : {
+          if(currPageTitle == "BTD6 G-L | App") {
+            message2.classList.remove("d-none");
+            message1.classList.add("d-none");
+          } else {
+            message2.classList.add("d-none");
+            message1.classList.remove("d-none");
+          }
+          break;
+        } case "Saved Information" : {
+        } default : {
+          if(currPageTitle == "BTD6 G-L | App") {
+            message2.classList.add("d-none");
+            message1.classList.add("d-none");
+          } else {
+            message2.classList.add("d-none");
+            message1.classList.add("d-none");
+          }
+          break;
+        }
       }
     }
   });
+  /**
+   * Handling updating user account details.
+   */
   document.getElementById("allowEditButton").addEventListener('click', (e) => {
     var allowEditButton = document.getElementById("allowEditButton");
     var userControlForm = document.getElementById("userControlForm");
@@ -242,18 +287,17 @@ if(document.title == "BTD6 G-L | Home") {
       userControlForm.reset();
     }
   });
-}
-
-/**
- * Warns if leaving App page may lead to loss of unsaved data.
- */
-if(document.title == "BTD6 G-L | App") {
-  window.addEventListener('beforeunload', (event) => {
-    try {
-      // Cancel the event as stated by the standard.
-      event.preventDefault();
-      // Chrome requires returnValue to be set.
-      event.returnValue = '';
-    } catch(error) {}
-  });
+  /**
+   * Warns if leaving App page may lead to loss of unsaved data.
+   */
+  if(currPageTitle == "BTD6 G-L | App") {
+    window.addEventListener('beforeunload', (event) => {
+      try {
+        // Cancel the event as stated by the standard.
+        event.preventDefault();
+        // Chrome requires returnValue to be set.
+        event.returnValue = '';
+      } catch(error) {}
+    });
+  }
 }

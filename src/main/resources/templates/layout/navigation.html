@@ -5,7 +5,7 @@
   <body>
     <section id="navGrid" th:fragment="navigation">
       <!-- Toggleable navbar content - Loged-in user information and account controls -->
-      <div id="navbarToggleContent" class="collapse">
+      <div id="navbarToggleContent" class="table-responsive collapse" style="overflow: hidden;">
         <!-- Work in Progress notifier -->
         <span style="color: grey; position:absolute; top:1%; left:calc(50% - 120px); opacity:0.2; z-index:10110;">
           <i class="fas fa-bug fa-10x"></i>
@@ -16,7 +16,6 @@
           <div class="col col-auto p-1">
             <h5 class="text-white h4">Personal Account</h5>
             <span class="text-muted">Here you can find all account controls.</span>
-            <span class="text-warning">Only works on Home page!</span>
           </div>
           <!-- Select user control option -->
           <div class="col col-auto p-1">
@@ -24,13 +23,13 @@
               <!-- Selector for what user information to display -->
               <div class="col col-auto">
                 <div class="form-floating">
-                  <select id="floatingSelectControls" class="form-select">
+                  <select id="navSelectControls" class="form-select">
                     <option selected="">Select...</option>
                     <option value="1">Profile</option>
-                    <option value="2">Saved data</option>
-                    <option value="3">Personal Information</option>
+                    <option value="2" th:class="${uname != null && uname != 'btd6gluser'} ? '' : 'd-none'">Saved data</option>
+                    <option value="3" th:class="${uname != null && uname != 'btd6gluser'} ? '' : 'd-none'">Personal Information</option>
                   </select>
-                  <label for="floatingSelectControls">Account Controls</label>
+                  <label for="navSelectControls">Account Controls</label>
                 </div>
               </div>
             </div>
@@ -38,11 +37,13 @@
           <!-- Disabled inputs to display user information. Can be enabled to change user information -->
           <form id="userControlForm" class="row justify-content-end p-4" method="post" action=""
                   th:action="@{/modifyUser}" th:object="${newUser}">
+            <div id="navMess1" class="col col-auto d-none text-warning"><p>Please Login first!</p></div>
+            <div id="navMess2" class="col col-auto d-none text-warning"><p>Information available only on Home page!</p></div>
             <!-- Username -->
             <div class="col col-auto p-1">
               <div id="usernameField" class="form-floating collapse">
                 <input class="form-control" id="navUsername" type="text" name="name" value="" required disabled
-                        th:value="${uname}"/>
+                th:value="${uname}"/>
                 <label for="navUsername">Username</label>
               </div>
             </div>
@@ -57,7 +58,7 @@
             <div class="col col-auto p-1">
               <div id="emailField" class="form-floating collapse">
                 <input class="form-control" id="navEmail" type="text" name="email" value="" disabled
-                        th:value="${uemail}"/>
+                th:value="${uemail}"/>
                 <label for="navEmail">Email address</label>
               </div>
             </div>
@@ -65,12 +66,12 @@
             <div class="col col-auto p-1">
               <div id="accountAgeField" class="form-floating collapse">
                 <input class="form-control" id="navUserAge" type="text" name="accountAge" disabled
-                        th:value="${uaccountAge}"/>
+                        th:value="${uaccountAge != null} ? ${uaccountAge} : 'Not Available'"/>
                 <label for="navUserAge">Account age</label>
               </div>
             </div>
             <!-- Allow account information to be edited, and submit changes -->
-            <div class="row g-1 justify-content-end" th:unless="${uname} == 'btd6gluser'">
+            <div class="row g-1 justify-content-end" th:if="${uname != null && uname != 'btd6gluser'}">
               <!-- Submits account changes -->
               <button id="saveChangesButton" class="col col-auto btn btn-lg btn-primary collapse" type="submit">Save Changes</button>
               <!-- Enables input fields and submit button -->

@@ -162,6 +162,43 @@ public class GameEntity {
         }
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((maps == null) ? 0 : maps.hashCode());
+        result = prime * result + ((towers == null) ? 0 : towers.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        GameEntity other = (GameEntity) obj;
+        if (maps == null) {
+            if (other.maps != null)
+                return false;
+        } else if (!maps.equals(other.maps))
+            return false;
+        if (towers == null) {
+            if (other.towers != null)
+                return false;
+        } else if (!towers.equals(other.towers))
+            return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
+        return true;
+    }
+
     /**
      * Gets a <code>TowerEntity</code> object using the
      * provided <code>name</code> parameter.

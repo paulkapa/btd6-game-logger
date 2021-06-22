@@ -18,9 +18,7 @@
           </form>
         </nav>
       </header>
-      <div class="row flex-row">
-        <label class="invisible">Placeholder</label>
-      </div>
+      <div class="row flex-row"><label class="invisible">Placeholder</label></div>
       <div class="container">
         <table class="table table-responsive">
           <thead>
@@ -73,6 +71,11 @@
               <td>Path</td>
               <td>Tier</td>
               <td>Base Cost</td>
+              <td>status.index</td>
+              <td>status.first</td>
+              <td>status.last</td>
+              <td>status.even</td>
+              <td>status.odd</td>
               <td>
                 <select id="viewUpgradesSelect" class="form-select">
                   <option value="">Choose Tower...</option>
@@ -82,12 +85,17 @@
           </th>
           <th:block>
             <tbody>
-              <tr th:each="up, iter : ${upgrades}">
+              <tr th:each="up : ${upgrades}" th:with="first='table-info', diff='table-warning', prev='table-info'">
                 <td class="collapsed" th:text="${up.name}"></td>
                 <td class="collapsed" th:text="${up.path}"></td>
                 <td class="collapsed" th:text="${up.tier}"></td>
                 <td class="collapsed" th:text="${up.baseCost.intValue()}"></td>
-                <td class="table-info" th:classappend="${iter.index} > 0 ? (${upgrades[iter.index - 1].tower.getName()} != ${up.tower.getName()} ? 'table-warning' : 'table-info') : ''" th:text="${up.tower.getName()}"></td>
+                <td th:text="${upStat.index}"></td>
+                <td th:text="${upStat.first}"></td>
+                <td th:text="${upStat.last}"></td>
+                <td th:text="${upStat.even}"></td>
+                <td th:text="${upStat.odd}"></td>
+                <td th:text="${up.tower.name}"></td>
               </tr>
             </tbody>
           </th:block>

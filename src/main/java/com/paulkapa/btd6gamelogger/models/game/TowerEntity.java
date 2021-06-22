@@ -180,12 +180,9 @@ public class TowerEntity extends BaseTowerEntity {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (int) (cashGenerated ^ (cashGenerated >>> 32));
-        long temp;
-        temp = Double.doubleToLongBits(cost);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((cost == null) ? 0 : cost.hashCode());
         result = prime * result + (int) (pops ^ (pops >>> 32));
-        temp = Double.doubleToLongBits(sellValue);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((sellValue == null) ? 0 : sellValue.hashCode());
         result = prime * result + ((upgrades == null) ? 0 : upgrades.hashCode());
         return result;
     }
@@ -201,11 +198,17 @@ public class TowerEntity extends BaseTowerEntity {
         TowerEntity other = (TowerEntity) obj;
         if (cashGenerated != other.cashGenerated)
             return false;
-        if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
+        if (cost == null) {
+            if (other.cost != null)
+                return false;
+        } else if (!cost.equals(other.cost))
             return false;
         if (pops != other.pops)
             return false;
-        if (Double.doubleToLongBits(sellValue) != Double.doubleToLongBits(other.sellValue))
+        if (sellValue == null) {
+            if (other.sellValue != null)
+                return false;
+        } else if (!sellValue.equals(other.sellValue))
             return false;
         if (upgrades == null) {
             if (other.upgrades != null)

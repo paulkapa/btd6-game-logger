@@ -100,9 +100,7 @@ public class BaseUpgradeEntity extends BaseEntity {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        long temp;
-        temp = Double.doubleToLongBits(baseCost);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((baseCost == null) ? 0 : baseCost.hashCode());
         result = prime * result + path;
         result = prime * result + tier;
         return result;
@@ -117,7 +115,10 @@ public class BaseUpgradeEntity extends BaseEntity {
         if (getClass() != obj.getClass())
             return false;
         BaseUpgradeEntity other = (BaseUpgradeEntity) obj;
-        if (Double.doubleToLongBits(baseCost) != Double.doubleToLongBits(other.baseCost))
+        if (baseCost == null) {
+            if (other.baseCost != null)
+                return false;
+        } else if (!baseCost.equals(other.baseCost))
             return false;
         if (path != other.path)
             return false;

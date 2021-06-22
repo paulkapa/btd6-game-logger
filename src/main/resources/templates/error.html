@@ -15,30 +15,12 @@
   </head>
   <body class="user-select-none">
 
-    <!-- Page navigation bar and expandable content -->
-    <section id="navGrid" th:replace="layout/navigation :: navigation"></section>
-
+    <div class="bg-dark text-light m-5"><p>This is default error page, controlled by the server! Not a good sign you see this.</p></div>
     <!-- Shows up for every page load as a indicator that the page contents are being loaded -->
     <div id="spinnerContainer"><span id="spinnerBorder" class="spinner-border bg-warning"></span></div>
 
     <!-- Page content -->
-    <th:block th:switch="${currentPageTitle}">
-      <th:block th:case="Login">
-      <section th:replace="login/login :: login"></section>
-      </th:block>
-      <th:block th:case="Register">
-        <section th:replace="login/register :: register"></section>
-      </th:block>
-      <th:block th:case="Home">
-        <section th:replace="app/homepage :: homepage"></section>
-      </th:block>
-      <th:block th:case="App">
-        <section th:replace="app/logger :: logger"></section>
-      </th:block>
-      <th:block th:case="*">
-        <p>Error</p>
-      </th:block>
-    </th:block>
+    <section th:replace="error/handleError :: error"></section>
 
     <!-- Page footer -->
     <section id="footerGrid"></section>
