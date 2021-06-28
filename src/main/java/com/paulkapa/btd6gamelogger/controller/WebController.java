@@ -16,6 +16,7 @@ import com.paulkapa.btd6gamelogger.models.game.GameEntity;
 import com.paulkapa.btd6gamelogger.models.game.MapEntity;
 import com.paulkapa.btd6gamelogger.models.game.TowerEntity;
 import com.paulkapa.btd6gamelogger.models.game.UpgradeEntity;
+import com.paulkapa.btd6gamelogger.models.helper.AppSetup;
 import com.paulkapa.btd6gamelogger.models.system.User;
 
 import org.slf4j.Logger;
@@ -49,8 +50,9 @@ public class WebController implements ErrorController, CommandLineRunner {
     private boolean isApplicationAllowed;
     private boolean isApplicationStarted;
     private Exception lastError;
-
+    
     private GameEntity btd6;
+    private AppSetup lastAppSetup;
 
     @PersistenceContext
     private EntityManager em;
@@ -88,7 +90,8 @@ public class WebController implements ErrorController, CommandLineRunner {
             this.maps = new ArrayList<>();
             this.towers = new ArrayList<>();
             this.upgrades = new ArrayList<>();
-            this.btd6 = null;
+            this.btd6 = new GameEntity();
+            this.lastAppSetup = new AppSetup();
         } catch(Exception e) {
             logger.error("Error when constructing \"com.paulkapa.btd6gamelogger.controller.WebController\". " +
                             "It is advised to check and fix any problems and then restart the application! " +
@@ -120,6 +123,9 @@ public class WebController implements ErrorController, CommandLineRunner {
                     rootModel.addAttribute("upgrades", this.upgrades);
                     rootModel.addAttribute("game", this.btd6);
                     rootModel.addAttribute("failedMessage", this.failedMessage);
+                    rootModel.addAttribute("appSetup", this.lastAppSetup);
+                    logger.info("root - app : " + this.lastAppSetup.toString());
+                    rootModel.addAttribute("appData", btd6);
                     rootModel.addAttribute("currentPageTitle", "App");
                     logger.info("Application accessed. Enjoy!");
                 return "index";
@@ -132,6 +138,10 @@ public class WebController implements ErrorController, CommandLineRunner {
                     rootModel.addAttribute("newUser", null);
                     rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(this.user.getAccountAge()));
                     rootModel.addAttribute("failedMessage", this.failedMessage);
+                    rootModel.addAttribute("maps", this.maps);
+                    rootModel.addAttribute("diff", new String[] {"Easy", "Medium", "Hard"});
+                    rootModel.addAttribute("appSetup", new AppSetup());
+                    logger.info("root - home : " + this.lastAppSetup.toString());
                     rootModel.addAttribute("currentPageTitle", "Home");
                     logger.info("Sign up process complete for: " + this.user.getName() + ". Welcome!");
                 return "index";
@@ -309,12 +319,22 @@ public class WebController implements ErrorController, CommandLineRunner {
      * @return redirect to "/"
      */
     @PostMapping("/logger")
-    public String mainApplication() {
+    public String mainApplication(@ModelAttribute AppSetup appSetup, Model model) {
         // Access allowed
         if(!this.isLoginAllowed && this.isLoggedIn && !this.isfailedLoginAttempt &&
                 !this.isRegisterAllowed &&
                 this.isApplicationAllowed) {
             this.isApplicationStarted = true;
+            logger.info("post - app - last: " + this.lastAppSetup.toString());
+            logger.info("post - app - form: " + appSetup.toString());
+            if(appSetup.getMapName() != null && appSetup.getMapName() != "Select...") {
+                this.lastAppSetup = appSetup;
+                this.btd6 = new GameEntity(this.user, this.mi.findByName(lastAppSetup.getMapName()), lastAppSetup.getDiff());
+            } else {
+                this.lastAppSetup = new AppSetup();
+                this.btd6 = new GameEntity();
+            }
+            model.addAttribute("appData", btd6);
         }
         // Else
         else {
@@ -400,7 +420,10 @@ public class WebController implements ErrorController, CommandLineRunner {
             this.truncate("upgrades");
             this.truncate("towers");
             this.ui.save(new User("btd6gluser", User.encryptPassword("pass"), "example@domain", new Timestamp(System.currentTimeMillis())));
-            mi.save(new MapEntity("Monkey Lane", "Begginer", 1.0d, 1));
+            mi.save(new MapEntity("Monkey Meadow", "Begginer", 1.0d, 1));
+            mi.save(new MapEntity("Balance", "Intermediate", 1.0d, 1));
+            mi.save(new MapEntity("X Factor", "Advanced", 1.0d, 1));
+            mi.save(new MapEntity("Sanctuary", "Expert", 1.0d, 1));
             ti.save(new TowerEntity("Dart Monkey", "Primary", 1.0d, 1.0d));
             ti.save(new TowerEntity("Boomerang Thrower", "Primary", 0.0d, 0.0d));
             upi.save(new UpgradeEntity("upgrade0.1", 1, 1, 1.0d, ti.findByName("Dart Monkey")));

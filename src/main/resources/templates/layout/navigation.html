@@ -5,20 +5,19 @@
   <body>
     <section id="navGrid" th:fragment="navigation">
       <!-- Toggleable navbar content - Loged-in user information and account controls -->
-      <div id="navbarToggleContent" class="table-responsive collapse" style="overflow: hidden;">
+      <div id="navbarToggleContent" class="collapse" style="overflow: hidden;">
         <!-- Work in Progress notifier -->
-        <span style="color: grey; position:absolute; top:1%; left:calc(50% - 120px); opacity:0.2; z-index:10110;">
+        <span style="color: grey; position:absolute; top: 30px; left:calc(50% - 100px); opacity:0.2; z-index:10110;">
           <i class="fas fa-bug fa-10x"></i>
-          <i class="fas fa-skull-crossbones fa-5x"></i>
         </span>
         <div class="bg-dark row g-3 justify-content-between p-4">
           <!-- Section information -->
-          <div class="col col-auto p-1">
+          <div class="col p-1">
             <h5 class="text-white h4">Personal Account</h5>
             <span class="text-muted">Here you can find all account controls.</span>
           </div>
           <!-- Select user control option -->
-          <div class="col col-auto p-1">
+          <div class="col p-1">
             <div class="row justify-content-end">
               <!-- Selector for what user information to display -->
               <div class="col col-auto">
@@ -35,7 +34,7 @@
             </div>
           </div>
           <!-- Disabled inputs to display user information. Can be enabled to change user information -->
-          <form id="userControlForm" class="row justify-content-end p-4" method="post" action=""
+          <form id="userControlForm" class="row justify-content-center p-4" method="post" action=""
                   th:action="@{/modifyUser}" th:object="${newUser}">
             <div id="navMess1" class="col col-auto d-none text-warning"><p>Please Login first!</p></div>
             <div id="navMess2" class="col col-auto d-none text-warning"><p>Information available only on Home page!</p></div>

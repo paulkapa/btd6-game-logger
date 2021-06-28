@@ -85,17 +85,6 @@ function sessionActivityCheck(timeout) {
     window.location.reload();
   } else {
     timeSinceActive += timeout;
-    var timeoutCounterElement;
-    try {
-      timeoutCounterElement = document.getElementById("timeout");
-      timeoutCounterElement.innerHTML = "Inactivity timer (s):" + timeSinceActive/1000;
-    } catch(error) {
-      timeoutCounterElement = document.createElement("div");
-      timeoutCounterElement.id = "timeout";
-      timeoutCounterElement.classList.add("row", "flex-row", "m-5", "p-5", "text-info");
-      document.body.appendChild(timeoutCounterElement);
-      timeoutCounterElement.innerHTML = "Inactivity timer (s):" + timeSinceActive/1000;
-    }
   }
 }
 
@@ -173,16 +162,17 @@ document.body.onload = function() {
   /**
    * Handling touch swipes on pages supporting touch actions.
    */
-  if(currPageTitle == "BTD6 G-L | Register") {
+  /**if(currPageTitle == "BTD6 G-L | Register") {
     try {
       window.addEventListener("touchstart", startTouch, false);
       window.addEventListener("touchmove", moveTouch, false);
     } catch (error) {}
-  }
+  }*/
   /**
    * Handling user account controls.
    */
-  document.getElementById("navSelectControls").addEventListener(`change`, (e) => {
+  try{
+  document.getElementById("navSelectControls").addEventListener("change", (e) => {
     var message1 = document.getElementById("navMess1");
     var message2 = document.getElementById("navMess2");
     var usernameField = document.getElementById("usernameField");
@@ -258,11 +248,12 @@ document.body.onload = function() {
         }
       }
     }
-  });
+  });} catch(error) {console.error(error);}
   /**
    * Handling updating user account details.
    */
-  document.getElementById("allowEditButton").addEventListener('click', (e) => {
+  try {
+  document.getElementById("allowEditButton").addEventListener("click", (e) => {
     var allowEditButton = document.getElementById("allowEditButton");
     var userControlForm = document.getElementById("userControlForm");
     var saveChangesButton = document.getElementById("saveChangesButton");
@@ -286,19 +277,72 @@ document.body.onload = function() {
       navEmail.setAttribute("disabled", "");
       userControlForm.reset();
     }
-  });
+  });} catch(error) {console.error(error);}
+  /**
+   * Handling Home page game mode selection
+   */
+  if(currPageTitle == "BTD6 G-L | Home") {
+    var mapOutput = document.getElementById("selectedMap");
+    var diffOutput = document.getElementById("selectedDiff");
+    var mapSelect = document.getElementById("mapSelect");
+    var diffSelect = document.getElementById("diffSelect");
+    var tdout = document.getElementsByTagName("td");
+    var mapIndex = 0;
+    mapSelect.addEventListener("change", (e) => {
+      var selectedMap = e.target;
+      mapIndex = selectedMap.selectedIndex;
+      var mapDesc = selectedMap.options[mapIndex].text;
+      mapOutput.innerText = mapDesc;
+      if(mapIndex != 0) {
+        for(let i = 0; i < tdout.length; i++) {
+          var curr = tdout.item(i);
+          if(curr.classList.contains("tdout") && !curr.classList.contains("td" + (mapIndex - 1))) {
+            tdout.item(i).classList.add("d-none");
+          } else if(curr.classList.contains("tdout")) {
+            tdout.item(i).classList.remove("d-none");
+          }
+        }
+      } else {
+        for(let i = 0; i < tdout.length; i++) {
+          var curr = tdout.item(i);
+          if(curr.classList.contains("tdout")) {
+            tdout.item(i).classList.add("d-none");
+          }
+        }
+      }
+    });
+    diffSelect.addEventListener("change", (e) => {
+      var selectedDiff = e.target;
+      var diffDesc = selectedDiff.options[selectedDiff.selectedIndex].text;
+      diffOutput.innerText = diffDesc;
+      if(selectedDiff.selectedIndex != 0 && mapIndex != 0) {
+        for(let i = 0; i< tdout.length; i++) {
+          var curr = tdout.item(i);
+          if(curr.classList.contains("td-diff") && curr.classList.contains("td" + (mapIndex - 1))) {
+            curr.classList.remove("d-none");
+            curr.innerText = diffDesc;
+          }
+          if(curr.classList.contains("td-mk") && curr.classList.contains("td" + (mapIndex - 1))) {
+            curr.classList.remove("d-none");
+            curr.innerText = ((diffDesc == "CHIMPS") ? "No" : "Yes");
+          }
+        }
+      }
+    });
+  }
+  //
 }
 
 /**
  * Warns if leaving App page may lead to loss of unsaved data.
  */
 if(currPageTitle == "BTD6 G-L | App") {
-  window.addEventListener('beforeunload', (event) => {
+  window.addEventListener("beforeunload", (event) => {
     try {
       // Cancel the event as stated by the standard.
       event.preventDefault();
       // Chrome requires returnValue to be set.
-      event.returnValue = '';
+      event.returnValue = "";
     } catch(error) {}
   });
 }

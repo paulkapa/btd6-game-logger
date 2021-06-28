@@ -26,12 +26,18 @@ public class GameEntity {
     private HashMap<String, TowerEntity> towers;
 
     /**
+     * The current selected difficulty.
+     */
+    private String diff;
+
+    /**
      * Default constructor.
      */
     public GameEntity() {
         this.user = null;
         this.maps = null;
         this.towers = null;
+        this.diff = null;
     }
 
     /**
@@ -41,15 +47,17 @@ public class GameEntity {
         this.user = user;
         this.maps = null;
         this.towers = null;
+        this.diff = null;
     }
 
     /**
      *
      */
-    public GameEntity(User user, MapEntity map) {
+    public GameEntity(User user, MapEntity map, String diff) {
         this.user = user;
         this.addMap(map);
         this.towers = null;
+        this.diff = diff;
     }
 
     /**
@@ -129,6 +137,20 @@ public class GameEntity {
             return null;
         }
     }
+    
+    /**
+     * Gets a <code>MapEntity</code> object using the
+     * provided <code>index</code> parameter.
+     * <p>
+     * Returns <code>null</code> if not found.
+     */
+    public MapEntity getMap(int index) {
+        if(this.maps != null && (this.maps.get(this.maps.keySet().toArray()[index]) != null))
+            return this.maps.get(this.maps.keySet().toArray()[index]);
+        else {
+            return null;
+        }
+    }
 
     /**
      * Sets the <codeTowerEntity</code> objects.
@@ -160,6 +182,35 @@ public class GameEntity {
             this.towers = new HashMap<>();
             return this.towers;
         }
+    }
+
+    /**
+     * Gets a <code>TowerEntity</code> object using the
+     * provided <code>name</code> parameter.
+     * <p>
+     * Returns <code>null</code> if not found.
+     */
+    public TowerEntity getTower(String name) {
+        if(this.towers != null && this.towers.keySet().contains(name))
+            return this.towers.get(name);
+        else {
+            return null;
+        }
+    }
+
+    /**
+     * 
+     */
+    public void setDiff(String diff) {
+        this.diff = diff;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public String getDiff() {
+        return this.diff;
     }
 
     @Override
@@ -197,20 +248,6 @@ public class GameEntity {
         } else if (!user.equals(other.user))
             return false;
         return true;
-    }
-
-    /**
-     * Gets a <code>TowerEntity</code> object using the
-     * provided <code>name</code> parameter.
-     * <p>
-     * Returns <code>null</code> if not found.
-     */
-    public TowerEntity getTower(String name) {
-        if(this.towers != null && this.towers.keySet().contains(name))
-            return this.towers.get(name);
-        else {
-            return null;
-        }
     }
 
     @Override

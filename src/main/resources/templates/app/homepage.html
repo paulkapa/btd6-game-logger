@@ -3,9 +3,65 @@
   <head>
   </head>
   <body>
-    <section id="homeContentGrid" class="container-fluid" th:fragment="homepage">
-      <form class="m-4" method="post" action="" th:action="@{/logger}">
-        <button class="btn btn-secondary btn-md" type=submit>Go To Logger</button>
+    <section id="homeContentGrid" th:fragment="homepage">
+      <form id="optionSelector" class="row flex-row g-3 m-4" method="post" action="" th:action="@{/logger}" th:object="${appSetup}">
+        <div class="col form-floating">
+          <select id="mapSelect" class="form-select" th:field="*{mapName}" required>
+            <option selected="" value="">Select...</option>
+            <th:block th:each="m : ${maps}">
+              <option th:value="${m.name}" th:text="${m.name}"></option>
+            </th:block>
+          </select>
+          <label for="mapSelect">Map</label>
+        </div>
+        <div class="col form-floating">
+          <select id="diffSelect" class="form-select" th:field="*{diff}" required>
+            <option selected="" value="">Select...</option>
+            <th:block th:each="d : ${diff}">
+              <option th:value="${d}" th:text="${d}"></option>
+            </th:block>
+          </select>
+          <label for="diffSelect">Game Mode</label>
+        </div>
+        <div id="selectOutput" class="container-fluid h-25 border border-2 border-warning">
+          <p>
+            Your selection:
+            <ul>
+              <li id="selectedMap"></li>
+              <li id="selectedDiff"></li>
+            </ul>
+          </p>
+        </div>
+        <div class="col">
+          <button class="col btn btn-secondary btn-lg" type=submit>Start</button>
+          <button class="col btn btn-warning btn-lg" type=reset>Reset</button>
+        </div>
+        <div class="flex-row-reverse vw-100">
+          <table class="table table-responsive">
+            <thead>
+              <tr>
+                <td>Name</td>
+                <td>Type</td>
+                <td>Difficulty</td>
+                <td>Starting Cash</td>
+                <td>Starting Lives</td>
+                <td>Monkey Knowledge</td>
+              </tr>
+            </th>
+            <th:block>
+              <tbody>
+                <tr th:each="m : ${maps}">
+                  <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.name}"></td>
+                  <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.mapType}"></td>
+                  <td class="tdout d-none td-diff" th:classappend="td + ${mStat.index}" th:text="''"></td>
+                  <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingCash.intValue()}"></td>
+                  <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingLives}"></td>
+                  <td class="tdout d-none td-mk" th:classappend="td + ${mStat.index}" th:text="''"></td>
+                </tr>
+              </tbody>
+            </th:block>
+          </table>
+        </div>
       </form>
     </section>
   </body>
