@@ -69,12 +69,12 @@
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency-->
 
-		<dependency>
+		<!--dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -129,7 +129,7 @@
 					<mainClass>com.paulkapa.btd6gamelogger.Btd6GameLoggerApplication</mainClass>
 				</configuration>
 			</plugin>
-			<!-- plugin>
+			<!--plugin>
 				<groupId>org.springframework.experimental</groupId>
 				<artifactId>spring-aot-maven-plugin</artifactId>
 				<version>${spring-native.version}</version>

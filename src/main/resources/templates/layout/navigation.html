@@ -3,61 +3,63 @@
   <head>
   </head>
   <body>
-    <section id="navGrid" th:fragment="navigation">
+    <section id="navGrid" class="modal modal-header border border-white flex-column bg-dark w-100 m-auto" th:fragment="navigation">
       <!-- Toggleable navbar content - Loged-in user information and account controls -->
-      <div id="navbarToggleContent" class="collapse" style="overflow: hidden;">
-        <!-- Work in Progress notifier -->
-        <span style="color: grey; position:absolute; top: 30px; left:calc(50% - 100px); opacity:0.2; z-index:10110;">
-          <i class="fas fa-bug fa-10x"></i>
-        </span>
-        <div class="bg-dark row g-3 justify-content-between p-4">
-          <!-- Section information -->
-          <div class="col p-1">
-            <h5 class="text-white h4">Personal Account</h5>
-            <span class="text-muted">Here you can find all account controls.</span>
-          </div>
-          <!-- Select user control option -->
-          <div class="col p-1">
-            <div class="row justify-content-end">
-              <!-- Selector for what user information to display -->
-              <div class="col col-auto">
-                <div class="form-floating">
-                  <select id="navSelectControls" class="form-select">
-                    <option selected="">Select...</option>
-                    <option value="1">Profile</option>
-                    <option value="2" th:class="${uname != null && uname != 'btd6gluser'} ? '' : 'd-none'">Saved data</option>
-                    <option value="3" th:class="${uname != null && uname != 'btd6gluser'} ? '' : 'd-none'">Personal Information</option>
-                  </select>
-                  <label for="navSelectControls">Account Controls</label>
-                </div>
-              </div>
+      <div id="navbarToggleContent" class="row flex-row justify-content-start w-100 m-auto collapse">
+        <!-- Section information -->
+        <p class="text-white"
+            th:text="${uname != null} ? (${isLoggedIn == true || isApplicationAllowed == true} ? (${uname != 'btd6gluser'} ? 'Personal Account' : 'Anonymous Account') : 'Not Logged In') : 'Not Logged In'">
+          Not Logged In
+        </p>
+        <!-- Anonymous login button -->
+        <form id="anonymousLoginForm" class="d-none" method="post" action=""
+                th:action="@{/login}" th:object="${newUser}">
+          <input type="hidden" th:name="name" th:value="'btd6gluser'">
+          <input type="hidden" th:name="password" th:value="'pass'">
+          <button class="btn btn-secondary btn-sm" type="submit">Go Anonymous</button>
+        </form>
+        <!-- Select user control option -->
+        <div th:class="${uname != null && uname != 'btd6gluser'} ? 'row flex-row m-auto mt-2 mb-2' : 'd-none'">
+          <!-- Selector for what user information to display -->
+          <form id="navSelectControlsForm" class="col col-auto">
+            <div class="form-floating">
+              <select id="navSelectControls" class="form-select">
+                <option class="form-control" selected="">Select...</option>
+                <option class="form-control" value="1">Profile</option>
+                <option class="form-control" value="2">Saved Data</option>
+                <option class="form-control" value="3">Personal Information</option>
+              </select>
+              <label for="navSelectControls">Account Controls</label>
             </div>
-          </div>
-          <!-- Disabled inputs to display user information. Can be enabled to change user information -->
-          <form id="userControlForm" class="row justify-content-center p-4" method="post" action=""
-                  th:action="@{/modifyUser}" th:object="${newUser}">
-            <div id="navMess1" class="col col-auto d-none text-warning"><p>Please Login first!</p></div>
-            <div id="navMess2" class="col col-auto d-none text-warning"><p>Information available only on Home page!</p></div>
+          </form>
+        </div>
+        <!-- Disabled inputs to display user information. Can be enabled to view or change user information -->
+        <div class="row flex-row justify-content-center">
+          <form id="userControlForm" class="row flex-row" method="post" action=""
+                    th:action="@{/updateUserInfo}" th:object="${newUser}">
+            <div id="navMess1" class="col col-auto d-none text-muted"><p>Please login to see more information!</p></div>
+            <div id="navMess2" class="col col-auto d-none text-muted"><p>Information available only on Home page!</p></div>
+            <div id="navMess3" class="col col-auto d-none text-muted"><p>Information available only on App page!</p></div>
             <!-- Username -->
             <div class="col col-auto p-1">
               <div id="usernameField" class="form-floating collapse">
-                <input class="form-control" id="navUsername" type="text" name="name" value="" required disabled
-                th:value="${uname}"/>
+                <input class="form-control" id="navUsername" type="text" name="name" value="" required autocomplete="username" disabled
+                        th:value="${uname}"/>
                 <label for="navUsername">Username</label>
               </div>
             </div>
             <!-- Password -->
             <div class="col col-auto p-1">
               <div id="passwordField" class="form-floating collapse">
-                <input class="form-control" id="navPassword" type="password" name="password" value="" required disabled/>
+                <input class="form-control" id="navPassword" type="password" name="password" value="" required autocomplete="new-password" disabled/>
                 <label for="navPassword">New Password</label>
               </div>
             </div>
             <!-- Email -->
             <div class="col col-auto p-1">
               <div id="emailField" class="form-floating collapse">
-                <input class="form-control" id="navEmail" type="text" name="email" value="" disabled
-                th:value="${uemail}"/>
+                <input class="form-control" id="navEmail" type="text" name="email" value="" autocomplete="email" disabled
+                        th:value="${uemail}"/>
                 <label for="navEmail">Email address</label>
               </div>
             </div>
@@ -70,33 +72,59 @@
               </div>
             </div>
             <!-- Allow account information to be edited, and submit changes -->
-            <div class="row g-1 justify-content-end" th:if="${uname != null && uname != 'btd6gluser'}">
-              <!-- Submits account changes -->
-              <button id="saveChangesButton" class="col col-auto btn btn-lg btn-primary collapse" type="submit">Save Changes</button>
-              <!-- Enables input fields and submit button -->
-              <button id="allowEditButton" class="col col-auto btn btn-lg btn-warning collapse" type="button">
-                <span style="color: black;">
-                  <i class="fas fa-edit"></i>
-                </span>
-              </button>
+            <div class="row flex-row row-columns-auto justify-content-start" th:if="${uname != null && uname != 'btd6gluser'}">
+              <div class="col col-auto">
+                <!-- Enables input fields and submit button -->
+                <button id="allowEditButton" class="btn btn-md btn-warning collapse" type="button">
+                  <span>
+                    <i class="fas fa-edit"></i>
+                  </span>
+                  Edit
+                </button>
+              </div>
+              <div class="col col-auto">
+                <!-- Submits account changes -->
+                <button id="saveChangesButton" class="btn btn-md btn-primary collapse" type="submit" disabled>Save Changes</button>
+              </div>
             </div>
           </form>
-        </div>
+        </div>  
       </div>
       <!-- Navigation bar -->
-      <nav class="navbar navbar-dark bg-dark justify-content-between p-2">
-        <!-- Toggle navbar content button -->
-        <div class="col col-auto">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleContent" aria-controls="navbarToggleContent" aria-expanded="false">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+      <nav class="navbar navbar-dark bg-dark justify-content-center w-100 m-auto">
+        <div class="row flex-row justify-content-between m-2">
+          <!-- Toggle navbar content button -->
+          <div class="col flex-column">
+            <button class="navbar-toggler" type="button" autofocus
+                          data-bs-toggle="collapse" data-bs-target="#navbarToggleContent" aria-controls="navbarToggleContent" aria-expanded="false">
+              <span class="navbar-toggler-icon"></span>
+              Toggle
+            </button>
+          </div>
+          <!-- Work in Progress notifier -->
+          <div class="col flex-column text-center p-1">
+            <i class="fas fa-exclamation-triangle fa-1x bg-warning rounded-3 p-1"></i>
+            <p class="text-muted">work in progress</p>
+          </div>
         </div>
-        <!-- Logout button -->
-        <div class="col col-auto">
-          <form method="post" action="" th:action="@{/logout}">
-            <button class="btn btn-lg btn-primary" type="submit">Logout</button>
-          </form>
-        </div>
+        <!-- Control buttons -->
+        <form class="row flex-row justify-content-between m-1" method="post" action=""
+                    th:action="${isLoggedIn == true || isApplicationAllowed == true} ? '/logout' : ''">
+          <div class="col flex-column">
+            <button id="loginControl"
+                        th:class="${isLoggedIn == true || isApplicationAllowed == true} ? 'btn btn-toolbar btn-primary' : 'd-none'"
+                        th:type="${isLoggedIn == true || isApplicationAllowed == true} ? 'submit' : ''"
+                        th:text="${isLoggedIn == true || isApplicationAllowed == true} ? 'Logout' : ''">
+              Logout
+            </button>
+          </div>
+          <div class="col col-auto">
+            <button id="contentControl" class="btn btn-toolbar btn-secondary" type="button"
+                      th:text="'Proceed to ' + ${currentPageTitle}">
+              Proceed
+            </button>
+          </div>
+        </form>
       </nav>
     </section>
   </body>

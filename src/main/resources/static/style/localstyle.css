@@ -4,10 +4,10 @@
   100% {opacity: 1;}
 }
 @keyframes opacity-fast {
-  0%  {opacity: 0;}
-  40% {opacity: 0.5;}
-  50% {opacity: 1;}
-  100% {opacity: 1;}
+  0%  {opacity: 0; z-index: 11000;}
+  40% {opacity: 0.5; z-index: 10000;}
+  50% {opacity: 1; z-index: 9000;}
+  100% {opacity: 1; z-index: -1;}
 }
 @keyframes visibility {
   0%  {visibility: hidden;}
@@ -15,53 +15,51 @@
 }
 
 #spinnerContainer {
-  display: block;
-  width: 100px;
-  height: 100px;
-  position: fixed;
-  top: calc(50% - (100px / 2));
-  left: calc(50% - (100px / 2));
+  opacity: 1;
+  width: 5em;
+  height: 5em;
+  position: absolute;
+  z-index: 11000;
+  margin: 0 auto;
+  top: calc(80% - calc(5em / 2));
+  left: calc(50% - calc(5em / 2));
   background-color: black;
   border-radius: 30%;
   text-align: center;
-  justify-items: center;
-  animation: opacity-fast 1.5s ease-out 0s 1 normal none;
+  animation: opacity-fast 1s ease-in-out 0.5s normal none;
   opacity: 0;
 }
 
-#spinnerBorder {
-  display: block;
-  width: 40px;
-  height: 40px;
-  position: fixed;
+#loadSpinner {
+  opacity: 1;
+  width: 3em;
+  height: 3em;
+  position: relative;
   margin: 0 auto;
-  top: calc(50% - (40px / 2));
-  left: calc(50% - (40px / 2));
+  top: calc(50% - calc(3em / 2));
+  z-index: inherit;
 }
 
 #loginGrid {
-  width: 100%;
-  height: 100%;
-  animation: opacity-slow 1s ease-out 1s 1 normal both;
+  opacity: 0;
+  animation: opacity-slow 0.5s ease-out 1s 1 normal none;
+  opacity: 1;
 }
 
 #registerGrid {
   opacity: 0;
-  width: 100%;
-  height: 100%;
-  animation: opacity-slow 1s ease-out 1s 1 normal both;
+  animation: opacity-slow 0.5s ease-out 1s 1 normal none;
+  opacity: 1;
 }
 
 #homeGrid {
   opacity: 0;
-  width: 100%;
-  height: 100%;
-  animation: opacity-slow 1s ease-out 1s 1 normal both;
+  animation: opacity-slow 0.5s ease-out 1s 1 normal none;
+  opacity: 1;
 }
 
 #homeContentGrid {
   opacity: 0;
-  width: 100%;
-  height: 100%;
-  animation: opacity-slow 1s ease-out 1s 1 normal both;
+  animation: opacity-slow 1s ease-out 1s 1 normal none;
+  opacity: 1;
 }

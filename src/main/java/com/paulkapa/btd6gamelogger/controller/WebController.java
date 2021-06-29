@@ -50,7 +50,7 @@ public class WebController implements ErrorController, CommandLineRunner {
     private boolean isApplicationAllowed;
     private boolean isApplicationStarted;
     private Exception lastError;
-    
+
     private GameEntity btd6;
     private AppSetup lastAppSetup;
 
@@ -110,6 +110,8 @@ public class WebController implements ErrorController, CommandLineRunner {
     public String rootController(Model rootModel) {
         // Check all actions performed. Request /error if Exception thrown.
         try {
+            rootModel.addAttribute("isLogedIn", this.isLoggedIn);
+            rootModel.addAttribute("isApplicationAllowed", this.isApplicationAllowed);
             rootModel.addAttribute("uname", ((this.user == null) ? null : this.user.getName()));
             rootModel.addAttribute("uemail", ((this.user == null) ? null : this.user.getEmail()));
             rootModel.addAttribute("uaccountAge", null);

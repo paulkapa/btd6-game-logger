@@ -3,24 +3,24 @@
   <head>
   </head>
   <body>
-    <section id="loggerContentGrid" class="container-fluid" th:fragment="logger">
+    <section id="loggerContentGrid" class="modal-content border border-white flex-column bg-dark w-100 m-auto" th:fragment="logger">
       <!-- Extra Navigation - Temporary Placement -->
       <header class="modal-header">
         <nav class="navbar nav">
           <form class="nav-item m-2" method="post" action="" th:action="@{/home}">
-            <button class="btn btn-primary" type="submit">Back Home</button>
+            <button class="btn btn-secondary" type="submit">Back Home</button>
           </form>
-          <form class="nav-item m-2" method="post" action="" th:action="@{/save}" th:object="${loggerData}">
-            <button class="btn btn-primary" type="submit">Save All</button>
+          <form class="nav-item m-2" method="post" action="" th:action="@{/save}" th:object="${appData}">
+            <button class="btn btn-secondary" type="submit">Save All</button>
           </form>
           <form class="nav-item m-2" method="request" action="" th:action="@{/error}">
-            <button class="btn btn-primary" type="submit">Check Errors</button>
+            <button class="btn btn-secondary" type="submit">Check Errors</button>
           </form>
         </nav>
       </header>
-      <div class="row flex-row"><label class="invisible">Placeholder</label></div>
-      <div class="container">
-        <table class="table table-responsive">
+      <!--Complete app selection view -->
+      <div class="row flex-row justify-content-start w-100 m-auto">
+        <table class="table w-100 text-white">
           <thead>
             <tr>
               <td>Name</td>
@@ -45,8 +45,9 @@
           </th:block>
         </table>
       </div>
-      <div class="container">
-        <table class="table table-responsive">
+      <!-- Game information -->
+      <div class="row flex-row justify-content-start w-100 m-auto">
+        <table class="table w-100 text-white">
           <thead>
             <tr>
               <td>Round</td>

@@ -8,27 +8,41 @@ var loginTimeoutHandler = null;
 var currPageTitle = document.title;
 
 /**
- * Toggles visibility of extra login information.
+ * Warn if leaving App page may lead to loss of unsaved data.
  */
-function loginInfoToggleVisibility() {
-  var loginInfo = document.getElementById("loginInfo");
-  if(loginInfo.classList.contains("invisible")) {
-    loginInfo.classList.remove("invisible");
-    loginInfo.classList.add("visible");
-  } else if(loginInfo.classList.contains("visible")) {
-    loginInfo.classList.remove("visible");
-    loginInfo.classList.add("invisible");
+try {
+if(currPageTitle.includes("App")) {
+  window.addEventListener("beforeunload", (event) => {
+    // Cancel the event as stated by the standard.
+    event.preventDefault();
+    // Chrome requires returnValue to be set.
+    event.returnValue = "";
+  });
+}} catch (error) {console.error("Error - warn if leaving App page may lead to loss of unsaved data!\n" + error.name + " | " + error.message);}
+
+/**
+ * Show page content by minimizing modal header
+ */
+try {
+document.getElementById("contentControl").addEventListener("click", () => {
+  var nav = document.getElementById("navGrid");
+  var butt = document.getElementById("contentControl");
+  var bText = butt.innerText;
+  if(bText.includes("Proceed") || bText.includes("Show")) {
+    butt.innerText = "Hide Content";
   } else {
-    loginInfo.classList.add("invisible");
+    butt.innerText = "Show Content";
   }
-}
+  nav.classList.toggle("modal");
+  nav.classList.toggle("modal-header");
+});} catch (error) {console.error("Error - show page content by minimizing modal header!\n" + error.name + " | " + error.message);}
 
 /**
  * Toggles display of registration information.
  */
 function registerInfoToggleVisibility() {
   var registerInfoToggle = document.getElementById("registerInfoToggle");
-  if(registerInfoToggle.innerHTML == "Show More Information") {
+  if(registerInfoToggle.innerHTML.includes("Show")) {
     var iElement1 = document.createElement("i");
     var iElement2 = document.createElement("i");
     var pElement = document.createElement("p");
@@ -40,10 +54,10 @@ function registerInfoToggleVisibility() {
     registerInfoToggle.appendChild(iElement1);
     registerInfoToggle.appendChild(pElement);
     registerInfoToggle.appendChild(iElement2);
-    setTimeout(function() {
+    setTimeout(() => {
       bodyScrollHeight = document.body.scrollHeight;
       window.scrollTo(0, bodyScrollHeight);
-    }, 200);
+    }, 250);
   } else {
     registerInfoToggle.innerHTML = null;
     registerInfoToggle.innerHTML = "Show More Information";
@@ -72,10 +86,10 @@ function privateEmailToggleVisibility() {
 }
 
 /**
- * Redirects to login if no activity detected for a while.
+ * Redirect to login if no activity detected for a while.
  */
 function sessionActivityCheck(timeout) {
-  if(timeSinceActive == null) {timeSinceActive = 999;}
+  if(timeSinceActive == null) {timeSinceActive = 0;}
   if(timeSinceActive >= inactivityTimeout) {
     timeSinceActive = 0;
     var xhr = new XMLHttpRequest();
@@ -89,7 +103,7 @@ function sessionActivityCheck(timeout) {
 }
 
 /**
- * Saves the point on the screen where a touch move starts.
+ * Save the point on the screen where a touch move starts.
  * @param {*} e the touch event
  */
  function startTouch(e) {
@@ -98,17 +112,13 @@ function sessionActivityCheck(timeout) {
 }
 
 /**
- * Computes the direction of the current touch move.
+ * Compute the direction of the current touch move.
  * @param {*} e the touch event
  */
 function moveTouch(e) {
   var registerElement = document.getElementById("registerInfoToggle");
-  if (touchInitialX === null) {
-    return;
-  }
-  if (touchInitialY === null) {
-    return;
-  }
+  if (touchInitialX === null) {return;}
+  if (touchInitialY === null) {return;}
   var currentX = e.touches[0].clientX;
   var currentY = e.touches[0].clientY;
   var diffX = touchInitialX - currentX;
@@ -117,25 +127,17 @@ function moveTouch(e) {
     // sliding horizontally
     if (diffX > 0) {
       // swiped left
-      console.log("swiped left");
     } else {
       // swiped right
-      console.log("swiped right");
     }
   } else {
     // sliding vertically
     if (diffY > 0) {
       // swiped up
-      if(registerElement.innerHTML == "Show More Information") {
-        registerElement.click();
-      }
-      console.log("swiped up");
+      if(registerElement.innerHTML.includes("Show")) {registerElement.click();}
     } else {
       // swiped down
-      if(registerElement.childElementCount > 1) {
-        registerElement.click();
-      }
-      console.log("swiped down");
+      if(registerElement.childElementCount > 1) {registerElement.click();}
     }
   }
   touchInitialX = null;
@@ -144,47 +146,53 @@ function moveTouch(e) {
 }
 
 /**
- * Handles function to run at document load.
+ * Handle function that run at document load complete.
  */
+try {
 document.body.onload = function() {
-  /**
-   * Enables redirect to login if page was inactive for a while.
-   */
-  timeSinceActive = 0;
-  inactivityTimeout = 600000;
-  window.addEventListener("mousemove", (event) => {
+   // Enable redirect to login if page was inactive for a while.
+  try {
+  setTimeout(() => {
     timeSinceActive = 0;
-  });
-  window.addEventListener("touchmove", (event) => {
-    timeSinceActive = 0;
-  });
-  loginTimeoutHandler = window.setInterval(function() {sessionActivityCheck(intervalTimeout)}, intervalTimeout);
-  /**
-   * Handling touch swipes on pages supporting touch actions.
-   */
-  /**if(currPageTitle == "BTD6 G-L | Register") {
-    try {
-      window.addEventListener("touchstart", startTouch, false);
-      window.addEventListener("touchmove", moveTouch, false);
-    } catch (error) {}
-  }*/
-  /**
-   * Handling user account controls.
-   */
+    inactivityTimeout = 1200000;
+    window.addEventListener("mousemove", (event) => {
+      timeSinceActive = 0;
+    });
+    window.addEventListener("touchmove", (event) => {
+      timeSinceActive = 0;
+    });
+    loginTimeoutHandler = window.setInterval(function() {sessionActivityCheck(intervalTimeout)}, intervalTimeout);
+  }, 100);} catch (error) {console.error("Error - enable redirect to login on inactivity timeout!\n" + error.name + " | " + error.message);}
+  // Handle touch swipes on pages supporting touch actions.
+  /** 
+  if(currPageTitle.includes("")) {
+  try {window.addEventListener("touchstart", startTouch, false);window.addEventListener("touchmove", moveTouch, false);}
+  catch (error) {console.error("Error - handle touch controls!\n" + error.name + " | " + error.message);}
+  }
+  */
+  // Allow anonymous login
+  try{
+  if(!currPageTitle.includes("Login") && !currPageTitle.includes("Register")) {
+    document.getElementById("anonymousLoginForm").classList.add("d-none");
+  } else {
+    document.getElementById("anonymousLoginForm").classList.remove("d-none");
+  }}catch (error) {console.error("Error - allow anonymous login!\n" + error.name + " | " + error.message);}
+  // Handle user account controls.
   try{
   document.getElementById("navSelectControls").addEventListener("change", (e) => {
     var message1 = document.getElementById("navMess1");
     var message2 = document.getElementById("navMess2");
+    var message3 = document.getElementById("navMess3");
     var usernameField = document.getElementById("usernameField");
     var passwordField = document.getElementById("passwordField");
     var emailField = document.getElementById("emailField");
     var accountAgeField = document.getElementById("accountAgeField");
+    //var viewSavedDataElement ...
     var allowEditButton = document.getElementById("allowEditButton");
-    var select = e.target;
-    //const value = select.value;
-    var desc = select.options[select.selectedIndex].text;
-    if(currPageTitle == "BTD6 G-L | Home") {
-      switch(desc) {
+    var ctrlSelect = e.target; //var value = ctrlSelect.value;
+    var text = ctrlSelect.options[ctrlSelect.selectedIndex].text;
+    if(currPageTitle.includes("Home")) {
+      switch(text) {
         case "Profile" : {
           usernameField.classList.remove("collapse");
           passwordField.classList.add("collapse");
@@ -194,6 +202,7 @@ document.body.onload = function() {
             allowEditButton.click();
           }
           allowEditButton.classList.add("collapse");
+          message3.classList.add("d-none");
           break;
         } case "Personal Information" : {
           usernameField.classList.remove("collapse");
@@ -201,8 +210,19 @@ document.body.onload = function() {
           emailField.classList.remove("collapse");
           accountAgeField.classList.remove("collapse");
           allowEditButton.classList.remove("collapse");
+          message3.classList.add("d-none");
           break;
-        } case "Saved Information" : {
+        } case "Saved Data" : {
+          usernameField.classList.add("collapse");
+          passwordField.classList.add("collapse");
+          emailField.classList.add("collapse");
+          accountAgeField.classList.add("collapse");
+          if(!allowEditButton.classList.contains("collapse") && allowEditButton.classList.contains("btn-info")) {
+            allowEditButton.click();
+          }
+          allowEditButton.classList.add("collapse");
+          message3.classList.remove("d-none");
+          break;
         } default : {
           usernameField.classList.add("collapse");
           passwordField.classList.add("collapse");
@@ -212,46 +232,45 @@ document.body.onload = function() {
             allowEditButton.click();
           }
           allowEditButton.classList.add("collapse");
+          message3.classList.add("d-none");
+          break;
+        }
+      }
+    } else if(currPageTitle.includes("App")) {
+      switch(text) {
+        case "Profile" : {
+        } case "Personal Information" : {
+          message2.classList.remove("d-none");
+          message1.classList.add("d-none");
+          message3.classList.add("d-none");
+          break;
+        } case "Saved Data" : {
+          message3.classList.remove("d-none");
+          message2.classList.add("d-none");
+          message1.classList.add("d-none");
+          break;
+        } default : {
+          message2.classList.add("d-none");
+          message1.classList.add("d-none");
+          message3.classList.add("d-none");
           break;
         }
       }
     } else {
-      switch(desc) {
-        case "Profile" : {
-          if(currPageTitle == "BTD6 G-L | App") {
-            message2.classList.remove("d-none");
-            message1.classList.add("d-none");
-          } else {
-            message2.classList.add("d-none");
-            message1.classList.remove("d-none");
-          }
-          break;
-        } case "Personal Information" : {
-          if(currPageTitle == "BTD6 G-L | App") {
-            message2.classList.remove("d-none");
-            message1.classList.add("d-none");
-          } else {
-            message2.classList.add("d-none");
-            message1.classList.remove("d-none");
-          }
-          break;
-        } case "Saved Information" : {
-        } default : {
-          if(currPageTitle == "BTD6 G-L | App") {
-            message2.classList.add("d-none");
-            message1.classList.add("d-none");
-          } else {
-            message2.classList.add("d-none");
-            message1.classList.add("d-none");
-          }
-          break;
-        }
+      usernameField.classList.remove("collapse");
+      passwordField.classList.add("collapse");
+      emailField.classList.remove("collapse");
+      accountAgeField.classList.add("collapse");
+      if(!allowEditButton.classList.contains("collapse") && allowEditButton.classList.contains("btn-info")) {
+        allowEditButton.click();
       }
+      allowEditButton.classList.add("collapse");
+      message1.classList.add("d-none");
+      message2.classList.add("d-none");
+      message3.classList.add("d-none");
     }
-  });} catch(error) {console.error(error);}
-  /**
-   * Handling updating user account details.
-   */
+  });} catch(error) {console.error("Error - user account controls!\n" + error.name + " | " + error.message);}
+  //Handle updating user account details in nav account controls.
   try {
   document.getElementById("allowEditButton").addEventListener("click", (e) => {
     var allowEditButton = document.getElementById("allowEditButton");
@@ -261,6 +280,15 @@ document.body.onload = function() {
     var navPassword = document.getElementById("navPassword");
     var navEmail = document.getElementById("navEmail");
     if(allowEditButton.classList.contains("btn-warning")) {
+      navUsername.addEventListener("focusin", () => {
+        saveChangesButton.removeAttribute("disabled");
+      });
+      navPassword.addEventListener("focusin", () => {
+        saveChangesButton.removeAttribute("disabled");
+      });
+      navEmail.addEventListener("focusin", () => {
+        saveChangesButton.removeAttribute("disabled");
+      });
       allowEditButton.classList.add("btn-info");
       allowEditButton.classList.remove("btn-warning");
       saveChangesButton.classList.remove("collapse");
@@ -272,16 +300,16 @@ document.body.onload = function() {
       allowEditButton.classList.add("btn-warning");
       allowEditButton.classList.remove("btn-info");
       saveChangesButton.classList.add("collapse");
+      saveChangesButton.setAttribute("disabled", "");
       navUsername.setAttribute("disabled", "");
       navPassword.setAttribute("disabled", "");
       navEmail.setAttribute("disabled", "");
       userControlForm.reset();
     }
-  });} catch(error) {console.error(error);}
-  /**
-   * Handling Home page game mode selection
-   */
-  if(currPageTitle == "BTD6 G-L | Home") {
+  });} catch(error) {console.error("Error - handle updating user account details!\n" + error.name + " | " + error.message);}
+  // Handling Home page app setup selection
+  try {
+  if(currPageTitle.includes("Home")) {
     var mapOutput = document.getElementById("selectedMap");
     var diffOutput = document.getElementById("selectedDiff");
     var mapSelect = document.getElementById("mapSelect");
@@ -291,8 +319,8 @@ document.body.onload = function() {
     mapSelect.addEventListener("change", (e) => {
       var selectedMap = e.target;
       mapIndex = selectedMap.selectedIndex;
-      var mapDesc = selectedMap.options[mapIndex].text;
-      mapOutput.innerText = mapDesc;
+      var mapText = selectedMap.options[mapIndex].text;
+      mapOutput.innerText = mapText;
       if(mapIndex != 0) {
         for(let i = 0; i < tdout.length; i++) {
           var curr = tdout.item(i);
@@ -313,36 +341,22 @@ document.body.onload = function() {
     });
     diffSelect.addEventListener("change", (e) => {
       var selectedDiff = e.target;
-      var diffDesc = selectedDiff.options[selectedDiff.selectedIndex].text;
-      diffOutput.innerText = diffDesc;
+      var diffText = selectedDiff.options[selectedDiff.selectedIndex].text;
+      diffOutput.innerText = diffText;
       if(selectedDiff.selectedIndex != 0 && mapIndex != 0) {
         for(let i = 0; i< tdout.length; i++) {
           var curr = tdout.item(i);
           if(curr.classList.contains("td-diff") && curr.classList.contains("td" + (mapIndex - 1))) {
             curr.classList.remove("d-none");
-            curr.innerText = diffDesc;
+            curr.innerText = diffText;
           }
           if(curr.classList.contains("td-mk") && curr.classList.contains("td" + (mapIndex - 1))) {
             curr.classList.remove("d-none");
-            curr.innerText = ((diffDesc == "CHIMPS") ? "No" : "Yes");
+            curr.innerText = ((diffText == "CHIMPS") ? "No" : "Yes");
           }
         }
       }
     });
-  }
+  }} catch(error) {console.error("Error - handle home page app setup selection!\n" + error.name + " | " + error.message);}
   //
-}
-
-/**
- * Warns if leaving App page may lead to loss of unsaved data.
- */
-if(currPageTitle == "BTD6 G-L | App") {
-  window.addEventListener("beforeunload", (event) => {
-    try {
-      // Cancel the event as stated by the standard.
-      event.preventDefault();
-      // Chrome requires returnValue to be set.
-      event.returnValue = "";
-    } catch(error) {}
-  });
-}
+}} catch (error) {console.error("Error - handle function that run at document load complete!\n" + error.name + " | " + error.message);}

@@ -3,27 +3,47 @@
   <head>
   </head>
   <body>
-    <section id="errorInfoGrid" class="container-fluid mt-2 mb-5 p-5" th:fragment="error">
+    <section id="errorInfoGrid" class="modal modal-content border border-white flex-column bg-dark w-100 m-auto" th:fragment="error">
       <!-- Navigation and problem description -->
-      <div class="row flex-row p-2">
-        <!-- Go back button -->
-        <div class="col col-auto">
-          <form class="row" method="get" action="" th:action="@{/}">
-            <button class="btn btn-lg btn-primary" type="submit">Go Back</button>
-          </form>
-          <span class="row m-2" style="font-size: 3em; color: Tomato;">
-            <i class="fas fa-bug"></i>
-          </span>
-        </div>
-        <!-- Problem descritpion -->
-        <div class="col flex-column">
-          <p class="text-info" th:text="${statusCode} == null ? 'Status code: unknown' : 'Status code: ' + ${statusCode}"></p>
-          <p class="text-info" th:text="${exceptionCause} == null ? 'Cause: unknown' : 'Cause: ' + ${exceptionCause}"></p>
-          <p class="text-warning">If problem persists, try getting in touch with developer!</p>
-        </div>
-      </div>
+      <table class="table w-100">
+        <thead>
+          <tr class="text-success">
+            <td>Sorry for the inconvenience!</td>
+            <td>Web request details</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <!-- Go back button -->
+              <form method="get" action="" th:action="@{/}">
+                <button class="btn btn-lg btn-primary" type="submit">Go Back</button>
+              </form>
+            </td>
+            <td>
+              <p class="text-info" th:text="${statusCode} == null ? 'Status code: unknown' : 'Status code: ' + ${statusCode}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="invisible"><hr></td>
+            <td>
+              <p class="text-info" th:text="${exceptionCause} == null ? 'Cause: unknown' : 'Cause: ' + ${exceptionCause}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="row m-2" style="font-size: 3em; color: goldenrod;">
+                <i class="fas fa-bug"></i>
+              </span>
+            </td>
+            <td>
+              <p class="text-warning">If problem persists, try getting in touch with developer!</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <!-- Error output -->
-      <div id="errorOutputContainer" class="bg-danger row flex-row p-1">
+      <div id="errorOutputContainer" class="modal-footer row flex-row bg-danger p-1">
         <p class="text-light p-5" th:text="${exceptionMessage} == null ? 'Message: unknown' : 'Message: ' + ${exceptionMessage}"></p>
         <p class="text-light p-5" th:text="${lastError} == null ? 'Previous application error: unknown' : 'Previous application error: ' + ${lastError}"></p>
       </div>
