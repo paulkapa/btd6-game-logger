@@ -3,7 +3,7 @@
   <head>
   </head>
   <body>
-    <section id="loginGrid" class="modal-content border border-white flex-column bg-dark w-100 m-auto" th:fragment="login">
+    <section id="loginGrid" class="modal-content border border-white rounded-3 flex-column bg-dark w-100 m-auto mt-2" th:fragment="login">
       <div class="row flex-row justify-content-center w-100 m-auto">
         <div id="form-container" class="col col-auto bg-primary rounded-3 m-4">
           <!-- Login form -->
@@ -28,7 +28,7 @@
             <form class="p-2" method="post" action="" th:action="@{/signup}">
               <div class="form-floating">
                 <span class="form-control-plaintext text-light d-inline">Don't have an account?</span>
-                <button class="bg-transparent btn btn-md shadow-none text-warning d-inline m-1" style="text-decoration: none; border-width: 2px; border-color: var(--bs-warning);" type="submit">Register</button><br>
+                <button class="bg-transparent btn btn-md shadow-none bg-warning text-warning d-inline m-1" type="submit">Register</button><br>
               </div>
             </form>
             <p class="p-2">

@@ -3,80 +3,78 @@
   <head>
   </head>
   <body>
-    <section id="homeContentGrid" class="modal-content border border-white flex-column bg-dark w-100 m-auto" th:fragment="homepage">
+    <section id="homeContentGrid" class="modal-content border border-white rounded-3 row flex-row bg-dark w-100 m-auto mt-2" th:fragment="homepage">
+      <!-- App setup selection form -->
       <div class="modal-content row flex-row bg-dark m-auto mt-2 mb-2">
-        <!-- App setup selection form -->
-        <form id="optionSelector" class="col col-auto bg-dark m-auto" method="post" action="" th:action="@{/logger}" th:object="${appSetup}">
-          <p class="text-white h4">Make your game selections and press Start</p>
-          <div class="col rounded-3 m-2 form-floating">
-            <select id="mapSelect" class="form-select" th:field="*{mapName}" required>
-              <option selected="" value="">Select...</option>
-              <th:block th:each="m : ${maps}">
-                <option th:value="${m.name}" th:text="${m.name}"></option>
-              </th:block>
-            </select>
-            <label for="mapSelect">Map</label>
-          </div>
-          <div class="col rounded-3 m-2 form-floating">
-            <select id="diffSelect" class="form-select" th:field="*{diff}" required>
-              <option selected="" value="">Select...</option>
-              <th:block th:each="d : ${diff}">
-                <option th:value="${d}" th:text="${d}"></option>
-              </th:block>
-            </select>
-            <label for="diffSelect">Game Mode</label>
+        <form id="optionSelector" class="modal-content row flex-row justify-content-center bg-secondary w-auto m-auto mt-2" method="post" action="" th:action="@{/logger}" th:object="${appSetup}">
+          <p class="text-white h4 mt-2">Make your game selections and press Start</p>
+          <!-- Selection controls -->
+          <div class="col flex-column m-auto mt-2">
+            <!-- Map select -->
+            <div class="row flex-row rounded-3 text-start m-auto">
+              <select id="mapSelect" class="form-select" title="Maps" th:field="*{mapName}" required>
+                <option selected="" value="">Map...</option>
+                <th:block th:each="m : ${maps}">
+                  <option th:value="${m.name}" th:text="${m.name}"></option>
+                </th:block>
+              </select>
+            </div>
+            <!-- Difficutly select -->
+            <div class="row flex-row rounded-3 text-start m-auto mt-2">
+              <select id="diffSelect" class="form-select" title="Game Modes" th:field="*{diff}" required>
+                <option selected="" value="">Game Mode...</option>
+                <th:block th:each="d : ${diff}">
+                  <option th:value="${d}" th:text="${d}"></option>
+                </th:block>
+              </select>
+            </div>
+            <!-- Submit selection -->
+            <div class="row flex-row justify-content-end m-auto mt-2">
+              <button class="col col-auto btn btn-primary btn-sm m-1" type=submit>Start</button>
+              <button class="col col-auto btn btn-warning btn-sm m-1" type=reset>Reset</button>
+            </div>
           </div>
           <!-- Selection preview -->
-          <div id="selectOutput" class="row border border-2 rounded-3 border-warning text-white">
-            <h2 class="h4">Your selection:</h2>
-            <br>
-            <div class="row g-2 justify-content-start m-2">
-              <div class="col col-auto carousel-control-next-icon"></div>
-              <div class="col col-auto">
-                <p id="selectedMap">Select...</p>
-              </div>
+          <div id="selectOutput" class="col flex-column border border-2 rounded-3 border-warning bg-dark form-floating text-white m-auto mt-2">
+            <p for="selectOutput" class="row flex-row text-start text-muted m-auto">Your selection:</p>
+            <div class="text-start m-auto mt-2">
+              <i class="fas fa-arrow-alt-circle-right fa-1x"></i>
+              <p id="selectedMap" class="d-inline">Select...</p>
             </div>
-            <div class="row g-2 justify-content-start m-2">
-              <div class="col col-auto carousel-control-next-icon"></div>
-              <div class="col col-auto">
-                <p id="selectedDiff">Select...</p>
-              </div>
+            <div class="text-start m-auto mt-2 mb-1">
+              <div class="fas fa-arrow-alt-circle-right fa-1x"></div>
+              <p id="selectedDiff" class="d-inline">Select...</p>
             </div>
-          </div>
-          <!-- Submit selection -->
-          <div class="col col-auto justify-content-start m-2">
-            <button class="col btn btn-secondary btn-lg" type=submit>Start</button>
-            <button class="col btn btn-warning btn-lg" type=reset>Reset</button>
           </div>
         </form>
-        <!-- Complete apps selection view -->
-        <div class="row flex-row">
-          <table class="table w-100 text-white">
-            <thead>
-              <tr>
-                <td>Name</td>
-                <td>Type</td>
-                <td>Difficulty</td>
-                <td>Starting Cash</td>
-                <td>Starting Lives</td>
-                <td>Monkey Knowledge</td>
-              </tr>
-            </th>
-            <th:block>
-              <tbody>
-                <tr th:each="m : ${maps}">
-                  <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.name}"></td>
-                  <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.mapType}"></td>
-                  <td class="tdout d-none td-diff" th:classappend="td + ${mStat.index}" th:text="''"></td>
-                  <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingCash.intValue()}"></td>
-                  <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingLives}"></td>
-                  <td class="tdout d-none td-mk" th:classappend="td + ${mStat.index}" th:text="''"></td>
-                </tr>
-              </tbody>
-            </th:block>
-          </table>
-        </div>
       </div>
+    </section>
+    <!-- Complete app selection view -->
+    <section id="homeSelectionViewGrid" class="modal-content border border-white rounded-3 col flex-column bg-dark w-100 m-auto mt-2" th:fragment="extended">
+      <table class="table small text-muted m-auto">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Type</td>
+            <td>Difficulty</td>
+            <td>Starting Cash</td>
+            <td>Starting Lives</td>
+            <td>Monkey Knowledge</td>
+          </tr>
+        </th>
+        <th:block>
+          <tbody>
+            <tr th:each="m : ${maps}">
+              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.name}"></td>
+              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.mapType}"></td>
+              <td class="tdout d-none td-diff" th:classappend="td + ${mStat.index}" th:text="''"></td>
+              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingCash.intValue()}"></td>
+              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingLives}"></td>
+              <td class="tdout d-none td-mk" th:classappend="td + ${mStat.index}" th:text="''"></td>
+            </tr>
+          </tbody>
+        </th:block>
+      </table>
     </section>
   </body>
 </html>

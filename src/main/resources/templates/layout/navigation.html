@@ -3,7 +3,7 @@
   <head>
   </head>
   <body>
-    <section id="navGrid" class="modal modal-header border border-white flex-column bg-dark w-100 m-auto" th:fragment="navigation">
+    <section id="navGrid" class="border border-white rounded-3 row flex-row bg-dark w-100 m-auto" th:fragment="navigation">
       <!-- Toggleable navbar content - Loged-in user information and account controls -->
       <div id="navbarToggleContent" class="row flex-row justify-content-start w-100 m-auto collapse">
         <!-- Section information -->
@@ -91,40 +91,59 @@
         </div>  
       </div>
       <!-- Navigation bar -->
-      <nav class="navbar navbar-dark bg-dark justify-content-center w-100 m-auto">
-        <div class="row flex-row justify-content-between m-2">
+      <nav id="navBar" class="navbar navbar-dark bg-dark justify-content-between w-100 m-auto">
+        <!-- Nav control -->
+        <div class="row flex-row justify-content-start w-auto mt-2">
           <!-- Toggle navbar content button -->
-          <div class="col flex-column">
-            <button class="navbar-toggler" type="button" autofocus
+          <div id="contentControl" class="col flex-column w-auto m-auto">
+            <button class="navbar-toggler text-muted" type="button" autofocus
                           data-bs-toggle="collapse" data-bs-target="#navbarToggleContent" aria-controls="navbarToggleContent" aria-expanded="false">
-              <span class="navbar-toggler-icon"></span>
-              Toggle
+              <i class="fas fa-bars fa-1x row flex-row w-auto m-auto mt-1 d-inline"></i>
+              View Account
             </button>
           </div>
           <!-- Work in Progress notifier -->
-          <div class="col flex-column text-center p-1">
-            <i class="fas fa-exclamation-triangle fa-1x bg-warning rounded-3 p-1"></i>
+          <div id="wip" class="col flex-column w-auto m-auto">
+            <i class="fas fa-exclamation-triangle fa-1x text-warning"></i>
             <p class="text-muted">work in progress</p>
           </div>
         </div>
-        <!-- Control buttons -->
-        <form class="row flex-row justify-content-between m-1" method="post" action=""
-                    th:action="${isLoggedIn == true || isApplicationAllowed == true} ? '/logout' : ''">
-          <div class="col flex-column">
-            <button id="loginControl"
-                        th:class="${isLoggedIn == true || isApplicationAllowed == true} ? 'btn btn-toolbar btn-primary' : 'd-none'"
-                        th:type="${isLoggedIn == true || isApplicationAllowed == true} ? 'submit' : ''"
-                        th:text="${isLoggedIn == true || isApplicationAllowed == true} ? 'Logout' : ''">
-              Logout
+        <!-- App control-->
+        <div class="row flex-row justify-content-end w-auto mt-2">
+          <!-- Logout -->
+          <form class="col col-auto nav-item m-1" method="post" action=""
+                      th:action="${isLoggedIn == true || isApplicationAllowed == true} ? '/logout' : ''">
+              <button id="loginControl" type="submit"
+                          th:class="${isLoggedIn == true || isApplicationAllowed == true} ? 'form-control btn btn-toolbar btn-primary' : 'd-none'"
+                          th:text="${isLoggedIn == true || isApplicationAllowed == true} ? 'Logout' : 'error'">
+                Logout
+              </button>
+          </form>
+          <!-- Extra Navigation - Back Home -->
+          <form class="col col-auto nav-item m-1" method="post" action="" th:action="@{/home}">
+            <button type="submit"
+                        th:class="${isApplicationStarted == true} ? 'form-control btn btn-toolbar btn-primary' : 'd-none'"
+                        th:text="${isApplicationStarted == true} ? 'Back Home' : 'error'">>
+                Back Home
+              </button>
+          </form>
+          <!-- Extra Navigation - Save All -->
+          <form class="col col-auto nav-item m-1" method="post" action="" th:action="@{/save}" th:object="${appData}">
+            <button type="submit"
+                        th:class="${isApplicationStarted == true} ? 'form-control btn btn-toolbar btn-primary' : 'd-none'"
+                        th:text="${isApplicationStarted == true} ? 'Save All' : 'error'">>
+              Save All
             </button>
-          </div>
-          <div class="col col-auto">
-            <button id="contentControl" class="btn btn-toolbar btn-secondary" type="button"
-                      th:text="'Proceed to ' + ${currentPageTitle}">
-              Proceed
+          </form>
+          <!-- Extra Navigation - Check Errors -->
+          <form method="request" action="" th:action="@{/error}"
+                      th:class="${uname == 'superadmin' && isApplicationStarted == true} ? 'col col-auto nav-item m-1' : 'd-none'">
+            <button type="submit" class="form-control btn btn-toolbar btn-primary"
+                        th:text="${isApplicationStarted == true} ? 'Check Errors' : 'error'">>
+              Check Errors
             </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </nav>
     </section>
   </body>

@@ -3,73 +3,58 @@
   <head>
   </head>
   <body>
-    <section id="loggerContentGrid" class="modal-content border border-white flex-column bg-dark w-100 m-auto" th:fragment="logger">
-      <!-- Extra Navigation - Temporary Placement -->
-      <header class="modal-header">
-        <nav class="navbar nav">
-          <form class="nav-item m-2" method="post" action="" th:action="@{/home}">
-            <button class="btn btn-secondary" type="submit">Back Home</button>
-          </form>
-          <form class="nav-item m-2" method="post" action="" th:action="@{/save}" th:object="${appData}">
-            <button class="btn btn-secondary" type="submit">Save All</button>
-          </form>
-          <form class="nav-item m-2" method="request" action="" th:action="@{/error}">
-            <button class="btn btn-secondary" type="submit">Check Errors</button>
-          </form>
-        </nav>
-      </header>
+    <!-- Complete app selection view -->
+    <section id="loggerContentGrid" class="modal-content border border-white rounded-3 col flex-column bg-dark w-100 m-auto mt-2" th:fragment="logger">
       <!--Complete app selection view -->
-      <div class="row flex-row justify-content-start w-100 m-auto">
-        <table class="table w-100 text-white">
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Type</td>
-              <td>Difficulty</td>
-              <td>Starting Cash</td>
-              <td>Starting Lives</td>
-              <td>Monkey Knowledge</td>
+      <table class="table small text-muted m-auto">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Type</td>
+            <td>Difficulty</td>
+            <td>Starting Cash</td>
+            <td>Starting Lives</td>
+            <td>Monkey Knowledge</td>
+          </tr>
+        </th>
+        <th:block>
+          <tbody>
+            <tr th:each="m : ${appData.getMap(0)}">
+              <td th:text="${m.name}"></td>
+              <td th:text="${m.mapType}"></td>
+              <td th:text="${appSetup.diff}"></td>
+              <td th:text="${m.baseStartingCash.intValue()}"></td>
+              <td th:text="${m.baseStartingLives}"></td>
+              <td th:text="${appSetup.diff} != 'CHIMPS' ? 'Yes' : 'No'"></td>
             </tr>
-          </th>
-          <th:block>
-            <tbody>
-              <tr th:each="m : ${appData.getMap(0)}">
-                <td th:text="${m.name}"></td>
-                <td th:text="${m.mapType}"></td>
-                <td th:text="${appSetup.diff}"></td>
-                <td th:text="${m.baseStartingCash.intValue()}"></td>
-                <td th:text="${m.baseStartingLives}"></td>
-                <td th:text="${appSetup.diff} != 'CHIMPS' ? 'Yes' : 'No'"></td>
-              </tr>
-            </tbody>
-          </th:block>
-        </table>
-      </div>
-      <!-- Game information -->
-      <div class="row flex-row justify-content-start w-100 m-auto">
-        <table class="table w-100 text-white">
-          <thead>
-            <tr>
-              <td>Round</td>
-              <td>Start Cash</td>
-              <td>Start Lives</td>
-              <td>End Cash</td>
-              <td>End Lives</td>
+          </tbody>
+        </th:block>
+      </table>
+    </section>
+    <!-- Game information -->
+    <section id="loggerGameInfoGrid" class="modal-content border border-white rounded-3 col flex-column bg-dark w-100 m-auto mt-2" th:fragment="extended">
+      <table class="table w-100 text-white">
+        <thead>
+          <tr>
+            <td>Round</td>
+            <td>Start Cash</td>
+            <td>Start Lives</td>
+            <td>End Cash</td>
+            <td>End Lives</td>
+          </tr>
+        </th>
+        <th:block>
+          <tbody>
+            <tr th:each="i : ${#numbers.sequence(0, 100)}" th:with="m = ${appData.getMap(0)}">
+              <td th:text="${i}"></td>
+              <td th:text="${i} == '0' ? ${m.baseStartingCash.intValue()} : ${i*120}"></td>
+              <td th:text="${i} == '0' ? ${m.baseStartingLives} : '100'"></td>
+              <td th:text="${i} == '0' ? ${m.baseStartingCash.intValue()} : ${i*120}"></td>
+              <td th:text="${i} == '0' ? ${m.baseStartingLives} : '100'"></td>
             </tr>
-          </th>
-          <th:block>
-            <tbody>
-              <tr th:each="i : ${#numbers.sequence(0, 100)}" th:with="m = ${appData.getMap(0)}">
-                <td th:text="${i}"></td>
-                <td th:text="${i} == '0' ? ${m.baseStartingCash.intValue()} : ${i*120}"></td>
-                <td th:text="${i} == '0' ? ${m.baseStartingLives} : '100'"></td>
-                <td th:text="${i} == '0' ? ${m.baseStartingCash.intValue()} : ${i*120}"></td>
-                <td th:text="${i} == '0' ? ${m.baseStartingLives} : '100'"></td>
-              </tr>
-            </tbody>
-          </th:block>
-        </table>
-      </div>
+          </tbody>
+        </th:block>
+      </table>
     </section>
   </body>
 </html>

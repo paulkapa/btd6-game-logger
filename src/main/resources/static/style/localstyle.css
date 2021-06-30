@@ -1,65 +1,115 @@
-@keyframes opacity-slow {
+@keyframes opacity-spinner {
   0%  {opacity: 0;}
-  98% {opacity: 0.2;}
+  98% {opacity: 0.5;}
   100% {opacity: 1;}
 }
 @keyframes opacity-fast {
-  0%  {opacity: 0; z-index: 11000;}
-  40% {opacity: 0.5; z-index: 10000;}
-  50% {opacity: 1; z-index: 9000;}
-  100% {opacity: 1; z-index: -1;}
+  0%  {opacity: 0;}
+  40% {opacity: 0.5;}
+  50% {opacity: 1;}
+  100% {opacity: 1;}
 }
-@keyframes visibility {
-  0%  {visibility: hidden;}
-  100% {visibility: visible;}
+@keyframes visible {
+  0%  {visibility: visible;}
+  100% {visibility: hidden;}
+}
+
+@media only screen and (max-width: 600px) {
+  #errorInfoGrid, #errorOutputContainer, #errorPageTitle,
+  #navGrid, #footerGrid,
+  #loginGrid, #registerGrid,
+  #homeGrid, #homeContentGrid, #homeSelectionViewGrid,
+  #loggerContentGrid, #loggerGameInfoGrid {
+    border: none!important;
+  }
+
+  #navGrid, #navBar, #footerGrid, #errorPageTitle {
+    background-color: rgb(86, 94, 100)!important;
+  }
+  #contentControl button, #wip {
+    background-color: rgb(33, 37, 41)!important;
+  }
+  #wip {
+    border-radius: 10px;
+    padding-top: 3px;
+  }
+ }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none!important;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none!important;  /* IE and Edge */
+  scrollbar-width: none!important;  /* Firefox */
 }
 
 #spinnerContainer {
-  opacity: 1;
-  width: 5em;
-  height: 5em;
+  width: 4em;
+  height: 4em;
   position: absolute;
   z-index: 11000;
   margin: 0 auto;
-  top: calc(80% - calc(5em / 2));
-  left: calc(50% - calc(5em / 2));
-  background-color: black;
+  top: calc(5% - calc(4em / 2));
+  right: calc(10% - calc(4em / 2));
+  background-color: transparent;
   border-radius: 30%;
   text-align: center;
-  animation: opacity-fast 1s ease-in-out 0.5s normal none;
-  opacity: 0;
+  animation: opacity-spinner 0.7s ease-in-out 0s 1 normal none;
 }
 
 #loadSpinner {
-  opacity: 1;
-  width: 3em;
-  height: 3em;
+  width: 2em;
+  height: 2em;
   position: relative;
   margin: 0 auto;
-  top: calc(50% - calc(3em / 2));
-  z-index: inherit;
+  top: calc(50% - calc(2em / 2));
+}
+
+.alert-container {
+  background-color: rgb(33, 37, 41);
+  border: 5px inset aqua;
+  border-radius: 10px;
+}
+
+#errorInfoGrid {
+  animation: opacity-fast 0.5s ease-out 0s 1 normal none;
+  opacity: 1;
 }
 
 #loginGrid {
-  opacity: 0;
-  animation: opacity-slow 0.5s ease-out 1s 1 normal none;
+  animation: opacity-fast 0.5s ease-out 0s 1 normal none;
   opacity: 1;
 }
 
 #registerGrid {
-  opacity: 0;
-  animation: opacity-slow 0.5s ease-out 1s 1 normal none;
+  animation: opacity-fast 0.5s ease-out 0s 1 normal none;
   opacity: 1;
 }
 
 #homeGrid {
-  opacity: 0;
-  animation: opacity-slow 0.5s ease-out 1s 1 normal none;
+  animation: opacity-fast 0.5s ease-out 0s 1 normal none;
   opacity: 1;
 }
 
 #homeContentGrid {
-  opacity: 0;
-  animation: opacity-slow 1s ease-out 1s 1 normal none;
+  animation: opacity-fast 1s ease-out 0s 1 normal none;
+  opacity: 1;
+}
+
+#homeSelectionViewGrid {
+  animation: opacity-fast 1s ease-out 0.1s 1 normal none;
+  opacity: 1;
+}
+
+#loggerContentGrid {
+  animation: opacity-fast 1s ease-out 0s 1 normal none;
+  opacity: 1;
+}
+
+#loggerGameInfoGrid {
+  animation: opacity-fast 1s ease-out 0.1s 1 normal none;
   opacity: 1;
 }

@@ -8,6 +8,41 @@ var loginTimeoutHandler = null;
 var currPageTitle = document.title;
 
 /**
+ * Handle fail messages
+ */
+try {
+  var alertMessage = document.getElementsByClassName("alert-message").item(0);
+  var alertText = alertMessage.innerText;
+  if(alertMessage.innerText != null && alertMessage.innerText != "") {
+    var alertContainer = document.getElementById("alertContainer");
+    var closeAlert = document.getElementsByClassName("close-alert").item(0);
+    alertContainer.classList.toggle("collapse");
+    alertContainer.classList.toggle("alert-container");
+    if(alertText.includes("Success!")) {
+      alertMessage.classList.add("text-success");
+    } else {
+      alertMessage.classList.add("text-danger");
+    }
+    closeAlert.classList.toggle("collapse");
+    closeAlert.addEventListener("click", () => {
+      alertContainer.classList.toggle("alert-container");
+      alertContainer.classList.toggle("collapse");
+      closeAlert.classList.toggle("collapse");
+    });
+  }
+} catch (error) {console.error("Error - handle fail messages!\n" + error.name + " | " + error.message);}
+
+/**
+ * Handle spinner loading placeholder
+ */
+try {
+  var spinner = document.getElementById("spinnerContainer");
+  setTimeout(() => {
+    spinner.classList.toggle("d-none");
+  }, 1000);
+} catch (error) {console.error("Error - handle spinner loading placeholder!\n" + error.name + " | " + error.message);}
+
+/**
  * Warn if leaving App page may lead to loss of unsaved data.
  */
 try {
@@ -26,15 +61,25 @@ if(currPageTitle.includes("App")) {
 try {
 document.getElementById("contentControl").addEventListener("click", () => {
   var nav = document.getElementById("navGrid");
-  var butt = document.getElementById("contentControl");
+  var content = document.getElementsByClassName("modal-content");
+  var butt = document.getElementById("contentControl").getElementsByTagName("button").item(0);
+  var buttIcon = butt.getElementsByTagName("i").item(0);
   var bText = butt.innerText;
-  if(bText.includes("Proceed") || bText.includes("Show")) {
-    butt.innerText = "Hide Content";
+  if(bText.includes("View")) {
+    butt.innerHTML = null;
+    butt.innerText = " Hide Account";
+    butt.prepend(buttIcon);
   } else {
-    butt.innerText = "Show Content";
+    butt.innerHTML = null;
+    butt.innerText = " View Account";
+    butt.prepend(buttIcon);
+  }
+  for(let i = 0; i < content.length; i++) {
+    content.item(i).classList.toggle("d-none");
   }
   nav.classList.toggle("modal");
   nav.classList.toggle("modal-header");
+  nav.classList.toggle("border");
 });} catch (error) {console.error("Error - show page content by minimizing modal header!\n" + error.name + " | " + error.message);}
 
 /**
@@ -164,7 +209,7 @@ document.body.onload = function() {
     loginTimeoutHandler = window.setInterval(function() {sessionActivityCheck(intervalTimeout)}, intervalTimeout);
   }, 100);} catch (error) {console.error("Error - enable redirect to login on inactivity timeout!\n" + error.name + " | " + error.message);}
   // Handle touch swipes on pages supporting touch actions.
-  /** 
+  /**
   if(currPageTitle.includes("")) {
   try {window.addEventListener("touchstart", startTouch, false);window.addEventListener("touchmove", moveTouch, false);}
   catch (error) {console.error("Error - handle touch controls!\n" + error.name + " | " + error.message);}
@@ -310,12 +355,20 @@ document.body.onload = function() {
   // Handling Home page app setup selection
   try {
   if(currPageTitle.includes("Home")) {
+    var setupForm = document.getElementById("optionSelector");
     var mapOutput = document.getElementById("selectedMap");
     var diffOutput = document.getElementById("selectedDiff");
     var mapSelect = document.getElementById("mapSelect");
     var diffSelect = document.getElementById("diffSelect");
-    var tdout = document.getElementsByTagName("td");
+    var tdout = document.getElementsByClassName("tdout");
     var mapIndex = 0;
+    setupForm.addEventListener("reset", () => {
+      mapOutput.innerText = "Select...";
+      diffOutput.innerText = "Select...";
+      for(let i = 0; i < tdout.length; i++) {
+        tdout.item(i).classList.add("d-none");
+      }
+    });
     mapSelect.addEventListener("change", (e) => {
       var selectedMap = e.target;
       mapIndex = selectedMap.selectedIndex;
@@ -324,18 +377,16 @@ document.body.onload = function() {
       if(mapIndex != 0) {
         for(let i = 0; i < tdout.length; i++) {
           var curr = tdout.item(i);
-          if(curr.classList.contains("tdout") && !curr.classList.contains("td" + (mapIndex - 1))) {
+          if(!curr.classList.contains("td" + (mapIndex - 1))) {
             tdout.item(i).classList.add("d-none");
-          } else if(curr.classList.contains("tdout")) {
+          } else {
             tdout.item(i).classList.remove("d-none");
           }
         }
       } else {
         for(let i = 0; i < tdout.length; i++) {
           var curr = tdout.item(i);
-          if(curr.classList.contains("tdout")) {
-            tdout.item(i).classList.add("d-none");
-          }
+          tdout.item(i).classList.add("d-none");
         }
       }
     });

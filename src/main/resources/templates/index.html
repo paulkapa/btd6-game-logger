@@ -13,13 +13,20 @@
     <!-- END <head> info -->
     <title th:text="'BTD6 G-L | ' + ${currentPageTitle}">BTD6 G-L</title>
   </head>
-  <body class="row flex-row justify-content-center bg-dark user-select-none m-auto">
+  <body class="row flex-row justify-content-center bg-dark text-center user-select-none w-auto h-auto m-auto">
+
+    <!-- Shows up for every page load as a indicator that the page contents are being loaded -->
+    <div id="spinnerContainer" class="modal-content"><span id="loadSpinner" class="spinner-grow bg-warning"></span></div>
 
     <!-- Page navigation bar and expandable content -->
     <section id="navGrid" th:replace="layout/navigation :: navigation"></section>
 
-    <!-- Shows up for every page load as a indicator that the page contents are being loaded -->
-    <div id="spinnerContainer" class="modal-content"><span id="loadSpinner" class="spinner-border bg-warning"></span></div>
+    <!-- Alert messages for user activity -->
+    <div id="alertContainer" class="modal-content col col-auto justify-content-center collapse m-auto mt-2">
+      <i class="fas fa-times-circle fa-2x close-alert text-info collapse m-auto mt-2"></i>
+      <p class="alert-message"
+              th:text="${isFailedLoginAttempt == true or isFailedRegisterAttempt == true or failedMessage != null} ? ${failedMessage} : ''"></p>
+    </div>
 
     <!-- Page content -->
     <th:block th:switch="${currentPageTitle}">
@@ -31,9 +38,11 @@
       </th:block>
       <th:block th:case="Home">
         <section th:replace="app/homepage :: homepage"></section>
+        <section th:replace="app/homepage :: extended"></section>
       </th:block>
       <th:block th:case="App">
         <section th:replace="app/logger :: logger"></section>
+        <section th:replace="app/logger :: extended"></section>
       </th:block>
       <th:block th:case="*">
         <div class="row flex-row justify-content-center"><p class="col col-auto">Error</p></div>
@@ -41,16 +50,7 @@
     </th:block>
 
     <!-- Page footer -->
-    <section id="footerGrid" class="modal-footer bg-dark text-white bottom-0 m-auto mt-2">
-      <p>
-        &copy; Paul Capatina-Voila
-      </p>
-      &VerticalLine;
-      <p>
-        Project:
-        <a href="" class="link-success">GitHub location</a>
-      </p>
-    </section>
+    <section id="footerGrid" th:replace="layout/footer :: footer"></section>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
