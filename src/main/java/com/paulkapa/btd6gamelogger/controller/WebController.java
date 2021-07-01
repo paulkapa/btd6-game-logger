@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
-import com.paulkapa.btd6gamelogger.Btd6GameLoggerApplication;
 import com.paulkapa.btd6gamelogger.database.game.MapInterface;
 import com.paulkapa.btd6gamelogger.database.game.TowerInterface;
 import com.paulkapa.btd6gamelogger.database.game.UpgradePathInterface;
@@ -22,9 +21,13 @@ import com.paulkapa.btd6gamelogger.models.system.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Component
 @Transactional(readOnly = false)
-public class WebController implements ErrorController, CommandLineRunner {
+public class WebController implements ErrorController, CommandLineRunner, ApplicationContextAware {
 
     private static final Logger logger = LoggerFactory.getLogger(WebController.class);
     private boolean isLoginAllowed;
@@ -50,12 +53,15 @@ public class WebController implements ErrorController, CommandLineRunner {
     private boolean isApplicationAllowed;
     private boolean isApplicationStarted;
     private Exception lastError;
+    private boolean isShutdownStarted;
 
     private GameEntity btd6;
     private AppSetup lastAppSetup;
 
     @PersistenceContext
     private EntityManager em;
+
+    private ApplicationContext context;
 
     @Autowired
     private UserInterface ui;
@@ -92,6 +98,7 @@ public class WebController implements ErrorController, CommandLineRunner {
             this.upgrades = new ArrayList<>();
             this.btd6 = new GameEntity();
             this.lastAppSetup = new AppSetup();
+            this.isShutdownStarted = false;
         } catch(Exception e) {
             logger.error("Error when constructing \"com.paulkapa.btd6gamelogger.controller.WebController\". " +
                             "It is advised to check and fix any problems and then restart the application! " +
@@ -125,6 +132,7 @@ public class WebController implements ErrorController, CommandLineRunner {
             rootModel.addAttribute("uemail", ((this.user == null) ? null : this.user.getEmail()));
             rootModel.addAttribute("uaccountAge", null);
             rootModel.addAttribute("newUser", new User());
+            rootModel.addAttribute("shutdown", this.isShutdownStarted);
             // Get App page
             if(!this.isLoginAllowed && this.isLoggedIn &&
                 !this.isRegisterAllowed &&
@@ -393,11 +401,9 @@ public class WebController implements ErrorController, CommandLineRunner {
         return "error";
     }
 
-    @PostMapping("/shutdown")
-    public String handleShutdown() {
-        logger.info("APPLICATION SHUTDOWN INITIATED...");
-        Btd6GameLoggerApplication.shutdownApp(0);
-        return "redirect:/";
+    @PostMapping("/shutdownContext")
+    public void shutdownContext() {
+        ((ConfigurableApplicationContext) context).close();
     }
 
     /**
@@ -461,5 +467,10 @@ public class WebController implements ErrorController, CommandLineRunner {
             this.lastError = e;
             this.isApplicationStarted = false;
         }
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext arg0) throws BeansException {
+        this.context = arg0;        
     }
 }
