@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.paulkapa.btd6gamelogger.Btd6GameLoggerApplication;
 import com.paulkapa.btd6gamelogger.database.game.MapInterface;
 import com.paulkapa.btd6gamelogger.database.game.TowerInterface;
 import com.paulkapa.btd6gamelogger.database.game.UpgradePathInterface;
@@ -109,8 +110,8 @@ public class WebController implements ErrorController, CommandLineRunner {
     public String rootController(Model rootModel) {
         // Check all actions performed. Request /error if Exception thrown.
         try {
-            rootModel.addAttribute("isLogedIn", this.isLoggedIn);
             rootModel.addAttribute("isLoginAllowed", this.isLoginAllowed);
+            rootModel.addAttribute("isLoggedIn", this.isLoggedIn);
             rootModel.addAttribute("isFailedLoginAttempt", this.isFailedLoginAttempt);
             this.isFailedLoginAttempt = false;
             rootModel.addAttribute("isRegisterAllowed", this.isRegisterAllowed);
@@ -390,6 +391,13 @@ public class WebController implements ErrorController, CommandLineRunner {
         errorInfo.addAttribute("lastError", this.lastError.toString());
         errorInfo.addAttribute("currentPageTitle", "Error");
         return "error";
+    }
+
+    @PostMapping("/shutdown")
+    public String handleShutdown() {
+        logger.info("APPLICATION SHUTDOWN INITIATED...");
+        Btd6GameLoggerApplication.shutdownApp(0);
+        return "redirect:/";
     }
 
     /**

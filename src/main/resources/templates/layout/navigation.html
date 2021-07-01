@@ -6,6 +6,21 @@
     <section id="navGrid" class="border border-white rounded-3 row flex-row bg-dark w-100 m-auto" th:fragment="navigation">
       <!-- Toggleable navbar content - Loged-in user information and account controls -->
       <div id="navbarToggleContent" class="row flex-row justify-content-start w-100 m-auto collapse">
+        <!-- Show shutdown button -->
+        <div id="toggleShutdownButton" th:class="${currentPageTitle == 'Login' && isLoggedIn == false} ? 'w-auto m-auto' : 'd-none'">
+          <span class="fas fa-sign-out-alt fa-2x text-info"></span>
+          <p class="text-info">
+            Show Shutdown Button
+          </p>
+        </div>
+        <!-- Shutdown button -->
+        <div id="shutdownContainer" class="w-auto m-auto d-none">
+          <form method="post" action="" th:action="@{/shutdown}">
+            <button class="btn btn-md btn-danger" type="submit">
+              Shutdown Connection
+            </button>
+          </form>
+        </div>
         <!-- Section information -->
         <p class="text-white"
             th:text="${uname != null} ? (${isLoggedIn == true || isApplicationAllowed == true} ? (${uname != 'btd6gluser'} ? 'Personal Account' : 'Anonymous Account') : 'Not Logged In') : 'Not Logged In'">
@@ -128,7 +143,8 @@
               </button>
           </form>
           <!-- Extra Navigation - Save All -->
-          <form class="col col-auto nav-item m-1" method="post" action="" th:action="@{/save}" th:object="${appData}">
+          <form method="post" action="" th:action="@{/save}" th:object="${appData}"
+                      th:class="${uname != 'btd6gluser' && isApplicationStarted == true} ? 'col col-auto nav-item m-1' : 'd-none'">
             <button type="submit"
                         th:class="${isApplicationStarted == true} ? 'form-control btn btn-toolbar btn-primary' : 'd-none'"
                         th:text="${isApplicationStarted == true} ? 'Save All' : 'error'">>

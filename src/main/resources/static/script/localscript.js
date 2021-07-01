@@ -8,6 +8,15 @@ var loginTimeoutHandler = null;
 var currPageTitle = document.title;
 
 /**
+ * Handle app shutdown
+ */
+try {
+  document.getElementById("toggleShutdownButton").addEventListener("click", () => {
+    document.getElementById("shutdownContainer").classList.toggle("d-none");
+  });
+} catch (error) {console.error("Error - handle app shutdown!\n" + error.name + " | " + error.message);}
+
+/**
  * Handle fail messages
  */
 try {
