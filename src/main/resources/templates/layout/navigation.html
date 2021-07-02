@@ -6,23 +6,18 @@
     <section id="navGrid" class="border border-white rounded-3 row flex-row bg-dark w-100 m-auto" th:fragment="navigation">
       <!-- Toggleable navbar content - Loged-in user information and account controls -->
       <div id="navbarToggleContent" class="row flex-row justify-content-start w-100 m-auto collapse">
-        <!-- Shutdown Controls -->
-        <div class="row flex-row">
-          <!-- Show shutdown button -->
-          <div id="toggleShutdownButton" th:class="${currentPageTitle == 'Login' && isLoggedIn == false} ? 'col col-auto w-auto m-auto' : 'd-none'">
-            <span class="fas fa-sign-out-alt fa-2x text-info"></span>
-            <p class="text-info">
-              Show Shutdown Button
-            </p>
-          </div>
-          <!-- Shutdown button -->
-          <div id="shutdownContainer" class="col col-auto w-auto m-auto d-none">
-            <form method="post" action="/shutdownContext">
-              <button class="btn btn-md btn-danger" type="submit">
-                Shutdown Connection
-              </button>
-            </form>  
-          </div>
+        <!-- Show shutdown button -->
+        <div id="toggleShutdownButton" th:class="${currentPageTitle == 'Login' && isLoggedIn == false} ? 'row flex-row text-info m-auto mt-2 mb-2' : 'd-none'">
+          <span class="fas fa-sign-out-alt fa-2x"></span>
+          <span id="shutdownText">Show Shutdown Button</span>
+        </div>
+        <!-- Shutdown button -->
+        <div id="shutdownContainer" class="row flex-row m-auto mt-2 mb-2 d-none">
+          <form method="post" action="/shutdownContext">
+            <button id="shutdownButton" class="btn btn-md btn-danger" type="submit">
+              Shutdown Connection
+            </button>
+          </form>  
         </div>
         <!-- Section information -->
         <p class="text-white"

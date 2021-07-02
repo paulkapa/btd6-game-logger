@@ -133,71 +133,77 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             rootModel.addAttribute("uaccountAge", null);
             rootModel.addAttribute("newUser", new User());
             rootModel.addAttribute("shutdown", this.isShutdownStarted);
-            // Get App page
-            if(!this.isLoginAllowed && this.isLoggedIn &&
-                !this.isRegisterAllowed &&
-                this.isApplicationAllowed && this.isApplicationStarted) {
-                    rootModel.addAttribute("maps", this.maps);
-                    rootModel.addAttribute("towers", this.towers);
-                    rootModel.addAttribute("upgrades", this.upgrades);
-                    rootModel.addAttribute("game", this.btd6);
-                    rootModel.addAttribute("appSetup", this.lastAppSetup);
-                    rootModel.addAttribute("appData", btd6);
-                    rootModel.addAttribute("currentPageTitle", "App");
-                    logger.info("Application accessed. Enjoy!");
-                return "index";
-            }
-            // Get Home page
-            else if(!this.isLoginAllowed && this.isLoggedIn &&
-                !this.isRegisterAllowed &&
-                this.isApplicationAllowed && !this.isApplicationStarted) {
-                    this.user.setAccountAge(System.currentTimeMillis() - this.user.getCreationDate().getTime());
-                    rootModel.addAttribute("newUser", null);
-                    rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(this.user.getAccountAge()));
-                    rootModel.addAttribute("maps", this.maps);
-                    rootModel.addAttribute("diff", new String[] {"Easy", "Medium", "Hard"});
-                    rootModel.addAttribute("appSetup", new AppSetup());
-                    rootModel.addAttribute("currentPageTitle", "Home");
-                    logger.info("Sign up process complete for: " + this.user.getName() + ". Welcome!");
-                return "index";
-            }
-            // Get Registration Page
-            else if(!this.isLoginAllowed && !this.isLoggedIn &&
-                this.isRegisterAllowed &&
-                !this.isApplicationAllowed && !this.isApplicationStarted) {
-                    rootModel.addAttribute("currentPageTitle", "Register");
-                    logger.warn("Registration status: {failed : " + this.isFailedRegisterAttempt + "}. Returning to registration form.");
-                return "index";
-            }
-            // Get Login Page
-            else if(this.isLoginAllowed && !this.isLoggedIn &&
-                !this.isRegisterAllowed &&
-                !this.isApplicationAllowed && !this.isApplicationStarted) {
-                    rootModel.addAttribute("currentPageTitle", "Login");
-                    logger.warn("Login status: {failed : " + this.isFailedLoginAttempt + "}. Returning to login form.");
-                return "index";
-            }
-            // Get First Login Page -- switch to welcome page
-            else if(!this.isLoginAllowed && !this.isLoggedIn && !this.isFailedLoginAttempt &&
-                !this.isRegisterAllowed && !this.isFailedRegisterAttempt &&
-                !this.isApplicationAllowed && !this.isApplicationStarted) {
-                    rootModel.addAttribute("currentPageTitle", "Login");
-                    logger.info("Performing First Time Login...");
-                return "index";
-            }
-            // Request /error
-            else {
-                logger.error("Could not perform any view operations. Error controller called!\n" +
-                                "Login Status : " + "{allowed : " + this.isLoginAllowed + "} {isLoggedIn : " + this.isLoggedIn + "}" +
-                                "\nLogin : {failed : " + this.isFailedLoginAttempt + "}" +
-                                "\nRegistration Status: {allowed : " + this.isRegisterAllowed + "}" +
-                                "\nRegistration: {failed : " + this.isFailedRegisterAttempt + "}" +
-                                "\nApplication Status: {allowed : " + this.isApplicationAllowed + "}" +
-                                "\nApplication: {started : " + this.isApplicationStarted + "}" +
-                                "\nLast error: " + this.lastError.toString());
-                rootModel.addAttribute("currentPageTitle", "Error");
-                this.isApplicationStarted = false;
-                return "/error";
+            if(this.isShutdownStarted) {
+                logger.info("...");
+                rootModel.addAttribute("context", (ConfigurableApplicationContext)context);
+                return "backup";
+            } else {
+                // Get App page
+                if(!this.isLoginAllowed && this.isLoggedIn &&
+                    !this.isRegisterAllowed &&
+                    this.isApplicationAllowed && this.isApplicationStarted) {
+                        rootModel.addAttribute("maps", this.maps);
+                        rootModel.addAttribute("towers", this.towers);
+                        rootModel.addAttribute("upgrades", this.upgrades);
+                        rootModel.addAttribute("game", this.btd6);
+                        rootModel.addAttribute("appSetup", this.lastAppSetup);
+                        rootModel.addAttribute("appData", btd6);
+                        rootModel.addAttribute("currentPageTitle", "App");
+                        logger.info("Application accessed. Enjoy!");
+                    return "index";
+                }
+                // Get Home page
+                else if(!this.isLoginAllowed && this.isLoggedIn &&
+                    !this.isRegisterAllowed &&
+                    this.isApplicationAllowed && !this.isApplicationStarted) {
+                        this.user.setAccountAge(System.currentTimeMillis() - this.user.getCreationDate().getTime());
+                        rootModel.addAttribute("newUser", null);
+                        rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(this.user.getAccountAge()));
+                        rootModel.addAttribute("maps", this.maps);
+                        rootModel.addAttribute("diff", new String[] {"Easy", "Medium", "Hard"});
+                        rootModel.addAttribute("appSetup", new AppSetup());
+                        rootModel.addAttribute("currentPageTitle", "Home");
+                        logger.info("Sign up process complete for: " + this.user.getName() + ". Welcome!");
+                    return "index";
+                }
+                // Get Registration Page
+                else if(!this.isLoginAllowed && !this.isLoggedIn &&
+                    this.isRegisterAllowed &&
+                    !this.isApplicationAllowed && !this.isApplicationStarted) {
+                        rootModel.addAttribute("currentPageTitle", "Register");
+                        logger.warn("Registration status: {failed : " + this.isFailedRegisterAttempt + "}. Returning to registration form.");
+                    return "index";
+                }
+                // Get Login Page
+                else if(this.isLoginAllowed && !this.isLoggedIn &&
+                    !this.isRegisterAllowed &&
+                    !this.isApplicationAllowed && !this.isApplicationStarted) {
+                        rootModel.addAttribute("currentPageTitle", "Login");
+                        logger.warn("Login status: {failed : " + this.isFailedLoginAttempt + "}. Returning to login form.");
+                    return "index";
+                }
+                // Get First Login Page -- switch to welcome page
+                else if(!this.isLoginAllowed && !this.isLoggedIn && !this.isFailedLoginAttempt &&
+                    !this.isRegisterAllowed && !this.isFailedRegisterAttempt &&
+                    !this.isApplicationAllowed && !this.isApplicationStarted) {
+                        rootModel.addAttribute("currentPageTitle", "Login");
+                        logger.info("Performing First Time Login...");
+                    return "index";
+                }
+                // Request /error
+                else {
+                    logger.error("Could not perform any view operations. Error controller called!\n" +
+                                    "Login Status : " + "{allowed : " + this.isLoginAllowed + "} {isLoggedIn : " + this.isLoggedIn + "}" +
+                                    "\nLogin : {failed : " + this.isFailedLoginAttempt + "}" +
+                                    "\nRegistration Status: {allowed : " + this.isRegisterAllowed + "}" +
+                                    "\nRegistration: {failed : " + this.isFailedRegisterAttempt + "}" +
+                                    "\nApplication Status: {allowed : " + this.isApplicationAllowed + "}" +
+                                    "\nApplication: {started : " + this.isApplicationStarted + "}" +
+                                    "\nLast error: " + this.lastError.toString());
+                    rootModel.addAttribute("currentPageTitle", "Error");
+                    this.isApplicationStarted = false;
+                    return "/error";
+                }
             }
         }
         // Catch Exception and Request /error
@@ -384,6 +390,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         errorInfo.addAttribute("isApplicationAllowed", this.isApplicationAllowed);
         errorInfo.addAttribute("isApplicationStarted", this.isApplicationStarted);
         errorInfo.addAttribute("failedMessage", "Latest alert message: " + this.failedMessage);
+        errorInfo.addAttribute("shutdown", this.isShutdownStarted);
         errorInfo.addAttribute("currUser", this.user);
         // Get request info if exists
         try {
@@ -402,8 +409,10 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     }
 
     @PostMapping("/shutdownContext")
-    public void shutdownContext() {
-        ((ConfigurableApplicationContext) context).close();
+    public String shutdownContext() {
+        logger.info("APPLICATION SHUTDOWN INITIATED...");
+        this.isShutdownStarted = !this.isLoggedIn;
+        return "redirect:/";
     }
 
     /**

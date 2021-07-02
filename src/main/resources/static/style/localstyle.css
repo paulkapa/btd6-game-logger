@@ -46,18 +46,6 @@ body {
   scrollbar-width: none!important;  /* Firefox */
 }
 
-#toggleShutdownButton {
-  position: absolute;
-  top: 5%;
-  left: 15%;
-}
-
-#shutdownContainer {
-  position: absolute;
-  top: 5%;
-  right: 15%;
-}
-
 #spinnerContainer {
   width: 4em;
   height: 4em;

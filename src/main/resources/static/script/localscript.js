@@ -11,8 +11,22 @@ var currPageTitle = document.title;
  * Handle app shutdown
  */
 try {
-  document.getElementById("toggleShutdownButton").addEventListener("click", () => {
-    document.getElementById("shutdownContainer").classList.toggle("d-none");
+  var toggleContainer = document.getElementById("toggleShutdownButton");
+  toggleContainer.addEventListener("click", () => {
+    var container = document.getElementById("shutdownContainer");
+    container.classList.toggle("d-none");
+    var shutdownText = document.getElementById("shutdownText");
+    if(shutdownText.innerText.includes("Show")) {
+      shutdownText.innerText = "Hide Shutdown Button";
+    } else {
+      shutdownText.innerText = "Show Shutdown Button";
+    }
+  });
+  var shutdownButton = document.getElementById("shutdownButton");
+  shutdownButton.addEventListener("click", () => {
+    if(confirm("You may now close this window and any console windows opened by this application!")) {
+      window.location.reload();
+    }
   });
 } catch (error) {console.error("Error - handle app shutdown!\n" + error.name + " | " + error.message);}
 
