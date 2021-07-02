@@ -8,15 +8,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.paulkapa.btd6gamelogger.database.game.AppSetupInterface;
 import com.paulkapa.btd6gamelogger.database.game.MapInterface;
 import com.paulkapa.btd6gamelogger.database.game.TowerInterface;
 import com.paulkapa.btd6gamelogger.database.game.UpgradePathInterface;
+import com.paulkapa.btd6gamelogger.database.system.StoredDataInterface;
 import com.paulkapa.btd6gamelogger.database.system.UserInterface;
 import com.paulkapa.btd6gamelogger.models.game.GameEntity;
 import com.paulkapa.btd6gamelogger.models.game.MapEntity;
 import com.paulkapa.btd6gamelogger.models.game.TowerEntity;
 import com.paulkapa.btd6gamelogger.models.game.UpgradeEntity;
-import com.paulkapa.btd6gamelogger.models.helper.AppSetup;
+import com.paulkapa.btd6gamelogger.models.game.AppSetup;
+import com.paulkapa.btd6gamelogger.models.system.SavedData;
 import com.paulkapa.btd6gamelogger.models.system.User;
 
 import org.slf4j.Logger;
@@ -56,7 +59,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     private boolean isShutdownStarted;
 
     private GameEntity btd6;
-    private AppSetup lastAppSetup;
+    private com.paulkapa.btd6gamelogger.models.helper.AppSetup lastAppSetup;
 
     @PersistenceContext
     private EntityManager em;
@@ -71,11 +74,17 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     private TowerInterface ti;
     @Autowired
     private UpgradePathInterface upi;
+    @Autowired
+    private StoredDataInterface sdi;
+    @Autowired
+    private AppSetupInterface asi;
 
     private User user;
     private List<MapEntity> maps;
     private List<TowerEntity> towers;
     private List<UpgradeEntity> upgrades;
+    private List<SavedData> storeData;
+    private List<AppSetup> appSetup;
 
     /**
      * Default constructor.
@@ -96,8 +105,10 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.maps = new ArrayList<>();
             this.towers = new ArrayList<>();
             this.upgrades = new ArrayList<>();
+            this.storeData = new ArrayList<>();
+            this.appSetup = new ArrayList<>();
             this.btd6 = new GameEntity();
-            this.lastAppSetup = new AppSetup();
+            this.lastAppSetup = new com.paulkapa.btd6gamelogger.models.helper.AppSetup();
             this.isShutdownStarted = false;
         } catch(Exception e) {
             logger.error("Error when constructing \"com.paulkapa.btd6gamelogger.controller.WebController\". " +
@@ -161,7 +172,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(this.user.getAccountAge()));
                         rootModel.addAttribute("maps", this.maps);
                         rootModel.addAttribute("diff", new String[] {"Easy", "Medium", "Hard"});
-                        rootModel.addAttribute("appSetup", new AppSetup());
+                        rootModel.addAttribute("appSetup", new com.paulkapa.btd6gamelogger.models.helper.AppSetup());
                         rootModel.addAttribute("currentPageTitle", "Home");
                         logger.info("Sign up process complete for: " + this.user.getName() + ". Welcome!");
                     return "index";
@@ -341,7 +352,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
      * @return redirect to "/"
      */
     @PostMapping("/logger")
-    public String mainApplication(@ModelAttribute AppSetup appSetup, Model model) {
+    public String mainApplication(@ModelAttribute com.paulkapa.btd6gamelogger.models.helper.AppSetup appSetup, Model model) {
         // Access allowed
         if(!this.isLoginAllowed && this.isLoggedIn && !this.isFailedLoginAttempt &&
                 !this.isRegisterAllowed &&
@@ -351,7 +362,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                 this.lastAppSetup = appSetup;
                 this.btd6 = new GameEntity(this.user, this.mi.findByName(lastAppSetup.getMapName()), lastAppSetup.getDiff());
             } else {
-                this.lastAppSetup = new AppSetup();
+                this.lastAppSetup = new com.paulkapa.btd6gamelogger.models.helper.AppSetup();
                 this.btd6 = new GameEntity();
             }
             model.addAttribute("appData", btd6);
@@ -446,27 +457,35 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.truncate("maps");
             this.truncate("upgrades");
             this.truncate("towers");
+            this.truncate("app_setup");
+            this.truncate("saved_data");
             this.ui.save(new User("btd6gluser", User.encryptPassword("pass"), "example@domain", new Timestamp(System.currentTimeMillis())));
+            logger.info("Saved anonymous user into database!");
             mi.save(new MapEntity("Monkey Meadow", "Begginer", 1.0d, 1));
             mi.save(new MapEntity("Balance", "Intermediate", 1.0d, 1));
             mi.save(new MapEntity("X Factor", "Advanced", 1.0d, 1));
             mi.save(new MapEntity("Sanctuary", "Expert", 1.0d, 1));
+            logger.info("Saved maps into databse!");
             ti.save(new TowerEntity("Dart Monkey", "Primary", 1.0d, 1.0d));
             ti.save(new TowerEntity("Boomerang Thrower", "Primary", 0.0d, 0.0d));
+            logger.info("Saved towers into database!");
             upi.save(new UpgradeEntity("upgrade0.1", 1, 1, 1.0d, ti.findByName("Dart Monkey")));
             upi.save(new UpgradeEntity("upgrade1.1", 1, 1, 1.0d, ti.findByName("Boomerang Thrower")));
-            upi.save(new UpgradeEntity("upgrade0.2", 1, 1, 1.0d, ti.findByName("Dart Monkey")));
-            upi.save(new UpgradeEntity("upgrade1.2", 1, 1, 1.0d, ti.findByName("Boomerang Thrower")));
-            upi.save(new UpgradeEntity("upgrade1.3", 1, 1, 1.0d, ti.findByName("Boomerang Thrower")));
-            upi.save(new UpgradeEntity("upgrade0.3", 1, 1, 1.0d, ti.findByName("Dart Monkey")));
-            upi.save(new UpgradeEntity("upgrade1.4", 1, 1, 1.0d, ti.findByName("Boomerang Thrower")));
-            logger.info("Saved anonymous user in database!");
+            logger.info("Saved upgrades into databse!");
+            asi.save(new AppSetup());
+            logger.info("Saved app setup into database!");
+            sdi.save(new SavedData(ui.findByName("btd6gluser"), mi.findByName("Balance"), "Easy", asi.getById(1)));
+            logger.info("Saved saved data into database!");
             this.maps = mi.findAll();
             logger.info("Retrieved maps from database!");
             this.towers = ti.findAll();
             logger.info("Retrieved towers from database!");
             this.upgrades = upi.findAll();
             logger.info("Retrieved upgrades from database!");
+            this.appSetup = asi.findAll();
+            logger.info("Retrieved app setup from database!\n" + this.appSetup.toString());
+            this.storeData = sdi.findAll();
+            logger.info("Retrieved stored data from database!\n" + this.storeData.toString());
         } catch (Exception e) {
             logger.error("Run method error: ", e);
             this.lastError = e;

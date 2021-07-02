@@ -3,9 +3,13 @@ package com.paulkapa.btd6gamelogger.models.system;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -43,6 +47,9 @@ public class User extends BaseEntity {
     @Column(name = "account_creation_date")
     private Timestamp creationDate;
 
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="user")
+    private List<SavedData> storedData;
+
     /**
      * Used to store the result of calculating the account age.
      */
@@ -62,6 +69,7 @@ public class User extends BaseEntity {
         this.password = null;
         this.email = null;
         this.creationDate = null;
+        this.storedData = null;
     }
 
     /**
@@ -76,6 +84,7 @@ public class User extends BaseEntity {
         this.password = null;
         this.email = null;
         this.creationDate = null;
+        this.storedData = null;
     }
 
     /**
@@ -90,6 +99,7 @@ public class User extends BaseEntity {
         this.password = password;
         this.email = null;
         this.creationDate = null;
+        this.storedData = null;
     }
 
     /**
@@ -105,6 +115,15 @@ public class User extends BaseEntity {
         this.password = password;
         this.email = email;
         this.creationDate = creationDate;
+        this.storedData = null;
+    }
+
+    public User(String name, String password, String email, Timestamp creationDate, List<SavedData> storedData) {
+        super("User", name);
+        this.password = password;
+        this.email = email;
+        this.creationDate = creationDate;
+        this.storedData = storedData;
     }
 
     /**
@@ -248,6 +267,14 @@ public class User extends BaseEntity {
         return this.accountAge;
     }
 
+    public List<SavedData> getStoredData() {
+        return storedData;
+    }
+
+    public void setStoredData(List<SavedData> storedData) {
+        this.storedData = storedData;
+    }
+
     @Override
     public String createString() {
         return super.createString() + ", password=" + this.password + ", email=" + this.email + ", creationDate=" + this.creationDate;
@@ -269,6 +296,7 @@ public class User extends BaseEntity {
         result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((storedData == null) ? 0 : storedData.hashCode());
         return result;
     }
 
@@ -297,6 +325,11 @@ public class User extends BaseEntity {
             if (other.password != null)
                 return false;
         } else if (!password.equals(other.password))
+            return false;
+        if (storedData == null) {
+            if (other.storedData != null)
+                return false;
+        } else if (!storedData.equals(other.storedData))
             return false;
         return true;
     }

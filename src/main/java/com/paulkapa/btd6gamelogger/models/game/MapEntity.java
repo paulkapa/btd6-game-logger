@@ -1,11 +1,17 @@
 package com.paulkapa.btd6gamelogger.models.game;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
+import com.paulkapa.btd6gamelogger.models.system.SavedData;
 
 /**
  * Class that defines the properties of a Map in BTD6.
@@ -35,6 +41,12 @@ public class MapEntity extends BaseEntity {
     private int baseStartingLives;
 
     /**
+     * 
+     */
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="map")
+    private List<SavedData> storedData;
+
+    /**
      *
      */
     @Transient
@@ -62,7 +74,7 @@ public class MapEntity extends BaseEntity {
      *
      */
     @Transient
-    private int currentCash;
+    private Double currentCash;
 
     /**
      *
@@ -78,6 +90,7 @@ public class MapEntity extends BaseEntity {
         this.mapType = null;
         this.baseStartingCash = 0.0d;
         this.baseStartingLives = 0;
+        this.storedData = null;
     }
 
     /**
@@ -88,6 +101,7 @@ public class MapEntity extends BaseEntity {
         this.mapType = null;
         this.baseStartingCash = 0.0d;
         this.baseStartingLives = 0;
+        this.storedData = null;
     }
 
     /**
@@ -98,6 +112,18 @@ public class MapEntity extends BaseEntity {
         this.mapType = mapType;
         this.baseStartingCash = baseStartingCash;
         this.baseStartingLives = baseStartingLives;
+        this.storedData = null;
+    }
+
+    /**
+     *
+     */
+    public MapEntity(String name, String mapType, double baseStartingCash, int baseStartingLives, List<SavedData> storedData) {
+        super("Map", name);
+        this.mapType = mapType;
+        this.baseStartingCash = baseStartingCash;
+        this.baseStartingLives = baseStartingLives;
+        this.storedData = storedData;
     }
 
     public String getMapType() {
@@ -140,11 +166,11 @@ public class MapEntity extends BaseEntity {
         this.currentGameMode = currentGameMode;
     }
 
-    public double getStartingCash() {
+    public Double getStartingCash() {
         return startingCash;
     }
 
-    public void setStartingCash(double startingCash) {
+    public void setStartingCash(Double startingCash) {
         this.startingCash = startingCash;
     }
 
@@ -156,11 +182,11 @@ public class MapEntity extends BaseEntity {
         this.startingLives = startingLives;
     }
 
-    public int getCurrentCash() {
+    public Double getCurrentCash() {
         return currentCash;
     }
 
-    public void setCurrentCash(int currentCash) {
+    public void setCurrentCash(Double currentCash) {
         this.currentCash = currentCash;
     }
 
@@ -170,6 +196,14 @@ public class MapEntity extends BaseEntity {
 
     public void setCurrentLives(int currentLives) {
         this.currentLives = currentLives;
+    }
+
+    public List<SavedData> getStoredData() {
+        return storedData;
+    }
+
+    public void setStoredData(List<SavedData> storedData) {
+        this.storedData = storedData;
     }
 
     @Override
@@ -190,13 +224,14 @@ public class MapEntity extends BaseEntity {
         temp = Double.doubleToLongBits(baseStartingCash);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + baseStartingLives;
-        result = prime * result + currentCash;
+        result = prime * result + ((currentCash == null) ? 0 : currentCash.hashCode());
         result = prime * result + ((currentDifficulty == null) ? 0 : currentDifficulty.hashCode());
         result = prime * result + ((currentGameMode == null) ? 0 : currentGameMode.hashCode());
         result = prime * result + currentLives;
         result = prime * result + ((mapType == null) ? 0 : mapType.hashCode());
         result = prime * result + ((startingCash == null) ? 0 : startingCash.hashCode());
         result = prime * result + startingLives;
+        result = prime * result + ((storedData == null) ? 0 : storedData.hashCode());
         return result;
     }
 
@@ -213,7 +248,10 @@ public class MapEntity extends BaseEntity {
             return false;
         if (baseStartingLives != other.baseStartingLives)
             return false;
-        if (currentCash != other.currentCash)
+        if (currentCash == null) {
+            if (other.currentCash != null)
+                return false;
+        } else if (!currentCash.equals(other.currentCash))
             return false;
         if (currentDifficulty == null) {
             if (other.currentDifficulty != null)
@@ -238,6 +276,11 @@ public class MapEntity extends BaseEntity {
         } else if (!startingCash.equals(other.startingCash))
             return false;
         if (startingLives != other.startingLives)
+            return false;
+        if (storedData == null) {
+            if (other.storedData != null)
+                return false;
+        } else if (!storedData.equals(other.storedData))
             return false;
         return true;
     }
