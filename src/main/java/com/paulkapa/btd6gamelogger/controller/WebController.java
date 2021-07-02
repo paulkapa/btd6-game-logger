@@ -460,16 +460,12 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             upi.save(new UpgradeEntity("upgrade1.3", 1, 1, 1.0d, ti.findByName("Boomerang Thrower")));
             upi.save(new UpgradeEntity("upgrade0.3", 1, 1, 1.0d, ti.findByName("Dart Monkey")));
             upi.save(new UpgradeEntity("upgrade1.4", 1, 1, 1.0d, ti.findByName("Boomerang Thrower")));
-            logger.info(ui.findByName("btd6gluser").toString());
-            logger.info("Saved default user in database!");
+            logger.info("Saved anonymous user in database!");
             this.maps = mi.findAll();
-            logger.info(this.maps.toString());
             logger.info("Retrieved maps from database!");
             this.towers = ti.findAll();
-            logger.info(this.towers.toString());
             logger.info("Retrieved towers from database!");
             this.upgrades = upi.findAll();
-            logger.info(this.upgrades.toString());
             logger.info("Retrieved upgrades from database!");
         } catch (Exception e) {
             logger.error("Run method error: ", e);
