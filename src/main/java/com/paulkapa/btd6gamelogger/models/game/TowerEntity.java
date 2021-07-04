@@ -21,6 +21,9 @@ import com.paulkapa.btd6gamelogger.models.helper.BaseTowerEntity;
 @Table(name = "towers")
 public class TowerEntity extends BaseTowerEntity {
 
+    @Transient
+    private StringBuffer sb = new StringBuffer();
+
     /**
      *
      */
@@ -167,12 +170,15 @@ public class TowerEntity extends BaseTowerEntity {
 
     @Override
     public String createString() {
-        return super.createString();
+        this.sb.delete(0, this.sb.length());
+        sb.append(super.createString());
+        return sb.toString();
     }
 
     @Override
     public String toString() {
         return "{TowerEntity " + this.createString() + "]}";
+
     }
 
     @Override

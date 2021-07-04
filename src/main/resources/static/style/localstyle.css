@@ -33,6 +33,10 @@
     border-radius: 10px;
     padding-top: 3px;
   }
+
+  .swopt {
+    display: none!important;
+  }
  }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

@@ -59,7 +59,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     private boolean isShutdownStarted;
 
     private GameEntity btd6;
-    private com.paulkapa.btd6gamelogger.models.helper.AppSetup lastAppSetup;
+    private MapEntity lastAppSelection;
 
     @PersistenceContext
     private EntityManager em;
@@ -108,7 +108,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.storeData = new ArrayList<>();
             this.appSetup = new ArrayList<>();
             this.btd6 = new GameEntity();
-            this.lastAppSetup = new com.paulkapa.btd6gamelogger.models.helper.AppSetup();
+            this.lastAppSelection = new MapEntity();
             this.isShutdownStarted = false;
         } catch(Exception e) {
             logger.error("Error when constructing \"com.paulkapa.btd6gamelogger.controller.WebController\". " +
@@ -157,8 +157,8 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         rootModel.addAttribute("towers", this.towers);
                         rootModel.addAttribute("upgrades", this.upgrades);
                         rootModel.addAttribute("game", this.btd6);
-                        rootModel.addAttribute("appSetup", this.lastAppSetup);
-                        rootModel.addAttribute("appData", btd6);
+                        rootModel.addAttribute("appSetup", this.lastAppSelection);
+                        rootModel.addAttribute("appData", this.btd6);
                         rootModel.addAttribute("currentPageTitle", "App");
                         logger.info("Application accessed. Enjoy!");
                     return "index";
@@ -171,8 +171,9 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         rootModel.addAttribute("newUser", null);
                         rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(this.user.getAccountAge()));
                         rootModel.addAttribute("maps", this.maps);
-                        rootModel.addAttribute("diff", new String[] {"Easy", "Medium", "Hard"});
-                        rootModel.addAttribute("appSetup", new com.paulkapa.btd6gamelogger.models.helper.AppSetup());
+                        rootModel.addAttribute("diffs", new String[] {"Easy", "Medium", "Hard"});
+                        rootModel.addAttribute("modes", new String[] {"Standard", "Primary Monkeys Only", "Deflation", "Military Monkeys Only", "Apopalypse", "Reverse", "Magic Monkeys Only", "Double HP MOABs", "Half Cash", "Alternate Bloon Rounds", "Impoppable", "CHIMPS", "Sandbox"});
+                        rootModel.addAttribute("appSetup", new MapEntity());
                         rootModel.addAttribute("currentPageTitle", "Home");
                         logger.info("Sign up process complete for: " + this.user.getName() + ". Welcome!");
                     return "index";
@@ -352,25 +353,34 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
      * @return redirect to "/"
      */
     @PostMapping("/logger")
-    public String mainApplication(@ModelAttribute com.paulkapa.btd6gamelogger.models.helper.AppSetup appSetup, Model model) {
+    public String mainApplication(@ModelAttribute MapEntity appSetup) {
         // Access allowed
         if(!this.isLoginAllowed && this.isLoggedIn && !this.isFailedLoginAttempt &&
                 !this.isRegisterAllowed &&
                 this.isApplicationAllowed) {
-            this.isApplicationStarted = true;
-            if(appSetup.getMapName() != null && appSetup.getMapName() != "Select...") {
-                this.lastAppSetup = appSetup;
-                this.btd6 = new GameEntity(this.user, this.mi.findByName(lastAppSetup.getMapName()), lastAppSetup.getDiff());
+            if(appSetup.getName() != null && appSetup.getName() != "Map...") {
+                MapEntity selectedMap = mi.findByName(appSetup.getName());
+                selectedMap.setCurrentDifficulty(appSetup.getCurrentDifficulty());
+                selectedMap.setCurrentGameMode(appSetup.getCurrentGameMode());
+                this.lastAppSelection = selectedMap;
+                this.btd6 = new GameEntity(this.user, selectedMap, selectedMap.getCurrentDifficulty(), selectedMap.getCurrentGameMode());
             } else {
-                this.lastAppSetup = new com.paulkapa.btd6gamelogger.models.helper.AppSetup();
+                this.lastAppSelection = new MapEntity();
                 this.btd6 = new GameEntity();
             }
-            model.addAttribute("appData", btd6);
+            this.isApplicationStarted = true;
+            this.failedMessage = "Info: if you encounter any problems please open an issue by accessing the link at the bottom of the page";
         }
         // Else
         else {
             this.isApplicationStarted = false;
+            this.failedMessage = "App page is not available at the moment. Please try again!";
         }
+        return "redirect:/";
+    }
+
+    @PostMapping(value="/save")
+    public String saveAppData(@ModelAttribute GameEntity savedAppData) {
         return "redirect:/";
     }
 
@@ -381,6 +391,48 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     @PostMapping(value="/home")
     public String goHomeButton() {
         this.isApplicationStarted = false;
+        return "redirect:/";
+    }
+
+    @PostMapping(value="/updateUserInfo")
+    public String handleUpdateUserInfo(@ModelAttribute User updatedUser) {
+        try {
+            // Save previous user information
+            User previousUser = this.user;
+            // New user constructed from inputs
+            User newUser = new User(updatedUser.getName().trim(),
+                                    User.encryptPassword(updatedUser.getPassword().trim()),
+                                    (updatedUser.getEmail().trim() != null && updatedUser.getEmail().trim() != "") ? updatedUser.getEmail().trim() : null,
+                                    previousUser.getCreationDate());
+            if(!previousUser.getName().equals(newUser.getName()) ||
+                    !previousUser.getPassword().equals(newUser.getPassword()) ||
+                    !previousUser.getEmail().equals(newUser.getEmail())) {
+                try {
+                    // Delete existing information from database
+                    this.ui.delete(this.ui.findByName(previousUser.getName()));
+                    this.ui.flush();
+                    // Add new information to database
+                    this.ui.save(newUser);
+                    logger.info("Update account successful: User [" + previousUser.getName() + "] to User [" + newUser.getName() + "]");
+                    this.user = newUser;
+                    this.failedMessage = "Success! Account updated.";
+                } catch (Exception e) {
+                    logger.warn("Update account attempt: User [" + this.user.getName() + "] to User [" + newUser.getName() + "] FAILED. Rolling back changes...");
+                    if(this.ui.findById(previousUser.getID()) == null) {
+                        this.ui.save(previousUser);
+                        this.user = previousUser;
+                    }
+                    this.lastError = e;
+                    this.failedMessage = "Update account information failed! No changes were made.";
+                }
+            } else {
+                this.failedMessage = "Info: No changes detected to your account!";
+            }
+        } catch(Exception e) {
+            logger.error("Update account attempt failed due to Exception. No changes will be made.", e.getCause());
+            this.lastError = e;
+            this.failedMessage = "Update account failed. Application error detected, please try again!";
+        }
         return "redirect:/";
     }
 
@@ -474,7 +526,10 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             logger.info("Saved upgrades into databse!");
             asi.save(new AppSetup());
             logger.info("Saved app setup into database!");
-            sdi.save(new SavedData(ui.findByName("btd6gluser"), mi.findByName("Balance"), "Easy", asi.getById(1)));
+            MapEntity savedMap = mi.findByName("Balance");
+            savedMap.setCurrentDifficulty("Easy");
+            savedMap.setCurrentGameMode("Standard");
+            sdi.save(new SavedData(ui.findByName("btd6gluser"), savedMap, asi.getById(1)));
             logger.info("Saved saved data into database!");
             this.maps = mi.findAll();
             logger.info("Retrieved maps from database!");
@@ -483,9 +538,9 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.upgrades = upi.findAll();
             logger.info("Retrieved upgrades from database!");
             this.appSetup = asi.findAll();
-            logger.info("Retrieved app setup from database!\n" + this.appSetup.toString());
+            logger.info("Retrieved app setup from database!");
             this.storeData = sdi.findAll();
-            logger.info("Retrieved stored data from database!\n" + this.storeData.toString());
+            logger.info("Retrieved stored data from database!");
         } catch (Exception e) {
             logger.error("Run method error: ", e);
             this.lastError = e;

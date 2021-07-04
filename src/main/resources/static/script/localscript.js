@@ -24,9 +24,13 @@ try {
   });
   var shutdownButton = document.getElementById("shutdownButton");
   shutdownButton.addEventListener("click", () => {
-    if(confirm("You may now close this window and any console windows opened by this application!")) {
-      window.location.reload();
-    }
+    alert("If you pressed the shutdown button by accident you may cancel the action in the following prompt.")
+    window.addEventListener("beforeunload", (event) => {
+      // Cancel the event as stated by the standard.
+      event.preventDefault();
+      // Chrome requires returnValue to be set.
+      event.returnValue = "";
+    });
   });
 } catch (error) {console.error("Error - handle app shutdown!\n" + error.name + " | " + error.message);}
 
@@ -42,9 +46,17 @@ try {
     alertContainer.classList.toggle("collapse");
     alertContainer.classList.toggle("alert-container");
     if(alertText.includes("Success!")) {
+      alertMessage.classList.remove("text-info");
       alertMessage.classList.add("text-success");
+      alertMessage.classList.remove("text-danger");
+    } else if(alertText.includes("Info")){
+      alertMessage.classList.add("text-info");
+      alertMessage.classList.remove("text-danger");
+      alertMessage.classList.remove("text-success");
     } else {
-      alertMessage.classList.add("text-danger");
+      alertMessage.classList.remove("text-info");
+      alertMessage.classList.remove("text-danger");
+      alertMessage.classList.add("text-success");
     }
     closeAlert.classList.toggle("collapse");
     closeAlert.addEventListener("click", () => {
@@ -381,15 +393,31 @@ document.body.onload = function() {
     var setupForm = document.getElementById("optionSelector");
     var mapOutput = document.getElementById("selectedMap");
     var diffOutput = document.getElementById("selectedDiff");
+    var modeOutput = document.getElementById("selectedMode");
     var mapSelect = document.getElementById("mapSelect");
     var diffSelect = document.getElementById("diffSelect");
+    var modeSelect = document.getElementById("modeSelect");
     var tdout = document.getElementsByClassName("tdout");
+    var odiff = document.getElementsByClassName("odiff");
+    var omode = document.getElementsByClassName("omode");
     var mapIndex = 0;
+    var diffIndex = 0;
+    var modeIndex = 0;
+    var allow = new Array(2);
     setupForm.addEventListener("reset", () => {
       mapOutput.innerText = "Select...";
       diffOutput.innerText = "Select...";
+      modeOutput.innerText = "Select...";
       for(let i = 0; i < tdout.length; i++) {
         tdout.item(i).classList.add("d-none");
+      }
+      document.getElementsByClassName("odiff-info").item(0).classList.remove("d-none");
+      for(let i = 0; i < odiff.length; i++) {
+        odiff.item(i).classList.add("d-none");
+      }
+      document.getElementsByClassName("omode-info").item(0).classList.remove("d-none");
+      for(let i = 0; i < omode.length; i++) {
+        omode.item(i).classList.add("d-none");
       }
     });
     mapSelect.addEventListener("change", (e) => {
@@ -398,36 +426,135 @@ document.body.onload = function() {
       var mapText = selectedMap.options[mapIndex].text;
       mapOutput.innerText = mapText;
       if(mapIndex != 0) {
+        document.getElementsByClassName("odiff-info").item(0).classList.add("d-none");
         for(let i = 0; i < tdout.length; i++) {
           var curr = tdout.item(i);
           if(!curr.classList.contains("td" + (mapIndex - 1))) {
-            tdout.item(i).classList.add("d-none");
+            curr.classList.add("d-none");
           } else {
-            tdout.item(i).classList.remove("d-none");
+            curr.classList.remove("d-none");
+            if(curr.classList.contains("td-diff")) {
+              curr.innerText = "";
+              diffSelect.selectedIndex = 0;
+            }
+            if(curr.classList.contains("td-mode")) {
+              curr.innerText = "";
+              modeSelect.selectedIndex = 0;
+            }
+            if(curr.classList.contains("td-mk")) {
+              curr.innerText = "";
+            }
           }
         }
       } else {
+        document.getElementsByClassName("odiff-info").item(0).classList.remove("d-none");
         for(let i = 0; i < tdout.length; i++) {
           var curr = tdout.item(i);
-          tdout.item(i).classList.add("d-none");
+          curr.classList.add("d-none");
+        }
+      }
+      for(let i = 0; i < odiff.length; i++) {
+        if(!mapText.includes("Map...")) {
+          odiff.item(i).classList.remove("d-none");
+        } else {
+          odiff.item(i).classList.add("d-none");
         }
       }
     });
     diffSelect.addEventListener("change", (e) => {
       var selectedDiff = e.target;
-      var diffText = selectedDiff.options[selectedDiff.selectedIndex].text;
+      diffIndex = selectedDiff.selectedIndex;
+      var diffText = selectedDiff.options[diffIndex].text;
       diffOutput.innerText = diffText;
-      if(selectedDiff.selectedIndex != 0 && mapIndex != 0) {
-        for(let i = 0; i< tdout.length; i++) {
+      if(diffIndex != 0 && diffIndex != 1) {
+        document.getElementsByClassName("omode-info").item(0).classList.add("d-none");
+        for(let i = 0; i < tdout.length; i++) {
           var curr = tdout.item(i);
-          if(curr.classList.contains("td-diff") && curr.classList.contains("td" + (mapIndex - 1))) {
-            curr.classList.remove("d-none");
-            curr.innerText = diffText;
+          if(!curr.classList.contains("tdout")) {
+            curr.classList.add("d-none");
+          } else {
+            if(curr.classList.contains("td-diff")) {
+              curr.innerText = diffText;
+            }
+            if(curr.classList.contains("td-mode")) {
+              curr.innerText = "";
+              modeSelect.selectedIndex = 0;
+            }
+            if(curr.classList.contains("td-mk")) {
+              curr.innerText = "";
+            }
+            if(curr.classList.contains("td" + (mapIndex - 1))) {
+              curr.classList.remove("d-none");
+            }
           }
-          if(curr.classList.contains("td-mk") && curr.classList.contains("td" + (mapIndex - 1))) {
+        }
+      } else {
+        document.getElementsByClassName("omode-info").item(0).classList.remove("d-none");
+        for(let i = 0; i < tdout.length; i++) {
+          var curr = tdout.item(i);
+          curr.classList.add("d-none");
+        }
+      }
+      switch(diffText) {
+        case "Easy": {allowed = [1, 2]; break;}
+        case "Medium": {allowed = [3, 5]; break;}
+        case "Hard": {allowed = [6, 11]; break;}
+        default: {allowed = [0, 0]; break;}
+      }
+      for(let i = 0; i < omode.length; i++) {
+        var curr = omode.item(i);
+        if(!diffText.includes("Difficulty...") || !diffText.includes("Select")) {
+          if(curr.classList.contains("om0") || curr.classList.contains("om12")) {
             curr.classList.remove("d-none");
-            curr.innerText = ((diffText == "CHIMPS") ? "No" : "Yes");
+          } else {
+            curr.classList.add("d-none");
+            if(i >= allowed[0] && i <= allowed[1]) {
+              curr.classList.remove("d-none");
+            }
           }
+        } else {
+          curr.classList.add("d-none");
+        }
+      }
+    });
+    modeSelect.addEventListener("change", (e) => {
+      var selectedMode = e.target;
+      modeIndex = selectedMode.selectedIndex;
+      var modeText = selectedMode.options[modeIndex].text;
+      modeOutput.innerText = modeText;
+      if(modeIndex != 0 && modeIndex != 1) {
+        for(let i = 0; i < tdout.length; i++) {
+          var curr = tdout.item(i);
+          if(!curr.classList.contains("tdout")) {
+            curr.classList.add("d-none");
+          } else {
+            if(curr.classList.contains("td-mode")) {
+              curr.innerText = modeText;
+              if(curr.classList.contains("td" + (mapIndex - 1))) {
+                curr.classList.remove("d-none");
+              }
+            } else if(curr.classList.contains("td-mk")) {
+              curr.innerText = ((modeText.includes("CHIMPS") || modeText.includes("Sandbox")) ? "No" : "Yes");
+              if(curr.classList.contains("td" + (mapIndex - 1))) {
+                curr.classList.remove("d-none");
+              }
+            }
+          }
+        }
+      }
+      for(let i = 0; i < omode.length; i++) {
+        var curr = omode.item(i);
+        if(!modeText.includes("Game Mode...") || !modeText.includes("Select")) {
+          if(curr.classList.contains("om0") || curr.classList.contains("om12")) {
+            curr.classList.remove("d-none");
+          } else {
+            curr.classList.add("d-none");
+            if(i >= allowed[0] && i <= allowed[1]) {
+              curr.classList.remove("d-none");
+            }
+          }
+        } else {
+          curr.classList.add("d-none");
         }
       }
     });

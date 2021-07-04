@@ -20,6 +20,9 @@ import javax.persistence.Transient;
 @MappedSuperclass
 public class BaseEntity implements iEntityType {
 
+    @Transient
+    private StringBuffer sb = new StringBuffer();
+
     /**
      * The <code>ID</code> value matching the Auto-Incrementing ID field
      * value acting as Primary Key of the working table.
@@ -134,7 +137,9 @@ public class BaseEntity implements iEntityType {
      * Attribute2=<code>Attribute2</code>, ..."
      */
     public String createString() {
-        return "ID=" + this.ID + ", type=" + this.type + ", name=" + this.name;
+        this.sb.delete(0, this.sb.length());
+        this.sb.append("ID=").append(this.ID).append(", type=").append(this.type).append(", name=").append(this.name);
+        return this.sb.toString();
     }
 
     /**

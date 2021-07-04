@@ -10,6 +10,8 @@ import com.paulkapa.btd6gamelogger.models.system.User;
  */
 public class GameEntity {
 
+    private StringBuffer sb = new StringBuffer();
+
     /**
      * The current loggedin <code>User</code>.
      */
@@ -31,6 +33,11 @@ public class GameEntity {
     private String diff;
 
     /**
+     * The current selected difficulty.
+     */
+    private String mode;
+
+    /**
      * Default constructor.
      */
     public GameEntity() {
@@ -38,6 +45,7 @@ public class GameEntity {
         this.maps = null;
         this.towers = null;
         this.diff = null;
+        this.mode = null;
     }
 
     /**
@@ -48,16 +56,18 @@ public class GameEntity {
         this.maps = null;
         this.towers = null;
         this.diff = null;
+        this.mode = null;
     }
 
     /**
      *
      */
-    public GameEntity(User user, MapEntity map, String diff) {
+    public GameEntity(User user, MapEntity map, String diff, String mode) {
         this.user = user;
         this.addMap(map);
         this.towers = null;
         this.diff = diff;
+        this.mode = mode;
     }
 
     /**
@@ -213,11 +223,43 @@ public class GameEntity {
         return this.diff;
     }
 
+    /**
+     * 
+     * @return
+     */
+    public String getMode() {
+        return mode;
+    }
+
+    /**
+     * 
+     * @param mode
+     */
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String createString() {
+        this.sb.delete(0, this.sb.length());
+        this.sb.append(" [No base model] = ").append(this.user).append("\n").append(this.maps).append("\n").append(this.towers);
+        return this.sb.toString();
+    }
+
+    /**
+     * @see #createString()
+     */
+    @Override
+    public String toString() {
+        return "{GameEntity [" + this.createString() + "]}";
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((diff == null) ? 0 : diff.hashCode());
         result = prime * result + ((maps == null) ? 0 : maps.hashCode());
+        result = prime * result + ((mode == null) ? 0 : mode.hashCode());
         result = prime * result + ((towers == null) ? 0 : towers.hashCode());
         result = prime * result + ((user == null) ? 0 : user.hashCode());
         return result;
@@ -232,10 +274,20 @@ public class GameEntity {
         if (getClass() != obj.getClass())
             return false;
         GameEntity other = (GameEntity) obj;
+        if (diff == null) {
+            if (other.diff != null)
+                return false;
+        } else if (!diff.equals(other.diff))
+            return false;
         if (maps == null) {
             if (other.maps != null)
                 return false;
         } else if (!maps.equals(other.maps))
+            return false;
+        if (mode == null) {
+            if (other.mode != null)
+                return false;
+        } else if (!mode.equals(other.mode))
             return false;
         if (towers == null) {
             if (other.towers != null)
@@ -248,10 +300,5 @@ public class GameEntity {
         } else if (!user.equals(other.user))
             return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return this.user.toString() + "\n" + this.maps.toString() + "\n" + this.towers.toString();
     }
 }

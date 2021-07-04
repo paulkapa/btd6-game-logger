@@ -22,6 +22,9 @@ import com.paulkapa.btd6gamelogger.models.system.SavedData;
 @Table(name = "maps")
 public class MapEntity extends BaseEntity {
 
+    @Transient
+    private StringBuffer sb = new StringBuffer();
+
     /**
      *
      */
@@ -208,7 +211,9 @@ public class MapEntity extends BaseEntity {
 
     @Override
     public String createString() {
-        return super.createString() + ", mapType=" + this.mapType + ", baseStartingCash=" + this.baseStartingCash + ", baseStartingLives=" + this.baseStartingLives;
+        this.sb.delete(0, this.sb.length());
+        this.sb.append(super.createString()).append(", mapType=").append(this.mapType).append(", baseStartingCash=").append(this.baseStartingLives).append(", currentDifficulty=").append(this.currentDifficulty).append(", currentGameMode=").append(this.currentGameMode);
+        return this.sb.toString();
     }
 
     @Override

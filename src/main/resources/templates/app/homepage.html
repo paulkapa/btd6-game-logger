@@ -6,13 +6,14 @@
     <section id="homeContentGrid" class="modal-content border border-white rounded-3 row flex-row bg-dark w-100 m-auto mt-2" th:fragment="homepage">
       <!-- App setup selection form -->
       <div class="modal-content row flex-row bg-dark m-auto mt-2 mb-2">
-        <form id="optionSelector" class="modal-content row flex-row justify-content-center bg-secondary w-auto m-auto mt-2" method="post" action="" th:action="@{/logger}" th:object="${appSetup}">
+        <form id="optionSelector" class="modal-content row flex-row justify-content-center bg-secondary w-auto m-auto mt-2" method="post" action=""
+                th:action="@{/logger}" th:object="${appSetup}">
           <p class="text-white h4 mt-2">Make your game selections and press Start</p>
           <!-- Selection controls -->
           <div class="col flex-column m-auto mt-2">
             <!-- Map select -->
             <div class="row flex-row rounded-3 text-start m-auto">
-              <select id="mapSelect" class="form-select" title="Maps" th:field="*{mapName}" required>
+              <select id="mapSelect" class="form-select" title="Maps" th:field="*{name}" required>
                 <option selected="" value="">Map...</option>
                 <th:block th:each="m : ${maps}">
                   <option th:value="${m.name}" th:text="${m.name}"></option>
@@ -21,10 +22,21 @@
             </div>
             <!-- Difficutly select -->
             <div class="row flex-row rounded-3 text-start m-auto mt-2">
-              <select id="diffSelect" class="form-select" title="Game Modes" th:field="*{diff}" required>
+              <select id="diffSelect" class="form-select" title="Game Modes" th:field="*{currentDifficulty}" required>
+                <option selected="" value="">Difficulty...</option>
+                <option class="odiff-info" value="info" disabled>Select map first!</option>
+                <th:block th:each="diff : ${diffs}">
+                  <option th:class="'d-none odiff'" th:value="${diff}" th:text="${diff}"></option>
+                </th:block>
+              </select>
+            </div>
+            <!-- Mode select -->
+            <div class="row flex-row rounded-3 text-start m-auto mt-2">
+              <select id="modeSelect" class="form-select" title="Game Modes" th:field="*{currentGameMode}" required>
                 <option selected="" value="">Game Mode...</option>
-                <th:block th:each="d : ${diff}">
-                  <option th:value="${d}" th:text="${d}"></option>
+                <option class="omode-info" value="info" disabled>Select difficulty first!</option>
+                <th:block th:each="mode, modeStat : ${modes}">
+                  <option th:class="'d-none omode om' + ${modeStat.index}" th:value="${mode}" th:text="${mode}"></option>
                 </th:block>
               </select>
             </div>
@@ -45,18 +57,23 @@
               <div class="fas fa-arrow-alt-circle-right fa-1x"></div>
               <p id="selectedDiff" class="d-inline">Select...</p>
             </div>
+            <div class="text-start m-auto mt-2 mb-1">
+              <div class="fas fa-arrow-alt-circle-right fa-1x"></div>
+              <p id="selectedMode" class="d-inline">Select...</p>
+            </div>
           </div>
         </form>
       </div>
     </section>
     <!-- Complete app selection view -->
-    <section id="homeSelectionViewGrid" class="modal-content border border-white rounded-3 col flex-column bg-dark w-100 m-auto mt-2" th:fragment="extended">
+    <section id="homeSelectionViewGrid" class="modal-content border border-white rounded-3 col flex-column justify-content-center bg-dark w-100 m-auto mt-2" th:fragment="extended">
       <table class="table small text-muted m-auto">
         <thead>
           <tr>
             <td>Name</td>
-            <td>Type</td>
+            <td class="swopt">Type</td>
             <td>Difficulty</td>
+            <td>Game Mode</td>
             <td>Starting Cash</td>
             <td>Starting Lives</td>
             <td>Monkey Knowledge</td>
@@ -66,8 +83,9 @@
           <tbody>
             <tr th:each="m : ${maps}">
               <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.name}"></td>
-              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.mapType}"></td>
+              <td class="swopt tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.mapType}"></td>
               <td class="tdout d-none td-diff" th:classappend="td + ${mStat.index}" th:text="''"></td>
+              <td class="tdout d-none td-mode" th:classappend="td + ${mStat.index}" th:text="''"></td>
               <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingCash.intValue()}"></td>
               <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingLives}"></td>
               <td class="tdout d-none td-mk" th:classappend="td + ${mStat.index}" th:text="''"></td>

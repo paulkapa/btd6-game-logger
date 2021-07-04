@@ -2,6 +2,7 @@ package com.paulkapa.btd6gamelogger.models.helper;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 
@@ -12,6 +13,9 @@ import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
  */
 @MappedSuperclass
 public class BaseUpgradeEntity extends BaseEntity {
+
+    @Transient
+    private StringBuffer sb = new StringBuffer();
 
     /**
      *
@@ -88,12 +92,15 @@ public class BaseUpgradeEntity extends BaseEntity {
 
     @Override
     public String createString() {
-        return super.createString() + ", path=" + this.path + ", tier=" + this.tier + ", baseCost=" + this.baseCost;
+        this.sb.delete(0, this.sb.length());
+        this.sb.append(super.createString()).append(", path=").append(this.path).append(", tier=").append(this.tier).append(", baseCost=").append(this.baseCost);
+        return this.sb.toString();
     }
 
     @Override
     public String toString() {
-        return "{BaseUpgradeEntity [" + this.createString() + "]}";
+        return "{BaseUpgradeEntity " + this.createString() + "]}";
+
     }
 
     @Override

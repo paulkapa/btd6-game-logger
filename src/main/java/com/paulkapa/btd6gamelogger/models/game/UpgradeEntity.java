@@ -17,6 +17,9 @@ import com.paulkapa.btd6gamelogger.models.helper.BaseUpgradeEntity;
 @Table(name = "upgrades")
 public class UpgradeEntity extends BaseUpgradeEntity {
 
+    @Transient
+    private StringBuffer sb = new StringBuffer();
+
     /**
      *
      */
@@ -81,6 +84,8 @@ public class UpgradeEntity extends BaseUpgradeEntity {
 
     @Override
     public String createString() {
+        this.sb.delete(0, this.sb.length());
+        sb.append(super.createString());
         return super.createString();
     }
 

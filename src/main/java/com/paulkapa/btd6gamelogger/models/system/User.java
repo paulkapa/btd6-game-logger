@@ -27,6 +27,9 @@ import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 @Table(name = "users")
 public class User extends BaseEntity {
 
+    @Transient
+    private StringBuffer sb = new StringBuffer();
+
     /**
      * The <code>password</code> value associated with this <code>User</code>
      * entity.
@@ -216,7 +219,7 @@ public class User extends BaseEntity {
     public static String visualizeAccountAge(long accountAge) {
         if(accountAge != 0l) {
             long difference = accountAge;
-            StringBuilder sb = new StringBuilder();
+            StringBuffer lsb = new StringBuffer();
             String y = null, d = null, h = "00 h ", m = ": 00 m ", s = ": 00 s", ms = ". 000 ms";
             while(difference != 0) {
                 if(difference < 1000) {
@@ -247,12 +250,15 @@ public class User extends BaseEntity {
             }
             if(d != null) {
                 if(y != null) {
-                    return sb.append(y).append(d).toString();
+                    lsb.append(y).append(d);
+                    return lsb.toString();
                 } else {
-                    return sb.append(d).toString();
+                    lsb.append(d);
+                    return lsb.toString();
                 }
             } else {
-                return sb.append(h).append(m).append(s).append(ms).toString();
+                lsb.append(h).append(m).append(s).append(ms);
+                return lsb.toString();
             }
         } else {
             return null;
@@ -277,7 +283,9 @@ public class User extends BaseEntity {
 
     @Override
     public String createString() {
-        return super.createString() + ", password=" + this.password + ", email=" + this.email + ", creationDate=" + this.creationDate;
+        this.sb.delete(0, this.sb.length());
+        this.sb.append(super.createString()).append(", password=").append(this.password).append(", email=").append(this.email).append(", creationDate=").append(this.creationDate);
+        return this.sb.toString();
     }
 
     /**
@@ -285,7 +293,8 @@ public class User extends BaseEntity {
      */
     @Override
     public String toString() {
-        return "{User [" + this.createString() + "]}";
+        return "{User " + this.createString() + "]}";
+
     }
 
     @Override
@@ -296,6 +305,7 @@ public class User extends BaseEntity {
         result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((sb == null) ? 0 : sb.hashCode());
         result = prime * result + ((storedData == null) ? 0 : storedData.hashCode());
         return result;
     }
@@ -326,6 +336,11 @@ public class User extends BaseEntity {
                 return false;
         } else if (!password.equals(other.password))
             return false;
+        if (sb == null) {
+            if (other.sb != null)
+                return false;
+        } else if (!sb.equals(other.sb))
+            return false;
         if (storedData == null) {
             if (other.storedData != null)
                 return false;
@@ -333,4 +348,6 @@ public class User extends BaseEntity {
             return false;
         return true;
     }
+
+    
 }

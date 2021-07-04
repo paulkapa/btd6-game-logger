@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 import com.paulkapa.btd6gamelogger.models.system.SavedData;
@@ -12,6 +13,9 @@ import com.paulkapa.btd6gamelogger.models.system.SavedData;
 @Entity(name = "AppSetup")
 @Table(name = "app_setup")
 public class AppSetup extends BaseEntity {
+
+    @Transient
+    private StringBuffer sb = new StringBuffer();
 
     @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="appSetup")
     private SavedData savedData;
@@ -34,8 +38,18 @@ public class AppSetup extends BaseEntity {
     }
 
     @Override
+    public String createString() {
+        this.sb.delete(0, this.sb.length());
+        this.sb.append(super.createString());
+        return this.sb.toString();
+    }
+
+    /**
+     * @see #createString()
+     */
+    @Override
     public String toString() {
-        return "AppSetup [storedData=" + savedData + "]";
+        return "{AppSetup [" + this.createString() + "]}";
     }
 
     @Override

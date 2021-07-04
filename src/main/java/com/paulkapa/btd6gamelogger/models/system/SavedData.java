@@ -17,6 +17,9 @@ import com.paulkapa.btd6gamelogger.models.game.MapEntity;
 @Table(name = "saved_data")
 public class SavedData extends BaseEntity {
 
+    @Transient
+    private StringBuffer sb = new StringBuffer();
+
     @ManyToOne
     @JoinColumn(name="user_ID", nullable=false)
     private User user;
@@ -27,6 +30,9 @@ public class SavedData extends BaseEntity {
 
     @Column(name = "map_diff")
     private String diff;
+
+    @Column(name = "map_mode")
+    private String mode;
 
     @OneToOne
     @JoinColumn(name="appsetup_ID", nullable=false)
@@ -40,6 +46,7 @@ public class SavedData extends BaseEntity {
         this.user = null;
         this.map = null;
         this.diff = null;
+        this.mode = null;
         this.appSetup = null;
         this.game = null;
     }
@@ -49,17 +56,19 @@ public class SavedData extends BaseEntity {
         this.user = user;
         this.map = null;
         this.diff = null;
+        this.mode = null;
         this.appSetup = null;
         this.game = null;
     }
 
-    public SavedData(User user, MapEntity map, String diff, AppSetup appSetup) {
+    public SavedData(User user, MapEntity map, AppSetup appSetup) {
         super("store", user.getName() + " - " + map.getName());
         this.user = user;
         this.map = map;
-        this.diff = null;
+        this.diff = map.getCurrentDifficulty();
+        this.mode = map.getCurrentGameMode();
         this.appSetup = appSetup;
-        this.game = new GameEntity(user, map, diff);
+        this.game = new GameEntity(user, map, this.diff, this.mode);
     }
 
     public SavedData(GameEntity gameData, AppSetup appSetup) {
@@ -67,8 +76,9 @@ public class SavedData extends BaseEntity {
         this.game = gameData;
         this.user = gameData.getUser();
         this.map = gameData.getMap(0);
-        this.appSetup = appSetup;
         this.diff = gameData.getDiff();
+        this.mode = gameData.getMode();
+        this.appSetup = appSetup;
     }
 
     public User getUser() {
@@ -95,6 +105,14 @@ public class SavedData extends BaseEntity {
         this.diff = diff;
     }
 
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
     public AppSetup getAppSetup() {
         return appSetup;
     }
@@ -103,12 +121,28 @@ public class SavedData extends BaseEntity {
         this.appSetup = appSetup;
     }
 
-    public GameEntity getGameData() {
+    public GameEntity getGame() {
         return game;
     }
 
-    public void setGameData(GameEntity gameData) {
-        this.game = gameData;
+    public void setGame(GameEntity game) {
+        this.game = game;
+    }
+
+    @Override
+    public String createString() {
+        this.sb.delete(0, this.sb.length());
+        this.sb.append(super.createString()).append("\n").append(this.user).append("\n").append(this.map).append("\n").append(this.game);
+        return this.sb.toString();
+    }
+
+    /**
+     * @see #createString()
+     */
+    @Override
+    public String toString() {
+        return "{SavedData [" + this.createString() + "]}";
+
     }
 
     @Override
@@ -119,6 +153,7 @@ public class SavedData extends BaseEntity {
         result = prime * result + ((diff == null) ? 0 : diff.hashCode());
         result = prime * result + ((game == null) ? 0 : game.hashCode());
         result = prime * result + ((map == null) ? 0 : map.hashCode());
+        result = prime * result + ((mode == null) ? 0 : mode.hashCode());
         result = prime * result + ((user == null) ? 0 : user.hashCode());
         return result;
     }
@@ -151,6 +186,11 @@ public class SavedData extends BaseEntity {
             if (other.map != null)
                 return false;
         } else if (!map.equals(other.map))
+            return false;
+        if (mode == null) {
+            if (other.mode != null)
+                return false;
+        } else if (!mode.equals(other.mode))
             return false;
         if (user == null) {
             if (other.user != null)

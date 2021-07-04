@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   </head>
   <body>
     <!-- Complete app selection view -->
-    <section id="loggerContentGrid" class="modal-content border border-white rounded-3 row flex-row bg-dark w-100 m-auto mt-2" th:fragment="logger">
+    <section id="loggerContentGrid" class="modal-content border border-white rounded-3 col flex-column justify-content-center bg-dark w-100 m-auto mt-2" th:fragment="logger">
       <!--Complete app selection view -->
       <table class="table small text-muted m-auto">
         <thead>
           <tr>
             <td>Name</td>
-            <td>Type</td>
+            <td class="swopt">Type</td>
             <td>Difficulty</td>
+            <td>Game Mode</td>
             <td>Starting Cash</td>
             <td>Starting Lives</td>
             <td>Monkey Knowledge</td>
@@ -19,21 +22,22 @@
         </th>
         <th:block>
           <tbody>
-            <tr th:each="m : ${appData.getMap(0)}">
-              <td th:text="${m.name}"></td>
-              <td th:text="${m.mapType}"></td>
-              <td th:text="${appSetup.diff}"></td>
-              <td th:text="${m.baseStartingCash.intValue()}"></td>
-              <td th:text="${m.baseStartingLives}"></td>
-              <td th:text="${appSetup.diff} != 'CHIMPS' ? 'Yes' : 'No'"></td>
+            <tr>
+              <td th:text="${appSetup.name}"></td>
+              <td class="swopt" th:text="${appSetup.mapType}"></td>
+              <td th:text="${appSetup.currentDifficulty}"></td>
+              <td th:text="${appSetup.currentGameMode}"></td>
+              <td th:text="${appSetup.baseStartingCash.intValue()}"></td>
+              <td th:text="${appSetup.baseStartingLives}"></td>
+              <td th:text="${appSetup.currentGameMode != 'CHIMPS' && appSetup.currentGameMode != 'Sandbox'} ? 'Yes' : 'No'"></td>
             </tr>
           </tbody>
         </th:block>
       </table>
     </section>
     <!-- Game information -->
-    <section id="loggerGameInfoGrid" class="modal-content border border-white rounded-3 col flex-column bg-dark w-100 m-auto mt-2" th:fragment="extended">
-      <table class="table w-100 text-white">
+    <section id="loggerGameInfoGrid" class="modal-content border border-white rounded-3 col flex-column justify-content-center bg-dark w-100 m-auto mt-2" th:fragment="extended">
+      <table class="table text-white w-auto m-auto">
         <thead>
           <tr>
             <td>Round</td>

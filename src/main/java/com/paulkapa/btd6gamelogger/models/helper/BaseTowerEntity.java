@@ -2,6 +2,7 @@ package com.paulkapa.btd6gamelogger.models.helper;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 
@@ -12,6 +13,9 @@ import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
  */
 @MappedSuperclass
 public class BaseTowerEntity extends BaseEntity {
+
+    @Transient
+    private StringBuffer sb = new StringBuffer();
 
     /**
      *
@@ -87,12 +91,15 @@ public class BaseTowerEntity extends BaseEntity {
 
     @Override
     public String createString() {
-        return super.createString() + ", towerType=" + this.towerType + ", baseCost=" + this.baseCost + ", baseSellValue=" + this.baseSellValue;
+        this.sb.delete(0, this.sb.length());
+        this.sb.append(super.createString()).append(", towerType=").append(this.towerType).append(", baseCost=").append(this.baseCost).append(", baseSellValue=").append(this.baseSellValue);
+        return this.sb.toString();
     }
 
     @Override
     public String toString() {
-        return "{BaseTowerEntity [" + this.createString() + "]}";
+        return "{BaseTowerEntity " + this.createString() + "]}";
+
     }
 
     @Override
