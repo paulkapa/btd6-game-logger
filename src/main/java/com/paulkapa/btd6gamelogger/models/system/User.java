@@ -3,6 +3,7 @@ package com.paulkapa.btd6gamelogger.models.system;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,6 +27,11 @@ import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 @Entity(name = "User")
 @Table(name = "users")
 public class User extends BaseEntity {
+
+    @Transient
+    private static ArrayList<User> inUseUsers = null;
+    @Transient
+    private static User defaultUser = null;
 
     @Transient
     private StringBuffer sb = new StringBuffer();
@@ -68,7 +74,7 @@ public class User extends BaseEntity {
      * Sets the rest of the user attributes to null.
      */
     public User() {
-        super("User", null);
+        super(null, null);
         this.password = null;
         this.email = null;
         this.creationDate = null;
@@ -83,7 +89,7 @@ public class User extends BaseEntity {
      * {@link User#User()}
      */
     public User(String name) {
-        super("User", name);
+        super(null, name);
         this.password = null;
         this.email = null;
         this.creationDate = null;
@@ -98,7 +104,7 @@ public class User extends BaseEntity {
      * {@link User#User()}
      */
     public User(String name, String password) {
-        super("User", name);
+        super(null, name);
         this.password = password;
         this.email = null;
         this.creationDate = null;
@@ -127,6 +133,68 @@ public class User extends BaseEntity {
         this.email = email;
         this.creationDate = creationDate;
         this.storedData = storedData;
+    }
+
+    /**
+     * Prefferd constructor.
+     * @param type
+     * @param name
+     * @param password
+     */
+    public User(String type, String name, String password) {
+        super(type, name);
+        this.password = password;
+        this.email = null;
+        this.creationDate = null;
+    }
+
+    public static ArrayList<User> getInUseUsers() {
+        return inUseUsers;
+    }
+
+    public static void setInUseUsers(ArrayList<User> inUseUsers) {
+        User.inUseUsers = inUseUsers;
+    }
+
+    public static void useUser(User user) {
+        
+    }
+
+    public static User getDefaultUser() {
+        try {
+            if(User.defaultUser == null) {
+                if(!User.initDefaultUser()) {
+                    throw new Exception("Could not reset default user!");
+                }
+            }
+        } catch(Exception e) {
+            System.err.println(e);
+        }
+        return User.defaultUser;
+    }
+
+    public static void setDefaultUser(User user) {
+        try {
+            if(user != null) {
+                User.defaultUser = user;
+            } else {
+                if(!User.initDefaultUser()) {
+                    throw new Exception("Could not reset default user!");
+                }
+            }
+        } catch(Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    public static boolean initDefaultUser() {
+        try {
+            User.defaultUser = new User("anonymous", "btd6gluser", User.encryptPassword("pass"));
+            return true;
+        } catch(Exception e) {
+            System.err.println(e);
+            return false;
+        }
     }
 
     /**

@@ -36,16 +36,17 @@ public class BaseEntity implements iEntityType {
      * The <code>name</code> value stored in the corresponding field of
      * the working table.
      * <p>
-     * It may be used to store either of:
+     * It may be used to store either as:
      * <ul>
      * <li>Username;
      * <li>First Name;
      * <li>Last Name;
      * <li>Full Name;
+     * <li>Name/Description
      * </ul>
      * depending on the situation.
      * <p>
-     * Is set explicitly through the constructor
+     * It is set explicitly through the constructor
      * {@link BaseEntity#BaseEntity(String, String)}, otherwise always null.
      *
      * @see BaseEntity#BaseEntity(String, String)
@@ -57,7 +58,9 @@ public class BaseEntity implements iEntityType {
      * Stores the type of entity that extends
      * this instance of <code>BaseEntity</code>.
      * <p>
-     * Is set explicitly through the constructors
+     * Other use cases are allowed.
+     * <p>
+     * It is set explicitly through the constructors
      * {@link BaseEntity#BaseEntity(String)} or {@link BaseEntity#BaseEntity(String, String)},
      * otherwise always null.
      *
@@ -70,8 +73,8 @@ public class BaseEntity implements iEntityType {
     /**
      * Default constructor.
      * <p>
-     * Initializes a <code>BaseEntity</code> object with a null
-     * <code>type</code> and <code>name</code>.
+     * Initializes a <code>BaseEntity</code> object with null
+     * <code>type</code> and <code>name</code> attributes.
      */
     public BaseEntity() {
         this.type = null;
@@ -84,6 +87,7 @@ public class BaseEntity implements iEntityType {
      */
     public BaseEntity(String type) {
         this.type = type;
+        this.name = null;
     }
 
     /**
@@ -130,25 +134,29 @@ public class BaseEntity implements iEntityType {
     }
 
     /**
-     * Concatenates the private attributes of this instance into a string
+     * Concatenates the private attributes of this object instance into a string
      * and return it.
      * <p>
      * Format example: "Attribute1=<code>Attribute1</code>,
      * Attribute2=<code>Attribute2</code>, ..."
+     * @return a string representation of the object's attributes
      */
     public String createString() {
         this.sb.delete(0, this.sb.length());
-        this.sb.append("ID=").append(this.ID).append(", type=").append(this.type).append(", name=").append(this.name);
+        this.sb.append("ID=").append(this.ID);
+        this.sb.append(", type=").append(this.type);
+        this.sb.append(", name=").append(this.name);
         return this.sb.toString();
     }
 
     /**
-     * Format example: "{{@link this#getClass()#getName()} [ {@link this#createString()} ] }"
+     * Format example: "{{@link #getClass()} [ {@link #createString()} ] }"
      * @see #createString()
+     * @return a string representation of the object
      */
     @Override
     public String toString() {
-        return "{BaseEntity [" + this.createString() + "]}";
+        return "{ " + this.getName() + "=[" + this.createString() + "]}";
     }
 
     @Override

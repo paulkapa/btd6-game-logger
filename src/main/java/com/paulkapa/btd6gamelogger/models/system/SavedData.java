@@ -11,11 +11,14 @@ import javax.persistence.Transient;
 import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 import com.paulkapa.btd6gamelogger.models.game.AppSetup;
 import com.paulkapa.btd6gamelogger.models.game.GameEntity;
-import com.paulkapa.btd6gamelogger.models.game.MapEntity;
+import com.paulkapa.btd6gamelogger.models.game.Map;
 
 @Entity(name = "SavedData")
 @Table(name = "saved_data")
 public class SavedData extends BaseEntity {
+
+    @Transient
+    public Map MAP;
 
     @Transient
     private StringBuffer sb = new StringBuffer();
@@ -24,9 +27,8 @@ public class SavedData extends BaseEntity {
     @JoinColumn(name="user_ID", nullable=false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name="map_ID", nullable=false)
-    private MapEntity map;
+    @Column(name="map_ID")
+    private int map;
 
     @Column(name = "map_diff")
     private String diff;
@@ -44,7 +46,7 @@ public class SavedData extends BaseEntity {
     public SavedData() {
         super("store", null);
         this.user = null;
-        this.map = null;
+        this.map = 0;
         this.diff = null;
         this.mode = null;
         this.appSetup = null;
@@ -54,19 +56,18 @@ public class SavedData extends BaseEntity {
     public SavedData(User user) {
         super("store", user.getName() + " - no-map");
         this.user = user;
-        this.map = null;
+        this.map = 0;
         this.diff = null;
         this.mode = null;
         this.appSetup = null;
         this.game = null;
     }
 
-    public SavedData(User user, MapEntity map, AppSetup appSetup) {
+    public SavedData(User user, Map map, AppSetup appSetup) {
         super("store", user.getName() + " - " + map.getName());
         this.user = user;
-        this.map = map;
-        this.diff = map.getCurrentDifficulty();
-        this.mode = map.getCurrentGameMode();
+        this.MAP = map;
+        this.map = map.getID();
         this.appSetup = appSetup;
         this.game = new GameEntity(user, map, this.diff, this.mode);
     }
@@ -75,7 +76,8 @@ public class SavedData extends BaseEntity {
         super("store", gameData.getUser().getName() + " - " + gameData.getMap(0).getName());
         this.game = gameData;
         this.user = gameData.getUser();
-        this.map = gameData.getMap(0);
+        this.MAP = gameData.getMap(0);
+        this.map = this.MAP.getID();
         this.diff = gameData.getDiff();
         this.mode = gameData.getMode();
         this.appSetup = appSetup;
@@ -89,12 +91,12 @@ public class SavedData extends BaseEntity {
         this.user = user;
     }
 
-    public MapEntity getMap() {
-        return map;
+    public Map getMap() {
+        return MAP;
     }
 
-    public void setMap(MapEntity map) {
-        this.map = map;
+    public void setMap(Map map) {
+        this.MAP = map;
     }
 
     public String getDiff() {
@@ -143,60 +145,5 @@ public class SavedData extends BaseEntity {
     public String toString() {
         return "{SavedData [" + this.createString() + "]}";
 
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((appSetup == null) ? 0 : appSetup.hashCode());
-        result = prime * result + ((diff == null) ? 0 : diff.hashCode());
-        result = prime * result + ((game == null) ? 0 : game.hashCode());
-        result = prime * result + ((map == null) ? 0 : map.hashCode());
-        result = prime * result + ((mode == null) ? 0 : mode.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        SavedData other = (SavedData) obj;
-        if (appSetup == null) {
-            if (other.appSetup != null)
-                return false;
-        } else if (!appSetup.equals(other.appSetup))
-            return false;
-        if (diff == null) {
-            if (other.diff != null)
-                return false;
-        } else if (!diff.equals(other.diff))
-            return false;
-        if (game == null) {
-            if (other.game != null)
-                return false;
-        } else if (!game.equals(other.game))
-            return false;
-        if (map == null) {
-            if (other.map != null)
-                return false;
-        } else if (!map.equals(other.map))
-            return false;
-        if (mode == null) {
-            if (other.mode != null)
-                return false;
-        } else if (!mode.equals(other.mode))
-            return false;
-        if (user == null) {
-            if (other.user != null)
-                return false;
-        } else if (!user.equals(other.user))
-            return false;
-        return true;
     }
 }

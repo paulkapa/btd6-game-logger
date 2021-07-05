@@ -1,24 +1,20 @@
 package com.paulkapa.btd6gamelogger.controller;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.paulkapa.btd6gamelogger.database.game.AppSetupInterface;
-import com.paulkapa.btd6gamelogger.database.game.MapInterface;
-import com.paulkapa.btd6gamelogger.database.game.TowerInterface;
-import com.paulkapa.btd6gamelogger.database.game.UpgradePathInterface;
 import com.paulkapa.btd6gamelogger.database.system.StoredDataInterface;
 import com.paulkapa.btd6gamelogger.database.system.UserInterface;
-import com.paulkapa.btd6gamelogger.models.game.GameEntity;
-import com.paulkapa.btd6gamelogger.models.game.MapEntity;
-import com.paulkapa.btd6gamelogger.models.game.TowerEntity;
-import com.paulkapa.btd6gamelogger.models.game.UpgradeEntity;
 import com.paulkapa.btd6gamelogger.models.game.AppSetup;
+import com.paulkapa.btd6gamelogger.models.game.GameEntity;
+import com.paulkapa.btd6gamelogger.models.game.Map;
+import com.paulkapa.btd6gamelogger.models.game.Tower;
+import com.paulkapa.btd6gamelogger.models.game.Upgrade;
 import com.paulkapa.btd6gamelogger.models.system.SavedData;
 import com.paulkapa.btd6gamelogger.models.system.User;
 
@@ -47,44 +43,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebController implements ErrorController, CommandLineRunner, ApplicationContextAware {
 
     private static final Logger logger = LoggerFactory.getLogger(WebController.class);
+    private ApplicationContext context;
+
+    @PersistenceContext
+    private EntityManager em;
+    @Autowired
+    private UserInterface ui;
+    @Autowired
+    private StoredDataInterface sdi;
+    @Autowired
+    private AppSetupInterface asi;
+    
     private boolean isLoginAllowed;
     private boolean isFailedLoginAttempt;
     private boolean isLoggedIn;
     private boolean isRegisterAllowed;
     private boolean isFailedRegisterAttempt;
-    private String failedMessage;
     private boolean isApplicationAllowed;
     private boolean isApplicationStarted;
+    private String failedMessage;
     private Exception lastError;
     private boolean isShutdownStarted;
 
     private GameEntity btd6;
-    private MapEntity lastAppSelection;
-
-    @PersistenceContext
-    private EntityManager em;
-
-    private ApplicationContext context;
-
-    @Autowired
-    private UserInterface ui;
-    @Autowired
-    private MapInterface mi;
-    @Autowired
-    private TowerInterface ti;
-    @Autowired
-    private UpgradePathInterface upi;
-    @Autowired
-    private StoredDataInterface sdi;
-    @Autowired
-    private AppSetupInterface asi;
+    private Map lastAppSelection;
 
     private User user;
-    private List<MapEntity> maps;
-    private List<TowerEntity> towers;
-    private List<UpgradeEntity> upgrades;
-    private List<SavedData> storeData;
-    private List<AppSetup> appSetup;
+    private LinkedHashMap<String, Map> maps;
+    private LinkedHashMap<String, Tower> towers;
+    private LinkedHashMap<String, Upgrade[][]> upgrades;
 
     /**
      * Default constructor.
@@ -97,19 +84,19 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.isLoggedIn = false;
             this.isRegisterAllowed = false;
             this.isFailedRegisterAttempt = false;
-            this.failedMessage = "";
             this.isApplicationAllowed = false;
             this.isApplicationStarted = false;
+            this.failedMessage = "";
             this.lastError = new Exception("Application has no errors!");
-            this.user = null;
-            this.maps = new ArrayList<>();
-            this.towers = new ArrayList<>();
-            this.upgrades = new ArrayList<>();
-            this.storeData = new ArrayList<>();
-            this.appSetup = new ArrayList<>();
-            this.btd6 = new GameEntity();
-            this.lastAppSelection = new MapEntity();
             this.isShutdownStarted = false;
+
+            this.btd6 = new GameEntity();
+            this.lastAppSelection = null;
+
+            this.user = User.getDefaultUser();
+            this.maps = Map.getMaps();
+            this.towers = Tower.getTowers();
+            this.upgrades = Upgrade.getUpgrades();
         } catch(Exception e) {
             logger.error("Error when constructing \"com.paulkapa.btd6gamelogger.controller.WebController\". " +
                             "It is advised to check and fix any problems and then restart the application! " +
@@ -135,10 +122,10 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             rootModel.addAttribute("isRegisterAllowed", this.isRegisterAllowed);
             rootModel.addAttribute("isFailedRegisterAttempt", this.isFailedRegisterAttempt);
             this.isFailedRegisterAttempt = false;
-            rootModel.addAttribute("failedMessage", this.failedMessage);
-            this.failedMessage = null;
             rootModel.addAttribute("isApplicationAllowed", this.isApplicationAllowed);
             rootModel.addAttribute("isApplicationStarted", this.isApplicationStarted);
+            rootModel.addAttribute("failedMessage", this.failedMessage);
+            this.failedMessage = null;
             rootModel.addAttribute("uname", ((this.user == null) ? null : this.user.getName()));
             rootModel.addAttribute("uemail", ((this.user == null) ? null : this.user.getEmail()));
             rootModel.addAttribute("uaccountAge", null);
@@ -173,7 +160,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         rootModel.addAttribute("maps", this.maps);
                         rootModel.addAttribute("diffs", new String[] {"Easy", "Medium", "Hard"});
                         rootModel.addAttribute("modes", new String[] {"Standard", "Primary Monkeys Only", "Deflation", "Military Monkeys Only", "Apopalypse", "Reverse", "Magic Monkeys Only", "Double HP MOABs", "Half Cash", "Alternate Bloon Rounds", "Impoppable", "CHIMPS", "Sandbox"});
-                        rootModel.addAttribute("appSetup", new MapEntity());
+                        rootModel.addAttribute("appSetup", new Map());
                         rootModel.addAttribute("currentPageTitle", "Home");
                         logger.info("Sign up process complete for: " + this.user.getName() + ". Welcome!");
                     return "index";
@@ -221,8 +208,10 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         // Catch Exception and Request /error
         catch (Exception e) {
             logger.error("Exception in root controller!", e);
-            this.lastError = e;
             this.isApplicationStarted = false;
+            this.failedMessage = "Extreme Application Error Detected!";
+            this.lastError = e;
+            rootModel.addAttribute("failedMessage", this.failedMessage);
             rootModel.addAttribute("currentPageTitle", "Error");
             return "/error";
         }
@@ -250,31 +239,36 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         // If method called for handling form
         else {
             try {
-                // New User constructed from form details
-                User newUser = new User(formInfo.getName().trim(),
-                                        User.encryptPassword(formInfo.getPassword().trim()),
-                                        (formInfo.getEmail().trim() != null && formInfo.getEmail().trim() != "") ? formInfo.getEmail().trim() : null,
-                                        new Timestamp(System.currentTimeMillis()));
-                // Check if account already exists in database
-                if(this.ui.findByName(newUser.getName()) != null) {
+                if(formInfo.getName().trim().equals("btd6gluser")) {
+                    this.failedMessage = "Success! You tried to copy the default anonymous account!";
                     this.isFailedRegisterAttempt = true;
-                    this.failedMessage = "Account already exists!";
-                    logger.warn("Register attempt: User [" + newUser.getName() + "] already exists in database.");
-                }
-                // Perform final check and save account
-                else {
-                    this.ui.save(newUser);
-                    this.user = this.ui.findByNameAndPassword(newUser.getName(), newUser.getPassword());
-                    this.isFailedRegisterAttempt = !(newUser.equals(this.user));
-                    this.user = null;
-                    this.isRegisterAllowed = this.isFailedRegisterAttempt;
-                    this.failedMessage = !this.isFailedRegisterAttempt ? "Success! You may login..." : "Error creating account!";
-                    logger.info("Account tried to register: [" + newUser.getName() + "] {failed : " + this.isFailedRegisterAttempt + "}");
+                } else {
+                    // New User constructed from form details
+                    User newUser = new User(formInfo.getName().trim(),
+                                            User.encryptPassword(formInfo.getPassword().trim()),
+                                            (formInfo.getEmail().trim() != null && formInfo.getEmail().trim() != "") ? formInfo.getEmail().trim() : null,
+                                            new Timestamp(System.currentTimeMillis()));
+                    // Check if account already exists in database
+                    if(this.ui.findByName(newUser.getName()) != null) {
+                        this.isFailedRegisterAttempt = true;
+                        this.failedMessage = "Account already exists!";
+                        logger.warn("Register attempt: User [" + newUser.getName() + "] already exists in database.");
+                    }
+                    // Perform final check and save account
+                    else {
+                        this.ui.save(newUser);
+                        this.user = this.ui.findByNameAndPassword(newUser.getName(), newUser.getPassword());
+                        this.isFailedRegisterAttempt = !(newUser.equals(this.user));
+                        this.user = null;
+                        this.isRegisterAllowed = this.isFailedRegisterAttempt;
+                        this.failedMessage = !this.isFailedRegisterAttempt ? "Success! You may login..." : "Error creating account!";
+                        logger.info("Account tried to register: [" + newUser.getName() + "] {failed : " + this.isFailedRegisterAttempt + "}");
+                    }
                 }
             } catch(Exception e) {
                 logger.error("Register attempt failed due to Exception.", e.getCause());
-                this.lastError = e;
                 this.failedMessage = "Registration failed. Application error detected, please try again!";
+                this.lastError = e;
             }
             return "redirect:/";
         }
@@ -302,6 +296,16 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         // If method called for handling form
         else {
             try {
+                if(formInfo.getName().trim().equals("btd6gluser")) {
+                    if(User.encryptPassword(formInfo.getPassword()).equals(User.getDefaultUser().getPassword())) {
+                        this.user = User.getDefaultUser();
+                        this.isLoginAllowed = false;
+                        this.isLoggedIn = true;
+                        this.isFailedLoginAttempt = false;
+                        this.isApplicationAllowed = true;
+                        this.failedMessage = "Info: Current login is anonymous. You won't be able to save your activity.";
+                    }
+                }
                 // New User constructed from form details
                 User newUser = new User(formInfo.getName().trim(), User.encryptPassword(formInfo.getPassword().trim()));
                 // Database querry result for form details
@@ -323,8 +327,8 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                                 ((this.isLoggedIn && !this.isFailedLoginAttempt) ? "successful" : "failed") + "}");
             } catch(Exception e) {
                 logger.error("Login attempt failed due to Exception.", e.getCause());
-                this.lastError = e;
                 this.failedMessage = "Login failed. Application error detected, please try again!";
+                this.lastError = e;
             }
             return "redirect:/";
         }
@@ -341,9 +345,9 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.isFailedLoginAttempt = false;
         this.isRegisterAllowed = false;
         this.isFailedRegisterAttempt = false;
-        this.failedMessage = "Success! You have been logged out...";
         this.isApplicationAllowed = false;
         this.isApplicationStarted = false;
+        this.failedMessage = "Success! You have been logged out...";
         this.user = null;
         return "redirect:/";
     }
@@ -353,19 +357,19 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
      * @return redirect to "/"
      */
     @PostMapping("/logger")
-    public String mainApplication(@ModelAttribute MapEntity appSetup) {
+    public String mainApplication(@ModelAttribute Map appSetup) {
         // Access allowed
         if(!this.isLoginAllowed && this.isLoggedIn && !this.isFailedLoginAttempt &&
                 !this.isRegisterAllowed &&
                 this.isApplicationAllowed) {
             if(appSetup.getName() != null && appSetup.getName() != "Map...") {
-                MapEntity selectedMap = mi.findByName(appSetup.getName());
-                selectedMap.setCurrentDifficulty(appSetup.getCurrentDifficulty());
-                selectedMap.setCurrentGameMode(appSetup.getCurrentGameMode());
-                this.lastAppSelection = selectedMap;
-                this.btd6 = new GameEntity(this.user, selectedMap, selectedMap.getCurrentDifficulty(), selectedMap.getCurrentGameMode());
+                Map selectedMap = Map.getMapByName(appSetup.getName());
+                selectedMap.setDifficulty(appSetup.getDifficulty());
+                selectedMap.setGameMode(appSetup.getGameMode());
+                this.lastAppSelection = new Map(selectedMap);
+                this.btd6 = new GameEntity(this.user, selectedMap, selectedMap.getDifficulty(), selectedMap.getGameMode());
             } else {
-                this.lastAppSelection = new MapEntity();
+                this.lastAppSelection = new Map();
                 this.btd6 = new GameEntity();
             }
             this.isApplicationStarted = true;
@@ -381,6 +385,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     @PostMapping(value="/save")
     public String saveAppData(@ModelAttribute GameEntity savedAppData) {
+        this.failedMessage = "Info: It is not yet possible to save your activity!";
         return "redirect:/";
     }
 
@@ -430,6 +435,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             }
         } catch(Exception e) {
             logger.error("Update account attempt failed due to Exception. No changes will be made.", e.getCause());
+            this.failedMessage = "Application Error Detected!";
             this.lastError = e;
             this.failedMessage = "Update account failed. Application error detected, please try again!";
         }
@@ -445,6 +451,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model errorInfo) {
         this.isApplicationStarted = false;
+        this.failedMessage = "Application Error Detected!";
         errorInfo.addAttribute("isLoginAllowed", this.isLoginAllowed);
         errorInfo.addAttribute("isLoggedIn", this.isLoggedIn);
         errorInfo.addAttribute("isFailedLoginAttempt", this.isFailedLoginAttempt);
@@ -464,6 +471,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             errorInfo.addAttribute("exceptionMessage", ((exception == null) ? "unknown" : exception.toString()));
         } catch (Exception e) {
             logger.error("Exception in handleError().", e);
+            this.failedMessage = "Severe Application Error Detected!";
             this.lastError = e;
         }
         errorInfo.addAttribute("lastError", this.lastError.toString());
@@ -486,6 +494,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             em.createNativeQuery("TRUNCATE TABLE " + table).executeUpdate();
             logger.warn("TRUNCATED table " + table + "!");
         } catch(Exception e) {
+            this.failedMessage = "Application Error Detected!";
             this.lastError = e;
             this.isApplicationStarted = false;
             logger.error("TRUNCATE ERROR on table " + table + "!\n", e);
@@ -506,43 +515,18 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     public void run(String... args) {
         try {
             this.truncate("users");
-            this.truncate("maps");
-            this.truncate("upgrades");
-            this.truncate("towers");
-            this.truncate("app_setup");
-            this.truncate("saved_data");
-            this.ui.save(new User("btd6gluser", User.encryptPassword("pass"), "example@domain", new Timestamp(System.currentTimeMillis())));
-            logger.info("Saved anonymous user into database!");
-            mi.save(new MapEntity("Monkey Meadow", "Begginer", 1.0d, 1));
-            mi.save(new MapEntity("Balance", "Intermediate", 1.0d, 1));
-            mi.save(new MapEntity("X Factor", "Advanced", 1.0d, 1));
-            mi.save(new MapEntity("Sanctuary", "Expert", 1.0d, 1));
-            logger.info("Saved maps into databse!");
-            ti.save(new TowerEntity("Dart Monkey", "Primary", 1.0d, 1.0d));
-            ti.save(new TowerEntity("Boomerang Thrower", "Primary", 0.0d, 0.0d));
-            logger.info("Saved towers into database!");
-            upi.save(new UpgradeEntity("upgrade0.1", 1, 1, 1.0d, ti.findByName("Dart Monkey")));
-            upi.save(new UpgradeEntity("upgrade1.1", 1, 1, 1.0d, ti.findByName("Boomerang Thrower")));
-            logger.info("Saved upgrades into databse!");
+            this.ui.save(User.getDefaultUser());
+            logger.info("Saved default anonymous user into database!");
             asi.save(new AppSetup());
             logger.info("Saved app setup into database!");
-            MapEntity savedMap = mi.findByName("Balance");
-            savedMap.setCurrentDifficulty("Easy");
-            savedMap.setCurrentGameMode("Standard");
+            Map savedMap = Map.getMapByName("Balance");
+            savedMap.setDifficulty("Easy");
+            savedMap.setGameMode("Standard");
             sdi.save(new SavedData(ui.findByName("btd6gluser"), savedMap, asi.getById(1)));
             logger.info("Saved saved data into database!");
-            this.maps = mi.findAll();
-            logger.info("Retrieved maps from database!");
-            this.towers = ti.findAll();
-            logger.info("Retrieved towers from database!");
-            this.upgrades = upi.findAll();
-            logger.info("Retrieved upgrades from database!");
-            this.appSetup = asi.findAll();
-            logger.info("Retrieved app setup from database!");
-            this.storeData = sdi.findAll();
-            logger.info("Retrieved stored data from database!");
         } catch (Exception e) {
             logger.error("Run method error: ", e);
+            this.failedMessage = "Application Error Detected!";
             this.lastError = e;
             this.isApplicationStarted = false;
         }

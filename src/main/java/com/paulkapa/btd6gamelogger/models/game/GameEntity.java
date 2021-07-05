@@ -20,12 +20,12 @@ public class GameEntity {
     /**
      * The <code>MapEntity</code> objects.
      */
-    private HashMap<String, MapEntity> maps;
+    private HashMap<String, Map> maps;
 
     /**
      * The <code>TowerEntity</code>.
      */
-    private HashMap<String, TowerEntity> towers;
+    private HashMap<String, Tower> towers;
 
     /**
      * The current selected difficulty.
@@ -62,7 +62,7 @@ public class GameEntity {
     /**
      *
      */
-    public GameEntity(User user, MapEntity map, String diff, String mode) {
+    public GameEntity(User user, Map map, String diff, String mode) {
         this.user = user;
         this.addMap(map);
         this.towers = null;
@@ -73,7 +73,7 @@ public class GameEntity {
     /**
      *
      */
-    public GameEntity(User user, HashMap<String, MapEntity> maps) {
+    public GameEntity(User user, HashMap<String, Map> maps) {
         this.user = user;
         this.maps = maps;
         this.towers = null;
@@ -82,7 +82,7 @@ public class GameEntity {
     /**
      *
      */
-    public GameEntity(User user, HashMap<String, MapEntity> maps, HashMap<String, TowerEntity> towers) {
+    public GameEntity(User user, HashMap<String, Map> maps, HashMap<String, Tower> towers) {
         this.user = user;
         this.maps = maps;
         this.towers = towers;
@@ -105,7 +105,7 @@ public class GameEntity {
     /**
      * Sets the <code>MapEntity</code> objects.
      */
-    public void setMaps(HashMap<String, MapEntity> maps) {
+    public void setMaps(HashMap<String, Map> maps) {
         this.maps = maps;
     }
 
@@ -113,7 +113,7 @@ public class GameEntity {
      * Adds a <code>MapEntity</code> object to the collection of
      * <code>MapEntity</code> objects.
      */
-    public void addMap(MapEntity e) {
+    public void addMap(Map e) {
         if(this.maps != null)
             this.maps.put(e.getName(), e);
         else {
@@ -125,7 +125,7 @@ public class GameEntity {
     /**
      * Gets the <code>MapEntity</code> objects.
      */
-    public HashMap<String, MapEntity> getMaps() {
+    public HashMap<String, Map> getMaps() {
         if(this.maps != null)
             return this.maps;
         else {
@@ -140,7 +140,7 @@ public class GameEntity {
      * <p>
      * Returns <code>null</code> if not found.
      */
-    public MapEntity getMap(String name) {
+    public Map getMap(String name) {
         if(this.maps != null && this.maps.keySet().contains(name))
             return this.maps.get(name);
         else {
@@ -154,7 +154,7 @@ public class GameEntity {
      * <p>
      * Returns <code>null</code> if not found.
      */
-    public MapEntity getMap(int index) {
+    public Map getMap(int index) {
         if(this.maps != null && (this.maps.get(this.maps.keySet().toArray()[index]) != null))
             return this.maps.get(this.maps.keySet().toArray()[index]);
         else {
@@ -165,7 +165,7 @@ public class GameEntity {
     /**
      * Sets the <codeTowerEntity</code> objects.
      */
-    public void setTowers(HashMap<String, TowerEntity> towers) {
+    public void setTowers(HashMap<String, Tower> towers) {
         this.towers = towers;
     }
 
@@ -173,7 +173,7 @@ public class GameEntity {
      * Adds a <code>TowerEntity</code> object to the collection of
      * <code>TowerEntity</code> objects.
      */
-    public void addTower(TowerEntity e) {
+    public void addTower(Tower e) {
         if(this.towers != null)
             this.towers.put(e.getName(), e);
         else {
@@ -185,7 +185,7 @@ public class GameEntity {
     /**
      * Gets the <code>TowerEntity</code> objects.
      */
-    public HashMap<String, TowerEntity> getTowers() {
+    public HashMap<String, Tower> getTowers() {
         if(this.towers != null)
             return this.towers;
         else {
@@ -200,7 +200,7 @@ public class GameEntity {
      * <p>
      * Returns <code>null</code> if not found.
      */
-    public TowerEntity getTower(String name) {
+    public Tower getTower(String name) {
         if(this.towers != null && this.towers.keySet().contains(name))
             return this.towers.get(name);
         else {

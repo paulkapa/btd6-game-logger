@@ -15,14 +15,14 @@
             <div class="row flex-row rounded-3 text-start m-auto">
               <select id="mapSelect" class="form-select" title="Maps" th:field="*{name}" required>
                 <option selected="" value="">Map...</option>
-                <th:block th:each="m : ${maps}">
-                  <option th:value="${m.name}" th:text="${m.name}"></option>
+                <th:block th:each="m : ${maps.keySet()}">
+                  <option th:value="${maps.get(m).getName()}" th:text="${maps.get(m).getName()}"></option>
                 </th:block>
               </select>
             </div>
             <!-- Difficutly select -->
             <div class="row flex-row rounded-3 text-start m-auto mt-2">
-              <select id="diffSelect" class="form-select" title="Game Modes" th:field="*{currentDifficulty}" required>
+              <select id="diffSelect" class="form-select" title="Game Modes" th:field="*{difficulty}" required>
                 <option selected="" value="">Difficulty...</option>
                 <option class="odiff-info" value="info" disabled>Select map first!</option>
                 <th:block th:each="diff : ${diffs}">
@@ -32,7 +32,7 @@
             </div>
             <!-- Mode select -->
             <div class="row flex-row rounded-3 text-start m-auto mt-2">
-              <select id="modeSelect" class="form-select" title="Game Modes" th:field="*{currentGameMode}" required>
+              <select id="modeSelect" class="form-select" title="Game Modes" th:field="*{gameMode}" required>
                 <option selected="" value="">Game Mode...</option>
                 <option class="omode-info" value="info" disabled>Select difficulty first!</option>
                 <th:block th:each="mode, modeStat : ${modes}">
@@ -81,13 +81,13 @@
         </th>
         <th:block>
           <tbody>
-            <tr th:each="m : ${maps}">
-              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.name}"></td>
-              <td class="swopt tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.mapType}"></td>
+            <tr th:each="m : ${maps.keySet()}">
+              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${maps.get(m).getName()}"></td>
+              <td class="swopt tdout d-none" th:classappend="td + ${mStat.index}" th:text="${maps.get(m).getType()}"></td>
               <td class="tdout d-none td-diff" th:classappend="td + ${mStat.index}" th:text="''"></td>
               <td class="tdout d-none td-mode" th:classappend="td + ${mStat.index}" th:text="''"></td>
-              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingCash.intValue()}"></td>
-              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m.baseStartingLives}"></td>
+              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${maps.get(m).getStartingCash()}"></td>
+              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${maps.get(m).getStartingLives()}"></td>
               <td class="tdout d-none td-mk" th:classappend="td + ${mStat.index}" th:text="''"></td>
             </tr>
           </tbody>
