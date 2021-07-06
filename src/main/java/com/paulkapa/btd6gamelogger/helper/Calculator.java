@@ -1,4 +1,4 @@
-package com.paulkapa.btd6gamelogger.models.helper;
+package com.paulkapa.btd6gamelogger.helper;
 
 import java.io.BufferedReader;
 import java.io.File;

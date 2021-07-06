@@ -7,18 +7,11 @@ import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 
 /**
  * Class that defines the properties of a Map in BTD6.
- *
+ * <p>
+ * Provides static storage for all towers.
  * @see BaseEntity
  */
 public class Map extends BaseEntity {
-    
-    public static final int EASY_STARTING_CASH = 0;
-    public static final int MEDIUM_STARTING_CASH = 0;
-    public static final int HARD_STARTING_CASH = 0;
-    
-    public static final int EASY_STARTING_LIVES = 0;
-    public static final int MEDIUM_STARTING_LIVES = 0;
-    public static final int HARD_STARTING_LIVES = 0;
 
     private StringBuffer sb = new StringBuffer();
 
@@ -47,21 +40,21 @@ public class Map extends BaseEntity {
 
     /**
      * Preffered constructor.
-     * @param type
      * @param name
+     * @param type
      * @param startingCash
      * @param startingLives
      */
     public Map(String type, String name, int startingCash, int startingLives) {
-        super(type, name);
+        super(name, type);
         this.startingCash = startingCash;
         this.startingLives = startingLives;
     }
 
     /**
      * Complete constructor.
-     * @param type
      * @param name
+     * @param type
      * @param difficulty
      * @param gameMode
      * @param startingCash
@@ -69,9 +62,9 @@ public class Map extends BaseEntity {
      * @param currentCash
      * @param currentLives
      */
-    public Map(String type, String name, String difficulty, String gameMode,
+    public Map(String name, String type, String difficulty, String gameMode,
                 int startingCash, int startingLives, long currentCash, int currentLives) {
-        super(type, name);
+        super(name, type);
         this.difficulty = difficulty;
         this.gameMode = gameMode;
         this.startingCash = startingCash;
@@ -85,7 +78,7 @@ public class Map extends BaseEntity {
      * @param other
      */
     public Map(Map other) {
-        super(other.getType(), other.getName());
+        super(other.getName(), other.getType());
         this.difficulty = other.getDifficulty();
         this.gameMode = other.getGameMode();
         this.startingCash = other.getStartingCash();
@@ -148,7 +141,7 @@ public class Map extends BaseEntity {
         Map.maps = maps;
     }
 
-    public static boolean initMapsMap() {
+    private static boolean initMapsMap() {
         try{
             Map.maps = new LinkedHashMap<>();
             maps.put("Monkey Meadow", new Map("Beginner", "Monkey Meadow", 650, 150));

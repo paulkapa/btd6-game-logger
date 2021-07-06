@@ -7,14 +7,11 @@ import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 
 /**
  * Class that defines the attributes af an Upgrade Path in BTD6.
- *
+ * <p>
  * Provides static storage for all upgrades.
+ * @see BaseEntity
  */
 public class Upgrade extends BaseEntity {
-
-    public static final double EASY_COST_MODIFIER = 0.85d;
-    public static final double MEDIUM_COST_MODIFIER = 1d;
-    public static final double HARD_COST_MODIFIER = 1.08d;
 
     private StringBuffer sb = new StringBuffer();
 
@@ -23,6 +20,7 @@ public class Upgrade extends BaseEntity {
 
     private String towerName;
     private int cost;
+    private boolean isApplied;
     private boolean isLocked;
     private short path;
     private short tier;
@@ -34,6 +32,7 @@ public class Upgrade extends BaseEntity {
         super(null, null);
         this.towerName = null;
         this.cost = 0;
+        this.isApplied = true;
         this.isLocked = true;
         this.path = 0;
         this.tier = 0;
@@ -51,12 +50,12 @@ public class Upgrade extends BaseEntity {
     /**
      * Preferred constructor.
      * @param type
-     * @param name
      * @param towerName
+     * @param name
      * @param cost
      */
     public Upgrade(String type, String towerName, String name, Integer cost) {
-        super(type, name);
+        super(name, type);
         this.towerName = towerName;
         this.cost = cost;
         try {
@@ -72,16 +71,19 @@ public class Upgrade extends BaseEntity {
 
     /**
      * Complete constructor.
+     * @param type
+     * @param towerName
      * @param name
      * @param cost
      * @param isLocked
      * @param path
      * @param tier
     */
-    public Upgrade(String type, String towerName, String name, Integer cost, boolean isLocked, short path, short tier) {
-        super(type, name);
+    public Upgrade(String type, String towerName, String name, Integer cost, boolean isApplied, boolean isLocked, short path, short tier) {
+        super(name, type);
         this.towerName = towerName;
         this.cost = cost;
+        this.isApplied = isApplied;
         this.isLocked = isLocked;
         this.path = path;
         this.tier = tier;
@@ -98,15 +100,16 @@ public class Upgrade extends BaseEntity {
 
     /**
      * Copy constructor.
-     * @param upgrade
+     * @param other
      */
-    public Upgrade(Upgrade upgrade) {
-        super(upgrade.getType(), upgrade.getName());
-        this.towerName = upgrade.getTowerName();
-        this.cost = upgrade.getCost();
-        this.isLocked = upgrade.isLocked();
-        this.path = upgrade.getPath();
-        this.tier = upgrade.getTier();
+    public Upgrade(Upgrade other) {
+        super(other.getName(), other.getType());
+        this.towerName = other.getTowerName();
+        this.cost = other.getCost();
+        this.isApplied = other.isApplied();
+        this.isLocked = other.isLocked();
+        this.path = other.getPath();
+        this.tier = other.getTier();
         try {
             if(Upgrade.upgrades == null) {
                 if(!Upgrade.initUpgradesMap()) {
@@ -138,6 +141,38 @@ public class Upgrade extends BaseEntity {
             Upgrade.inUseUpgrades = new ArrayList<>();
         }
         Upgrade.inUseUpgrades.add(upgrade);
+    }
+
+    public static int countNotLockedUpgrades(ArrayList<Upgrade[][]> upgradesList) {
+        int count = 0;
+        if(upgradesList != null) {
+            for(Upgrade[][] u : upgradesList) {
+                for(int i = 0; i < u.length; i++) {
+                    for(int j = 0; j < u[i].length; i++) {
+                        if(!u[i][j].isLocked()) {
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
+    
+    public static int countAppliedUpgrades(ArrayList<Upgrade[][]> upgradesList) {
+        int count = 0;
+        if(upgradesList != null) {
+            for(Upgrade[][] u : upgradesList) {
+                for(int i = 0; i < u.length; i++) {
+                    for(int j = 0; j < u[i].length; i++) {
+                        if(!u[i][j].isApplied()) {
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
     }
 
     public static LinkedHashMap<String, Upgrade[][]> getUpgrades() {
@@ -181,7 +216,7 @@ public class Upgrade extends BaseEntity {
         }
     }
 
-    public static boolean initUpgradesMap() {
+    private static boolean initUpgradesMap() {
         try {
             Upgrade.upgrades = new LinkedHashMap<>();
             Upgrade[][] thisUpgrades;
@@ -604,6 +639,14 @@ public class Upgrade extends BaseEntity {
 
     public void setCost(int baseCost) {
         this.cost = baseCost;
+    }
+
+    public boolean isApplied() {
+        return isApplied;
+    }
+
+    public void setApplied(boolean isApplied) {
+        this.isApplied = isApplied;
     }
 
     public boolean isLocked() {

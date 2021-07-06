@@ -4,13 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -18,10 +14,6 @@ import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 
 /**
  * Class that defines the attributes of a real user of this application.
- * <p>
- * Extends <code>BaseEntity</code> class which provides the base attributes
- * and methods for handling user data.
- *
  * @see BaseEntity
  */
 @Entity(name = "User")
@@ -53,11 +45,8 @@ public class User extends BaseEntity {
     /**
      * The date and time when this <code>User</code> was first created.
      */
-    @Column(name = "account_creation_date")
+    @Column(name = "creation_date")
     private Timestamp creationDate;
-
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="user")
-    private List<SavedData> storedData;
 
     /**
      * Used to store the result of calculating the account age.
@@ -67,85 +56,26 @@ public class User extends BaseEntity {
 
     /**
      * Default constructor.
-     * <p>
-     * Calls the super class constructor {@link BaseEntity#BaseEntity(String, String)}
-     * providing as parameters "<code>User</code>" and <code>null</code>.
-     * <p>
-     * Sets the rest of the user attributes to null.
      */
     public User() {
         super(null, null);
         this.password = null;
         this.email = null;
         this.creationDate = null;
-        this.storedData = null;
     }
 
     /**
-     * Constructor that initializes a <code>User</code> object with
-     * the provided <code>name</code> parameter.
-     * <p>
-     * Applies the same principles as the default constructor
-     * {@link User#User()}
-     */
-    public User(String name) {
-        super(null, name);
-        this.password = null;
-        this.email = null;
-        this.creationDate = null;
-        this.storedData = null;
-    }
-
-    /**
-     * Constructor that initializes a <code>User</code> object with
-     * the provided <code>name</code> and <code>password</code> parameters.
-     * <p>
-     * Applies the same principles as the default constructor
-     * {@link User#User()}
-     */
-    public User(String name, String password) {
-        super(null, name);
-        this.password = password;
-        this.email = null;
-        this.creationDate = null;
-        this.storedData = null;
-    }
-
-    /**
-     * Constructor that initializes a <code>User</code> object with
-     * the provided <code>name</code>, <code>password</code> and
-     * <code>email</code> parameters.
-     * <p>
-     * Applies the same principles as the default constructor
-     * {@link User#User()}
-     */
-    public User(String name, String password, String email, Timestamp creationDate) {
-        super("User", name);
-        this.password = password;
-        this.email = email;
-        this.creationDate = creationDate;
-        this.storedData = null;
-    }
-
-    public User(String name, String password, String email, Timestamp creationDate, List<SavedData> storedData) {
-        super("User", name);
-        this.password = password;
-        this.email = email;
-        this.creationDate = creationDate;
-        this.storedData = storedData;
-    }
-
-    /**
+     * Complete constructor.
      * Prefferd constructor.
-     * @param type
      * @param name
+     * @param type
      * @param password
      */
-    public User(String type, String name, String password) {
-        super(type, name);
+    public User(String name, String type, String password, String email, Timestamp creationDate) {
+        super(name, type);
         this.password = password;
-        this.email = null;
-        this.creationDate = null;
+        this.email = email;
+        this.creationDate = creationDate;
     }
 
     public static ArrayList<User> getInUseUsers() {
@@ -187,14 +117,21 @@ public class User extends BaseEntity {
         }
     }
 
-    public static boolean initDefaultUser() {
+    private static boolean initDefaultUser() {
         try {
-            User.defaultUser = new User("anonymous", "btd6gluser", User.encryptPassword("pass"));
+            User.defaultUser = new User("btd6gluser", "anonymous", User.encryptPassword("pass"), null, null);
             return true;
         } catch(Exception e) {
             System.err.println(e);
             return false;
         }
+    }
+
+    /**
+     * Gets the <code>password</code> attribute of this object.
+     */
+    public String getPassword() {
+        return this.password;
     }
 
     /**
@@ -230,10 +167,10 @@ public class User extends BaseEntity {
     }
 
     /**
-     * Gets the <code>password</code> attribute of this object.
+     * Gets the <code>email</code> attribute of this object.
      */
-    public String getPassword() {
-        return this.password;
+    public String getEmail() {
+        return this.email;
     }
 
     /**
@@ -246,10 +183,10 @@ public class User extends BaseEntity {
     }
 
     /**
-     * Gets the <code>email</code> attribute of this object.
+     * Gets the <code>creationDate</code> attribute of this object.
      */
-    public String getEmail() {
-        return this.email;
+    public Timestamp getCreationDate() {
+        return this.creationDate;
     }
 
     /**
@@ -262,10 +199,11 @@ public class User extends BaseEntity {
     }
 
     /**
-     * Gets the <code>creationDate</code> attribute of this object.
+     * Gets the <code>User</code>'s account age.
+     * @return current account age in milliseconds
      */
-    public Timestamp getCreationDate() {
-        return this.creationDate;
+    public long getAccountAge() {
+        return this.accountAge;
     }
 
     /**
@@ -333,26 +271,14 @@ public class User extends BaseEntity {
         }
     }
 
-    /**
-     * Gets the <code>User</code>'s account age.
-     * @return current account age in milliseconds
-     */
-    public long getAccountAge() {
-        return this.accountAge;
-    }
-
-    public List<SavedData> getStoredData() {
-        return storedData;
-    }
-
-    public void setStoredData(List<SavedData> storedData) {
-        this.storedData = storedData;
-    }
-
     @Override
     public String createString() {
         this.sb.delete(0, this.sb.length());
-        this.sb.append(super.createString()).append(", password=").append(this.password).append(", email=").append(this.email).append(", creationDate=").append(this.creationDate);
+        this.sb.append(super.createString());
+        this.sb.append(", password=").append(this.password);
+        this.sb.append(", email=").append(this.email);
+        this.sb.append(", creation_date=").append(this.creationDate);
+        this.sb.append(", account_age=").append(User.visualizeAccountAge(this.accountAge));
         return this.sb.toString();
     }
 
@@ -361,7 +287,7 @@ public class User extends BaseEntity {
      */
     @Override
     public String toString() {
-        return "{User " + this.createString() + "]}";
+        return "{ " + this.getName() + "=[" + this.createString() + "]}";
 
     }
 
@@ -373,8 +299,6 @@ public class User extends BaseEntity {
         result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((sb == null) ? 0 : sb.hashCode());
-        result = prime * result + ((storedData == null) ? 0 : storedData.hashCode());
         return result;
     }
 
@@ -404,18 +328,6 @@ public class User extends BaseEntity {
                 return false;
         } else if (!password.equals(other.password))
             return false;
-        if (sb == null) {
-            if (other.sb != null)
-                return false;
-        } else if (!sb.equals(other.sb))
-            return false;
-        if (storedData == null) {
-            if (other.storedData != null)
-                return false;
-        } else if (!storedData.equals(other.storedData))
-            return false;
         return true;
     }
-
-    
 }

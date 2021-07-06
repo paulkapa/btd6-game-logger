@@ -1,21 +1,17 @@
 package com.paulkapa.btd6gamelogger.controller;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
-import com.paulkapa.btd6gamelogger.database.game.AppSetupInterface;
-import com.paulkapa.btd6gamelogger.database.system.StoredDataInterface;
 import com.paulkapa.btd6gamelogger.database.system.UserInterface;
-import com.paulkapa.btd6gamelogger.models.game.AppSetup;
-import com.paulkapa.btd6gamelogger.models.game.GameEntity;
+import com.paulkapa.btd6gamelogger.models.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.game.Map;
 import com.paulkapa.btd6gamelogger.models.game.Tower;
 import com.paulkapa.btd6gamelogger.models.game.Upgrade;
-import com.paulkapa.btd6gamelogger.models.system.SavedData;
 import com.paulkapa.btd6gamelogger.models.system.User;
 
 import org.slf4j.Logger;
@@ -49,10 +45,6 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     private EntityManager em;
     @Autowired
     private UserInterface ui;
-    @Autowired
-    private StoredDataInterface sdi;
-    @Autowired
-    private AppSetupInterface asi;
     
     private boolean isLoginAllowed;
     private boolean isFailedLoginAttempt;
@@ -65,19 +57,24 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     private Exception lastError;
     private boolean isShutdownStarted;
 
-    private GameEntity btd6;
+    private GameContainer btd6;
     private Map lastAppSelection;
 
     private User user;
-    private LinkedHashMap<String, Map> maps;
-    private LinkedHashMap<String, Tower> towers;
-    private LinkedHashMap<String, Upgrade[][]> upgrades;
+    private ArrayList<Map> maps;
+    private ArrayList<Tower> towers;
+    private ArrayList<Upgrade[][]> upgrades;
 
     /**
      * Default constructor.
      */
     @Autowired
     public WebController() {
+        Thread printingHook = new Thread(() -> {
+			final Logger logger = LoggerFactory.getLogger(getClass());
+			logger.info("Aplication shutdown completed. Waiting for JVM to exit...");
+		});
+		Runtime.getRuntime().addShutdownHook(printingHook);
         try {
             this.isLoginAllowed = false;
             this.isFailedLoginAttempt = false;
@@ -90,13 +87,13 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.lastError = new Exception("Application has no errors!");
             this.isShutdownStarted = false;
 
-            this.btd6 = new GameEntity();
+            this.btd6 = null;
             this.lastAppSelection = null;
 
-            this.user = User.getDefaultUser();
-            this.maps = Map.getMaps();
-            this.towers = Tower.getTowers();
-            this.upgrades = Upgrade.getUpgrades();
+            this.user = null;
+            this.maps = null;
+            this.towers = null;
+            this.upgrades = null;
         } catch(Exception e) {
             logger.error("Error when constructing \"com.paulkapa.btd6gamelogger.controller.WebController\". " +
                             "It is advised to check and fix any problems and then restart the application! " +
@@ -157,9 +154,9 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         this.user.setAccountAge(System.currentTimeMillis() - this.user.getCreationDate().getTime());
                         rootModel.addAttribute("newUser", null);
                         rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(this.user.getAccountAge()));
-                        rootModel.addAttribute("maps", this.maps);
-                        rootModel.addAttribute("diffs", new String[] {"Easy", "Medium", "Hard"});
-                        rootModel.addAttribute("modes", new String[] {"Standard", "Primary Monkeys Only", "Deflation", "Military Monkeys Only", "Apopalypse", "Reverse", "Magic Monkeys Only", "Double HP MOABs", "Half Cash", "Alternate Bloon Rounds", "Impoppable", "CHIMPS", "Sandbox"});
+                        rootModel.addAttribute("maps", Map.getMaps());
+                        rootModel.addAttribute("diffs", GameContainer.DIFFICULTIES);
+                        rootModel.addAttribute("modes", GameContainer.GAME_MODES);
                         rootModel.addAttribute("appSetup", new Map());
                         rootModel.addAttribute("currentPageTitle", "Home");
                         logger.info("Sign up process complete for: " + this.user.getName() + ". Welcome!");
@@ -244,7 +241,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     this.isFailedRegisterAttempt = true;
                 } else {
                     // New User constructed from form details
-                    User newUser = new User(formInfo.getName().trim(),
+                    User newUser = new User(formInfo.getName().trim(), "regular",
                                             User.encryptPassword(formInfo.getPassword().trim()),
                                             (formInfo.getEmail().trim() != null && formInfo.getEmail().trim() != "") ? formInfo.getEmail().trim() : null,
                                             new Timestamp(System.currentTimeMillis()));
@@ -307,7 +304,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     }
                 }
                 // New User constructed from form details
-                User newUser = new User(formInfo.getName().trim(), User.encryptPassword(formInfo.getPassword().trim()));
+                User newUser = new User(formInfo.getName().trim(), "regular", User.encryptPassword(formInfo.getPassword().trim()), null, null);
                 // Database querry result for form details
                 User result = ui.findByNameAndPassword(newUser.getName(), newUser.getPassword());
                 // Check if account exists in database
@@ -366,11 +363,13 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                 Map selectedMap = Map.getMapByName(appSetup.getName());
                 selectedMap.setDifficulty(appSetup.getDifficulty());
                 selectedMap.setGameMode(appSetup.getGameMode());
-                this.lastAppSelection = new Map(selectedMap);
-                this.btd6 = new GameEntity(this.user, selectedMap, selectedMap.getDifficulty(), selectedMap.getGameMode());
+                selectedMap.setStartingCash(GameContainer.getStartingCashByGameMode(selectedMap.getGameMode()));
+                selectedMap.setStartingLives(GameContainer.getStartingLivesByDifficultyAndGameMode(selectedMap.getDifficulty(), selectedMap.getGameMode()));
+                this.lastAppSelection = selectedMap;
+                this.btd6 = new GameContainer(this.user, selectedMap);
             } else {
                 this.lastAppSelection = new Map();
-                this.btd6 = new GameEntity();
+                this.btd6 = new GameContainer();
             }
             this.isApplicationStarted = true;
             this.failedMessage = "Info: if you encounter any problems please open an issue by accessing the link at the bottom of the page";
@@ -384,7 +383,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     }
 
     @PostMapping(value="/save")
-    public String saveAppData(@ModelAttribute GameEntity savedAppData) {
+    public String saveAppData(@ModelAttribute GameContainer savedAppData) {
         this.failedMessage = "Info: It is not yet possible to save your activity!";
         return "redirect:/";
     }
@@ -405,7 +404,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             // Save previous user information
             User previousUser = this.user;
             // New user constructed from inputs
-            User newUser = new User(updatedUser.getName().trim(),
+            User newUser = new User(updatedUser.getName().trim(), "regular",
                                     User.encryptPassword(updatedUser.getPassword().trim()),
                                     (updatedUser.getEmail().trim() != null && updatedUser.getEmail().trim() != "") ? updatedUser.getEmail().trim() : null,
                                     previousUser.getCreationDate());
@@ -438,6 +437,31 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.failedMessage = "Application Error Detected!";
             this.lastError = e;
             this.failedMessage = "Update account failed. Application error detected, please try again!";
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping(value="/deleteUserAccount")
+    public String deleteUserAccount() {
+        try{
+            if(this.isLoggedIn) {
+                this.ui.delete(this.ui.findByName(this.user.getName()));
+                this.ui.flush();
+                this.isLoginAllowed = true;
+                this.isLoggedIn = false;
+                this.isFailedLoginAttempt = false;
+                this.isRegisterAllowed = false;
+                this.isFailedRegisterAttempt = false;
+                this.isApplicationAllowed = false;
+                this.isApplicationStarted = false;
+                this.failedMessage = "Info: Your account has been deleted from database...";
+                this.user = null;
+            } else {
+                throw new Exception("Error when deleteing user! Cannot read user information.");
+            }
+        } catch(Exception e) {
+            this.failedMessage = "Info: Couldn't delete your account... Please try again!";
+            this.lastError = e;
         }
         return "redirect:/";
     }
@@ -479,9 +503,9 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         return "error";
     }
 
-    @PostMapping("/shutdownContext")
+    @PostMapping("/shutdown")
     public String shutdownContext() {
-        logger.info("APPLICATION SHUTDOWN INITIATED...");
+        logger.info("Application shutdown initiated...");
         this.isShutdownStarted = !this.isLoggedIn;
         return "redirect:/";
     }
@@ -517,13 +541,6 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.truncate("users");
             this.ui.save(User.getDefaultUser());
             logger.info("Saved default anonymous user into database!");
-            asi.save(new AppSetup());
-            logger.info("Saved app setup into database!");
-            Map savedMap = Map.getMapByName("Balance");
-            savedMap.setDifficulty("Easy");
-            savedMap.setGameMode("Standard");
-            sdi.save(new SavedData(ui.findByName("btd6gluser"), savedMap, asi.getById(1)));
-            logger.info("Saved saved data into database!");
         } catch (Exception e) {
             logger.error("Run method error: ", e);
             this.failedMessage = "Application Error Detected!";

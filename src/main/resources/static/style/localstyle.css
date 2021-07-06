@@ -23,17 +23,17 @@
     border: none!important;
   }
 
-  #navGrid, #navBar, #footerGrid, #errorPageTitle {
+  #navGrid, #footerGrid, #errorPageTitle {
     background-color: rgb(86, 94, 100)!important;
   }
-  #contentControl button, #wip {
+  #contentControl button {
     background-color: rgb(33, 37, 41)!important;
   }
-  #wip {
-    border-radius: 10px;
-    padding-top: 3px;
+  #wip, #wip p {
+    border-radius: 10px!important;
+    padding-top: 3px!important;
+    color: black!important;
   }
-
   .swopt {
     display: none!important;
   }
@@ -51,25 +51,16 @@ body {
 }
 
 #spinnerContainer {
-  width: 4em;
-  height: 4em;
   position: absolute;
   z-index: 11000;
+  width: 0;
+  height: 0;
   margin: 0 auto;
-  top: calc(5% - calc(4em / 2));
-  right: calc(10% - calc(4em / 2));
-  background-color: transparent;
+  top: 1.5em;
+  right: 2.5em;
   border-radius: 30%;
-  text-align: center;
-  animation: opacity-spinner 0.7s ease-in-out 0s 1 normal none;
-}
-
-#loadSpinner {
-  width: 2em;
-  height: 2em;
-  position: relative;
-  margin: 0 auto;
-  top: calc(50% - calc(2em / 2));
+  background-color: transparent;
+  animation: opacity-spinner 0.7s ease-in-out 0s 1 normal forwards;
 }
 
 .alert-container {

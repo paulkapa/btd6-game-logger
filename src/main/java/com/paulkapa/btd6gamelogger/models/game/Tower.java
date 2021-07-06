@@ -7,14 +7,11 @@ import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 
 /**
  * Class that defines the properties of a Tower in BTD6.
- *
+ * <p>
  * Provides static storage for all towers.
+ * @see BaseEntity
  */
 public class Tower extends BaseEntity {
-
-    public static final double EASY_COST_MODIFIER = 0.85d;
-    public static final double MEDIUM_COST_MODIFIER = 1d;
-    public static final double HARD_COST_MODIFIER = 1.08d;
 
     private StringBuffer sb = new StringBuffer();
 
@@ -48,12 +45,12 @@ public class Tower extends BaseEntity {
 
     /**
      * Preferred constructor.
-     * @param type
      * @param name
+     * @param type
      * @param cost
      */
     public Tower(String type, String name, int cost) {
-        super(type, name);
+        super(name, type);
         this.cost = cost;
         try {
             if(Tower.towers == null) {
@@ -68,15 +65,15 @@ public class Tower extends BaseEntity {
 
     /**
      * Complete constructor.
-     * @param type
      * @param name
+     * @param type
      * @param cost
      * @param sellValue
      * @param pops
      * @param cashGenerated
      */
-    public Tower(String type, String name, int cost, int sellValue, long pops, int cashGenerated) {
-        super(type, name);
+    public Tower(String name, String type, int cost, int sellValue, long pops, int cashGenerated) {
+        super(name, type);
         this.cost = cost;
         this.sellValue = sellValue;
         this.pops = pops;
@@ -97,7 +94,7 @@ public class Tower extends BaseEntity {
      * @param other
      */
     public Tower(Tower other) {
-        super(other.getType(), other.getName());
+        super(other.getName(), other.getType());
         this.cashGenerated = other.getCashGenerated();
         this.cost = other.getCost();
         this.pops = other.getPops();

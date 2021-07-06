@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   </head>
   <body>
     <!-- Complete app selection view -->
@@ -49,7 +47,7 @@
         </th>
         <th:block>
           <tbody>
-            <tr th:each="i : ${#numbers.sequence(0, 100)}" th:with="m = ${appData.getMap(0)}">
+            <tr th:each="i : ${#numbers.sequence(0, 100)}" th:with="m = ${appData.getMapByIndex(0)}">
               <td th:text="${i}"></td>
               <td th:text="${i} == '0' ? ${m.startingCash} : ${m.startingCash*7*i}"></td>
               <td th:text="${i} == '0' ? ${m.startingLives} : ${m.startingLives}"></td>

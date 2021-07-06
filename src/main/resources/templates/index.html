@@ -13,17 +13,19 @@
     <!-- END <head> info -->
     <title th:text="'BTD6 G-L | ' + ${currentPageTitle}">BTD6 G-L</title>
   </head>
-  <body class="row flex-row justify-content-center bg-dark text-center user-select-none w-auto h-auto m-auto">
+  <body class="flex-column flex-grow-1 flex-shrink-1 flex-wrap justify-content-center bg-dark text-center user-select-none w-auto h-100 m-auto m-0 p-0">
 
     <!-- Shows up for every page load as a indicator that the page contents are being loaded -->
-    <div id="spinnerContainer" class="modal-content"><span id="loadSpinner" class="spinner-grow bg-warning"></span></div>
+    <div id="spinnerContainer" class="modal-content justify-content-center text-center"><i class="fas fa-spinner fa-pulse fa-2x position-relative text-info w-auto m-auto"></i></div>
 
     <!-- Page navigation bar and expandable content -->
     <section id="navGrid" th:replace="layout/navigation :: navigation"></section>
 
     <!-- Alert messages for user activity -->
-    <div id="alertContainer" class="modal-content col col-auto justify-content-center collapse m-auto mt-2">
-      <i class="fas fa-times-circle fa-2x close-alert text-info collapse m-auto mt-2"></i>
+    <div id="alertContainer" class="modal-content col flex-col justify-content-center collapse m-auto mt-2">
+      <button id="closeAlert" class="col col-auto border-0 bg-transparent" type="button">
+        <i class="fas fa-times-circle fa-2x text-info m-auto mt-2"></i>
+      </button>
       <p class="alert-message"
               th:text="${isFailedLoginAttempt == true or isFailedRegisterAttempt == true or failedMessage != null} ? ${failedMessage} : ''"></p>
     </div>
@@ -45,7 +47,7 @@
         <section th:replace="app/logger :: extended"></section>
       </th:block>
       <th:block th:case="*">
-        <div class="row flex-row justify-content-center"><p class="col col-auto">Error</p></div>
+        <div class="row flex-row justify-content-center w-auto m-auto mt-2"><p class="col col-auto m-auto">Error</p></div>
       </th:block>
     </th:block>
 

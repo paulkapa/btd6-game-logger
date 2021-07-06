@@ -1,31 +1,26 @@
 package com.paulkapa.btd6gamelogger.models.game;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
 import com.paulkapa.btd6gamelogger.models.system.SavedData;
 
-@Entity(name = "AppSetup")
-@Table(name = "app_setup")
+/**
+ * Auxilliary class - for development purposes.
+ * @see BaseEntity
+ */
 public class AppSetup extends BaseEntity {
 
-    @Transient
     private StringBuffer sb = new StringBuffer();
 
-    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="appSetup")
     private SavedData savedData;
 
     public AppSetup() {
-        super("appsetup", null);
+        super("appsetup", "aux");
+        super.setID(0);
     }
     
     public AppSetup(SavedData savedData) {
-        super("appsetup", savedData.getName());
+        super("appsetup", "aux");
+        super.setID(0);
         this.savedData = savedData;
     }
 
@@ -49,7 +44,7 @@ public class AppSetup extends BaseEntity {
      */
     @Override
     public String toString() {
-        return "{AppSetup [" + this.createString() + "]}";
+        return "{ " + this.getName() + "=[" + this.createString() + "]}";
     }
 
     @Override

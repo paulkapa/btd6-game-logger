@@ -1,5 +1,5 @@
 /**
- * Interface <- Class pair defining the base properties of almost every model or entity,
- * starting with <code>ID</code>, <code>type</code> and <code>name</code>.
+ * Top level class defining the base properties entitites or models,
+ * starting with <code>ID</code>, <code>name</code> and <code>type</code>.
  */
 package com.paulkapa.btd6gamelogger.models.base;

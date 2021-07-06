@@ -14,13 +14,7 @@ try {
   var toggleContainer = document.getElementById("toggleShutdownButton");
   toggleContainer.addEventListener("click", () => {
     var container = document.getElementById("shutdownContainer");
-    container.classList.toggle("d-none");
-    var shutdownText = document.getElementById("shutdownText");
-    if(shutdownText.innerText.includes("Show")) {
-      shutdownText.innerText = "Hide Shutdown Button";
-    } else {
-      shutdownText.innerText = "Show Shutdown Button";
-    }
+    container.classList.toggle("invisible");
   });
   var shutdownButton = document.getElementById("shutdownButton");
   shutdownButton.addEventListener("click", () => {
@@ -42,7 +36,7 @@ try {
   var alertText = alertMessage.innerText;
   if(alertMessage.innerText != null && alertMessage.innerText != "") {
     var alertContainer = document.getElementById("alertContainer");
-    var closeAlert = document.getElementsByClassName("close-alert").item(0);
+    var closeAlert = document.getElementById("closeAlert");
     alertContainer.classList.toggle("collapse");
     alertContainer.classList.toggle("alert-container");
     if(alertText.includes("Success!")) {
@@ -58,11 +52,10 @@ try {
       alertMessage.classList.remove("text-danger");
       alertMessage.classList.add("text-success");
     }
-    closeAlert.classList.toggle("collapse");
     closeAlert.addEventListener("click", () => {
+      closeAlert.classList.toggle("collapse");
       alertContainer.classList.toggle("alert-container");
       alertContainer.classList.toggle("collapse");
-      closeAlert.classList.toggle("collapse");
     });
   }
 } catch (error) {console.error("Error - handle fail messages!\n" + error.name + " | " + error.message);}
@@ -71,10 +64,10 @@ try {
  * Handle spinner loading placeholder
  */
 try {
-  var spinner = document.getElementById("spinnerContainer");
+  var spinnerContainer = document.getElementById("spinnerContainer");
   setTimeout(() => {
-    spinner.classList.toggle("d-none");
-  }, 1000);
+    spinnerContainer.classList.toggle("d-none");
+  }, 1500);
 } catch (error) {console.error("Error - handle spinner loading placeholder!\n" + error.name + " | " + error.message);}
 
 /**
@@ -96,18 +89,21 @@ if(currPageTitle.includes("App")) {
 try {
 document.getElementById("contentControl").addEventListener("click", () => {
   var nav = document.getElementById("navGrid");
+  var navContent = document.getElementById("navbarToggleContent");
+  var navBar = document.getElementById("navBar");
   var content = document.getElementsByClassName("modal-content");
   var butt = document.getElementById("contentControl").getElementsByTagName("button").item(0);
-  var buttIcon = butt.getElementsByTagName("i").item(0);
-  var bText = butt.innerText;
-  if(bText.includes("View")) {
+  var buttIcon = butt.getElementsByTagName("svg").item(0);
+  var bText = butt.getElementsByTagName("p").item(0);
+  if(bText.innerText.includes("View")) {
     butt.innerHTML = null;
-    butt.innerText = " Hide Account";
-    butt.prepend(buttIcon);
+    butt.append(buttIcon);
+    bText.innerText = "Hide Account";
+    butt.append(bText);
   } else {
-    butt.innerHTML = null;
-    butt.innerText = " View Account";
-    butt.prepend(buttIcon);
+    butt.append(buttIcon);
+    bText.innerText = "View Account";
+    butt.append(bText);
   }
   for(let i = 0; i < content.length; i++) {
     content.item(i).classList.toggle("d-none");
@@ -115,6 +111,10 @@ document.getElementById("contentControl").addEventListener("click", () => {
   nav.classList.toggle("modal");
   nav.classList.toggle("modal-header");
   nav.classList.toggle("border");
+  navContent.classList.toggle("position-absolute");
+  navContent.classList.toggle("top-0");
+  navBar.classList.toggle("position-absolute");
+  navBar.classList.toggle("bottom-0");
 });} catch (error) {console.error("Error - show page content by minimizing modal header!\n" + error.name + " | " + error.message);}
 
 /**
@@ -269,6 +269,7 @@ document.body.onload = function() {
     var accountAgeField = document.getElementById("accountAgeField");
     //var viewSavedDataElement ...
     var allowEditButton = document.getElementById("allowEditButton");
+    var deleteUserButton = document.getElementById("deleteUserButton");
     var ctrlSelect = e.target; //var value = ctrlSelect.value;
     var text = ctrlSelect.options[ctrlSelect.selectedIndex].text;
     if(currPageTitle.includes("Home")) {
@@ -282,6 +283,8 @@ document.body.onload = function() {
             allowEditButton.click();
           }
           allowEditButton.classList.add("collapse");
+          deleteUserButton.classList.add("collapse");
+          deleteUserButton.setAttribute("disabled", "");
           message3.classList.add("d-none");
           break;
         } case "Personal Information" : {
@@ -290,6 +293,8 @@ document.body.onload = function() {
           emailField.classList.remove("collapse");
           accountAgeField.classList.remove("collapse");
           allowEditButton.classList.remove("collapse");
+          deleteUserButton.classList.remove("collapse");
+          deleteUserButton.removeAttribute("disabled");
           message3.classList.add("d-none");
           break;
         } case "Saved Data" : {
@@ -301,6 +306,8 @@ document.body.onload = function() {
             allowEditButton.click();
           }
           allowEditButton.classList.add("collapse");
+          deleteUserButton.classList.add("collapse");
+          deleteUserButton.setAttribute("disabled", "");
           message3.classList.remove("d-none");
           break;
         } default : {
@@ -312,6 +319,8 @@ document.body.onload = function() {
             allowEditButton.click();
           }
           allowEditButton.classList.add("collapse");
+          deleteUserButton.classList.add("collapse");
+          deleteUserButton.setAttribute("disabled", "");
           message3.classList.add("d-none");
           break;
         }
@@ -345,6 +354,7 @@ document.body.onload = function() {
         allowEditButton.click();
       }
       allowEditButton.classList.add("collapse");
+      deleteUserButton.classList.add("collapse");
       message1.classList.add("d-none");
       message2.classList.add("d-none");
       message3.classList.add("d-none");
@@ -353,13 +363,16 @@ document.body.onload = function() {
   //Handle updating user account details in nav account controls.
   try {
   document.getElementById("allowEditButton").addEventListener("click", (e) => {
-    var allowEditButton = document.getElementById("allowEditButton");
     var userControlForm = document.getElementById("userControlForm");
+    var allowEditButton = document.getElementById("allowEditButton");
+    var deleteUserButton = document.getElementById("deleteUserButton");
     var saveChangesButton = document.getElementById("saveChangesButton");
     var navUsername = document.getElementById("navUsername");
     var navPassword = document.getElementById("navPassword");
     var navEmail = document.getElementById("navEmail");
     if(allowEditButton.classList.contains("btn-warning")) {
+      userControlForm.reset();
+      userControlForm.setAttribute("action", "/updateUserInfo");
       navUsername.addEventListener("focusin", () => {
         saveChangesButton.removeAttribute("disabled");
       });
@@ -372,21 +385,37 @@ document.body.onload = function() {
       allowEditButton.classList.add("btn-info");
       allowEditButton.classList.remove("btn-warning");
       saveChangesButton.classList.remove("collapse");
+      deleteUserButton.classList.add("collapse");
+      deleteUserButton.setAttribute("disabled", "");
       navUsername.removeAttribute("disabled");
       navPassword.removeAttribute("disabled");
       navEmail.removeAttribute("disabled");
-      userControlForm.reset();
     } else {
-      allowEditButton.classList.add("btn-warning");
+      userControlForm.reset();
+      userControlForm.setAttribute("action", "/deleteUserAccount");
       allowEditButton.classList.remove("btn-info");
+      allowEditButton.classList.add("btn-warning");
       saveChangesButton.classList.add("collapse");
       saveChangesButton.setAttribute("disabled", "");
+      deleteUserButton.classList.remove("collapse");
+      deleteUserButton.removeAttribute("disabled");
       navUsername.setAttribute("disabled", "");
       navPassword.setAttribute("disabled", "");
       navEmail.setAttribute("disabled", "");
-      userControlForm.reset();
     }
   });} catch(error) {console.error("Error - handle updating user account details!\n" + error.name + " | " + error.message);}
+  //Handle deleting user account in nav account controls.
+  try {
+    document.getElementById("deleteUserButton").addEventListener("click", () => {
+      alert("If you pressed the delete account button by accident you may cancel the action in the following prompt.")
+      window.addEventListener("beforeunload", (event) => {
+        // Cancel the event as stated by the standard.
+        event.preventDefault();
+        // Chrome requires returnValue to be set.
+        event.returnValue = "";
+      });
+    });
+  } catch(error) {console.error("Error - handle deleting user account!\n" + error.name + " | " + error.message);}
   // Handling Home page app setup selection
   try {
   if(currPageTitle.includes("Home")) {

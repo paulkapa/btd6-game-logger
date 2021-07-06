@@ -1,4 +1,4 @@
 /**
  * Helper classes used in the development process.
  */
-package com.paulkapa.btd6gamelogger.models.helper;
+package com.paulkapa.btd6gamelogger.helper;

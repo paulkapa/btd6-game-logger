@@ -8,17 +8,15 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 /**
- * Base level class of all entities. Implements {@link iEntityType}
- * which provides methods for handling the base aspects of an entity.
- * <p>
+ * Top level class of all entities.
+ * 
  * More complex entities should provide their own implementations of
- * the interface methods implemented here.
+ * the methods defined here.
  *
- * @see iEntityType
  * @MappedSuperClass
  */
 @MappedSuperclass
-public class BaseEntity implements iEntityType {
+public class BaseEntity {
 
     @Transient
     private StringBuffer sb = new StringBuffer();
@@ -26,6 +24,8 @@ public class BaseEntity implements iEntityType {
     /**
      * The <code>ID</code> value matching the Auto-Incrementing ID field
      * value acting as Primary Key of the working table.
+     * <p>
+     * May be used as a default identifier for an object.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,20 +36,16 @@ public class BaseEntity implements iEntityType {
      * The <code>name</code> value stored in the corresponding field of
      * the working table.
      * <p>
-     * It may be used to store either as:
+     * It may be used to store either one of:
      * <ul>
      * <li>Username;
      * <li>First Name;
      * <li>Last Name;
      * <li>Full Name;
-     * <li>Name/Description
+     * <li>Name/Description;
+     * <li>Other related naming attributes.
      * </ul>
      * depending on the situation.
-     * <p>
-     * It is set explicitly through the constructor
-     * {@link BaseEntity#BaseEntity(String, String)}, otherwise always null.
-     *
-     * @see BaseEntity#BaseEntity(String, String)
      */
     @Column(name = "name")
     private String name;
@@ -59,15 +55,8 @@ public class BaseEntity implements iEntityType {
      * this instance of <code>BaseEntity</code>.
      * <p>
      * Other use cases are allowed.
-     * <p>
-     * It is set explicitly through the constructors
-     * {@link BaseEntity#BaseEntity(String)} or {@link BaseEntity#BaseEntity(String, String)},
-     * otherwise always null.
-     *
-     * @see BaseEntity#BaseEntity(String)
-     * @see BaseEntity#BaseEntity(String, String)
      */
-    @Transient
+    @Column(name = "type")
     private String type;
 
     /**
@@ -77,8 +66,8 @@ public class BaseEntity implements iEntityType {
      * <code>type</code> and <code>name</code> attributes.
      */
     public BaseEntity() {
-        this.type = null;
         this.name= null;
+        this.type = null;
     }
 
     /**
@@ -86,31 +75,36 @@ public class BaseEntity implements iEntityType {
      * with the provided <code>type</code> parameter.
      */
     public BaseEntity(String type) {
-        this.type = type;
         this.name = null;
+        this.type = type;
     }
 
     /**
      * Constructor that initializes a <code>BaseEntity</code> object
      * with the provided <code>type</code> and <code>name</code> parameters.
      */
-    public BaseEntity(String type, String name) {
+    public BaseEntity(String name, String type) {
+        this.name = name;
         this.type = type;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int iD) {
+        ID = iD;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    @Override
-    public int getID() {
-        return this.ID;
-    }
-
-    @Override
-    public String getType() {
-        return this.type;
-    }
-
-    @Override
-    public boolean isNamedEntity() {
+    private boolean hasNotNullName() {
         if(this.name != null) {
             return true;
         } else {
@@ -118,27 +112,36 @@ public class BaseEntity implements iEntityType {
         }
     }
 
-    @Override
-    public String setName(String name) {
-        this.name = name;
-        return this.name;
+    private boolean hasNotEmptyName() {
+        if(!this.name.trim().equals("")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    @Override
-    public String getName() {
-        if(this.isNamedEntity()) {
-            return this.name;
+    public boolean checkName() {
+        if(this.hasNotNullName() && this.hasNotEmptyName()) {
+            return true;
         } else {
-            return null;
+            return false;
         }
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**
      * Concatenates the private attributes of this object instance into a string
      * and return it.
      * <p>
-     * Format example: "Attribute1=<code>Attribute1</code>,
-     * Attribute2=<code>Attribute2</code>, ..."
+     * Format example: "attr1=<code>val1</code>, [...],
+     * attrN=<code>valN</code>"
      * @return a string representation of the object's attributes
      */
     public String createString() {
@@ -150,7 +153,7 @@ public class BaseEntity implements iEntityType {
     }
 
     /**
-     * Format example: "{{@link #getClass()} [ {@link #createString()} ] }"
+     * Format example: "{ {@link #getName()}=[{@link #createString()}]}"
      * @see #createString()
      * @return a string representation of the object
      */
