@@ -47,7 +47,7 @@
         </th>
         <th:block>
           <tbody>
-            <tr th:each="i : ${#numbers.sequence(0, 100)}" th:with="m = ${appData.getMapByIndex(0)}">
+            <tr th:each="i : ${#numbers.sequence(0, 100)}" th:with="m = ${appData.getMaps().get(0)}">
               <td th:text="${i}"></td>
               <td th:text="${i} == '0' ? ${m.startingCash} : ${m.startingCash*7*i}"></td>
               <td th:text="${i} == '0' ? ${m.startingLives} : ${m.startingLives}"></td>

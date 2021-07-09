@@ -1,103 +1,111 @@
 package com.paulkapa.btd6gamelogger.models.system;
 
-import com.paulkapa.btd6gamelogger.models.base.BaseEntity;
-import com.paulkapa.btd6gamelogger.models.game.AppSetup;
+import com.google.gson.Gson;
+import com.paulkapa.btd6gamelogger.models.BaseEntity;
 import com.paulkapa.btd6gamelogger.models.game.GameContainer;
 
 /**
- * Auxilliary class - for development purposes.
+ * <h4>In-Dev</h4>
+ * 
+ * Will be used to save user activity locally.
+ * <p>
+ * Will have its functionality extended to save data in an
+ * online database.
+ *
  * @see BaseEntity
  */
 public class SavedData extends BaseEntity {
 
-    private StringBuffer sb = new StringBuffer();
+	private GameContainer game;
 
-    private GameContainer game;
-    private AppSetup appSetup;
+	public SavedData() {
+		super("Saved Data", "data-store");
+		this.game = null;
+		/*try {
+			JsonWriter jsonWriter = new JsonWriter(new FileWriter("store.json"));
+			jsonWriter.setIndent("    ");
+			Gson gson = new GsonBuilder().serializeNulls().create();
+			gson.toJson(GameContainer.gameContainerToLinkedHashMap(
+				new GameContainer(
+					User.getDefaultUser(),
+					SavedData.mapToArray(Map.getMaps()),
+					SavedData.mapToArray(Tower.getTowers()),
+					SavedData.mapToArray(Upgrade.getUpgrades()),
+					null,
+					null
+				)
+			), GameContainer.class, jsonWriter);
+			jsonWriter.close();
+			FileReader fr = new FileReader(new File("store.json"));
+			BufferedReader br = new BufferedReader(fr);
+			JsonObject parser = JsonParser.parseReader(br).getAsJsonObject();
+			//JsonObject user = parser.get("user").getAsJsonObject();
+			//System.out.println(user.get("password"));
+			JsonArray maps = parser.get("maps").getAsJsonArray();
+			System.out.println(maps.get(1).getAsJsonObject().get("type"));
+			System.out.println(parser.get("ID"));
+			System.out.println(parser.get("name"));
+			System.out.println(parser.get("type"));
+			System.out.println(parser.get("user"));
+			System.out.println(parser.get("diff"));
+			System.out.println(parser.get("mode"));
+			System.out.println(parser.get("maps"));
+			System.out.println(parser.get("towers"));
+			System.out.println(parser.get("upgrades"));
+			br.close();
+			fr.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}*/
+	}
 
-    public SavedData() {
-        super("store", "aux");
-        super.setID(0);
-        this.game = null;
-        this.appSetup = null;
-    }
+	/**
+	 * Preferred constructor.
+	 * @param gameData
+	 */
+	public SavedData(GameContainer gameData) {
+		super("store", "aux");
+		this.game = gameData;
+	}
 
-    public SavedData(GameContainer gameData) {
-        super("store", "aux");
-        super.setID(0);
-        this.game = gameData;
-        this.appSetup = null;
-    }
+	/**
+	 * Copy constructor.
+	 * @param other
+	 */
+	public SavedData(SavedData other) {
+		super(other.getInstance());
+		this.game = other.getGame();
+	}
 
-    public SavedData(GameContainer gameData, AppSetup appSetup) {
-        super("store", "aux");
-        super.setID(0);
-        this.game = gameData;
-        this.appSetup = appSetup;
-    }
+	public GameContainer getGame() {return this.game;}
 
-    public GameContainer getGame() {
-        return game;
-    }
+	public void setGame(GameContainer game) {this.game = game;}
 
-    public void setGame(GameContainer game) {
-        this.game = game;
-    }
+	@Override
+	public String toString() {return new Gson().toJson(this);}
 
-    public AppSetup getAppSetup() {
-        return appSetup;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((game == null) ? 0 : game.hashCode());
+		return result;
+	}
 
-    public void setAppSetup(AppSetup appSetup) {
-        this.appSetup = appSetup;
-    }
-
-    @Override
-    public String createString() {
-        this.sb.delete(0, this.sb.length());
-        this.sb.append(super.createString());
-        this.sb.append("\nSaved Game: {\n").append(this.game.toString()).append("\n}");
-        this.sb.append("\nApp Setup: {\n").append(this.appSetup.toString()).append("\n}");
-        return this.sb.toString();
-    }
-
-    /**
-     * @see #createString()
-     */
-    @Override
-    public String toString() {
-        return "{ " + this.getName() + "=[" + this.createString() + "]}";
-
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((appSetup == null) ? 0 : appSetup.hashCode());
-        result = prime * result + ((game == null) ? 0 : game.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        SavedData other = (SavedData) obj;
-        if (appSetup == null) {
-            if (other.appSetup != null)
-                return false;
-        } else if (!appSetup.equals(other.appSetup))
-            return false;
-        if (game == null) {
-            if (other.game != null)
-                return false;
-        } else if (!game.equals(other.game))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SavedData other = (SavedData) obj;
+		if (game == null) {
+			if (other.game != null)
+				return false;
+		} else if (!game.equals(other.game))
+			return false;
+		return true;
+	}
 }

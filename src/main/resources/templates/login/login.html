@@ -10,12 +10,17 @@
           <form method="post" action="" th:action="@{/login}" th:object="${newUser}">
             <h2 class="form-control-plaintext text-light">Login</h2>
             <div class="form-floating m-4">
-              <input class="form-control" id="floatingInputUsername" type="text" name="name" value="" autocomplete="username" required
+              <input class="form-control" id="floatingInputUsername" type="text" name="name" autocomplete="username" required
                       th:field="*{name}">
               <label for="floatingInputUsername">Username</label>
             </div>
             <div class="form-floating m-4">
-              <input class="form-control" id="floatingInputPassword" type="password" name="password" value="" autocomplete="current-password" required
+              <input class="form-control" id="floatingInputType" type="text" name="type" autocomplete="additional-name" required hidden
+                      th:field="*{type}">
+              <label for="floatingInputType">Type</label>
+            </div>
+            <div class="form-floating m-4">
+              <input class="form-control" id="floatingInputPassword" type="password" name="password" autocomplete="current-password" required
                       th:field="*{password}">
               <label for="floatingInputPassword">Password</label>
             </div>

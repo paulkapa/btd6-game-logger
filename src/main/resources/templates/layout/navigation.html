@@ -25,8 +25,9 @@
         <!-- Anonymous login button -->
         <form id="anonymousLoginForm" class="d-none" method="post" action=""
                 th:action="@{/login}" th:object="${newUser}">
-          <input type="hidden" th:name="name" th:value="'btd6gluser'">
-          <input type="hidden" th:name="password" th:value="'pass'">
+          <input type="hidden" th:name="name" th:value="'btd6gluser'" required>
+          <input type="hidden" th:name="type" th:value="'anonymous'" required>
+          <input type="hidden" th:name="password" th:value="'pass'" required>
           <button class="btn btn-secondary btn-sm" type="submit">Go Anonymous</button>
         </form>
         <!-- Select user control option -->
@@ -54,23 +55,32 @@
             <!-- Username -->
             <div class="col col-auto p-1">
               <div id="usernameField" class="form-floating collapse">
-                <input class="form-control" id="navUsername" type="text" name="name" value="" required autocomplete="username" disabled
-                        th:value="${uname}"/>
+                <input class="form-control" id="navUsername" type="text" name="name" autocomplete="username" required disabled
+                        th:field="*{name}"/>
                 <label for="navUsername">Username</label>
+              </div>
+            </div>
+            <!-- Type -->
+            <div class="col col-auto p-1">
+              <div id="typeField" class="form-floating collapse">
+                <input class="form-control" id="navType" type="text" name="type" autocomplete="additional-name" required hidden
+                        th:field="*{type}"/>
+                <label for="navTypee">Username</label>
               </div>
             </div>
             <!-- Password -->
             <div class="col col-auto p-1">
               <div id="passwordField" class="form-floating collapse">
-                <input class="form-control" id="navPassword" type="password" name="password" value="" required autocomplete="new-password" disabled/>
+                <input class="form-control" id="navPassword" type="password" name="password" autocomplete="new-password" required disabled
+                        th:field="*{password}"/>
                 <label for="navPassword">New Password</label>
               </div>
             </div>
             <!-- Email -->
             <div class="col col-auto p-1">
               <div id="emailField" class="form-floating collapse">
-                <input class="form-control" id="navEmail" type="text" name="email" value="" autocomplete="email" disabled
-                        th:value="${uemail}"/>
+                <input class="form-control" id="navEmail" type="text" name="email" autocomplete="email" disabled
+                        th:field="*{email}"/>
                 <label for="navEmail">Email address</label>
               </div>
             </div>
