@@ -15,241 +15,214 @@ import com.paulkapa.btd6gamelogger.models.BaseEntity;
  */
 public class Map extends BaseEntity {
 
-	private static ArrayList<Map> inUseMaps = null;
-	private static LinkedHashMap<String, Map> maps = null;
-	private static boolean isMapsInit = false;
+    private static LinkedHashMap<String, Map[]> defaultMaps = null;
+    private static boolean isInitDefaultMaps = false;
 
-	private String difficulty;
-	private String gameMode;
-	private int startingCash;
-	private int startingLives;
-	private long currentCash;
-	private int currentLives;
+    private String difficulty;
+    private String gameMode;
+    private long currentCash;
+    private int currentLives;
 
-	public Map() {
-		super();
-		this.difficulty = null;
-		this.gameMode = null;
-		this.startingCash = 0;
-		this.startingLives = 0;
-		this.currentCash = 0l;
-		this.currentLives = 0;
-	}
+    public Map() {
+        super();
+        this.difficulty = null;
+        this.gameMode = null;
+        this.currentCash = 0l;
+        this.currentLives = 0;
+    }
 
-	/**
-	 * Preffered constructor.
-	 * @param name
-	 * @param type
-	 * @param startingCash
-	 * @param startingLives
-	 */
-	public Map(String name, String type, int startingCash, int startingLives) {
-		super(name, type);
-		this.startingCash = startingCash;
-		this.startingLives = startingLives;
-		this.currentCash = 0l;
-		this.currentLives = 0;
-	}
+    /**
+     * Preffered constructor.
+     * @param name
+     * @param type
+     * @param startingCash
+     * @param startingLives
+     */
+    public Map(String name, String type) {
+        super(name, type);
+        this.currentCash = 0l;
+        this.currentLives = 0;
+    }
 
-	public Map(String name, String type, String difficulty, String gameMode,
-				int startingCash, int startingLives, long currentCash, int currentLives) {
-		super(name, type);
-		this.difficulty = difficulty;
-		this.gameMode = gameMode;
-		this.startingCash = startingCash;
-		this.startingLives = startingLives;
-		this.currentCash = currentCash;
-		this.currentLives = currentLives;
-	}
+    public Map(String name, String type, String difficulty, String gameMode, long currentCash, int currentLives) {
+        super(name, type);
+        this.difficulty = difficulty;
+        this.gameMode = gameMode;
+        this.currentCash = currentCash;
+        this.currentLives = currentLives;
+    }
 
-	/**
-	 * Copy constructor.
-	 * @param other
-	 */
-	public Map(Map other) {
-		super(other.getInstance());
-		this.difficulty = other.getDifficulty();
-		this.gameMode = other.getGameMode();
-		this.startingCash = other.getStartingCash();
-		this.startingLives = other.getStartingLives();
-		this.currentCash = other.getCurrentCash();
-		this.currentLives = other.getCurrentLives();
-	}
+    /**
+     * Copy constructor.
+     * @param other
+     */
+    public Map(Map other) {
+        super(other.getInstance());
+        this.difficulty = other.getDifficulty();
+        this.gameMode = other.getGameMode();
+        this.currentCash = other.getCurrentCash();
+        this.currentLives = other.getCurrentLives();
+    }
 
-	public static ArrayList<Map> getInUseMaps() {return inUseMaps;}
+    public static LinkedHashMap<String, Map[]> getDefaultMaps() {
+        if(!Map.isInitDefaultMaps) Map.initDefaultMaps();
+        return Map.defaultMaps;
+    }
 
-	public static void setInUseMaps(ArrayList<Map> inUseMaps) {Map.inUseMaps = inUseMaps;}
+    public static Map getMapByName(String mapName, LinkedHashMap<String, Map[]> mapsSearch) throws Exception {
+        ArrayList<Map> result = new ArrayList<>(0);
+        result.add(0, null);
+        if(mapsSearch == null) throw new Exception(
+            "Cannot search in empty map!",
+            new Throwable("Provided mapsSearch is null."));
+        mapsSearch.forEach((n, m) -> {for(int i=0; i<m.length; i++)
+            if(result.get(0) == null && m[i].getName().equals(mapName)) {result.add(0, m[i]); break;}});
+        if(result.get(0) == null) throw new Exception(
+            "No result matching the criteria!",
+            new Throwable("No map with name '" + mapName + "' was found."));
+        return result.get(0);
+    }
 
-	public static void useMap(Map map) {
-		if(Map.inUseMaps == null) Map.inUseMaps = new ArrayList<>();
-		Map.inUseMaps.add(map);
-	}
+    private static void initDefaultMaps() {
+        Map.defaultMaps = new LinkedHashMap<>();
+        ArrayList<Map> thisMaps = new ArrayList<>(0);
+        Map[] type = new Map[0];
+        // Beginner
+        thisMaps.clear();
+        thisMaps.add(new Map("Monkey Meadow", "Beginner"));
+        thisMaps.add(new Map("Tree Stump", "Beginner"));
+        thisMaps.add(new Map("Town Center", "Beginner"));
+        thisMaps.add(new Map("Resort", "Beginner"));
+        thisMaps.add(new Map("Skates", "Beginner"));
+        thisMaps.add(new Map("Lotus Island", "Beginner"));
+        thisMaps.add(new Map("Candy Falls", "Beginner"));
+        thisMaps.add(new Map("Winter Park", "Beginner"));
+        thisMaps.add(new Map("Carved", "Beginner"));
+        thisMaps.add(new Map("Park Path", "Beginner"));
+        thisMaps.add(new Map("Alpine Run", "Beginner"));
+        thisMaps.add(new Map("Frozen Over", "Beginner"));
+        thisMaps.add(new Map("In The Loop", "Beginner"));
+        thisMaps.add(new Map("Cubism", "Beginner"));
+        thisMaps.add(new Map("Four Circles", "Beginner"));
+        thisMaps.add(new Map("Hedge", "Beginner"));
+        thisMaps.add(new Map("End Of The Road", "Beginner"));
+        thisMaps.add(new Map("Logs", "Beginner"));
+        defaultMaps.put("Begginner", thisMaps.toArray(type));
+        // Intermediate
+        thisMaps.clear();
+        thisMaps.add(new Map("Balance", "Intermediate"));
+        thisMaps.add(new Map("Encrypted", "Intermediate"));
+        thisMaps.add(new Map("Bazaar", "Intermediate"));
+        thisMaps.add(new Map("Adora's Temple", "Intermediate"));
+        thisMaps.add(new Map("Spring Spring", "Intermediate"));
+        thisMaps.add(new Map("KartsNDarts", "Intermediate"));
+        thisMaps.add(new Map("Moon Landing", "Intermediate"));
+        thisMaps.add(new Map("Haunted", "Intermediate"));
+        thisMaps.add(new Map("Downstream", "Intermediate"));
+        thisMaps.add(new Map("Firing Range", "Intermediate"));
+        thisMaps.add(new Map("Cracked", "Intermediate"));
+        thisMaps.add(new Map("Streambed", "Intermediate"));
+        thisMaps.add(new Map("Chutes", "Intermediate"));
+        thisMaps.add(new Map("Rake", "Intermediate"));
+        thisMaps.add(new Map("Spice Islands", "Intermediate"));
+        defaultMaps.put("Intermediate", thisMaps.toArray(type));
+        // Advanced
+        thisMaps.clear();
+        thisMaps.add(new Map("X Factor", "Advanced"));
+        thisMaps.add(new Map("Mesa", "Advanced"));
+        thisMaps.add(new Map("Geared", "Advanced"));
+        thisMaps.add(new Map("Spillway", "Advanced"));
+        thisMaps.add(new Map("Cargo", "Advanced"));
+        thisMaps.add(new Map("Pat's Pond", "Advanced"));
+        thisMaps.add(new Map("Peninsula", "Advanced"));
+        thisMaps.add(new Map("High Finance", "Advanced"));
+        thisMaps.add(new Map("Another Brick", "Advanced"));
+        thisMaps.add(new Map("Off The Coast", "Advanced"));
+        thisMaps.add(new Map("Cornfield", "Advanced"));
+        thisMaps.add(new Map("Underground", "Advanced"));
+        defaultMaps.put("Advanced", thisMaps.toArray(type));
+        // Expert
+        thisMaps.clear();
+        thisMaps.add(new Map("Sanctuary", "Expert"));
+        thisMaps.add(new Map("Ravine", "Expert"));
+        thisMaps.add(new Map("Flooded Valley", "Expert"));
+        thisMaps.add(new Map("Infernal", "Expert"));
+        thisMaps.add(new Map("Bloody Puddles", "Expert"));
+        thisMaps.add(new Map("Workshop", "Expert"));
+        thisMaps.add(new Map("Quad", "Expert"));
+        thisMaps.add(new Map("Dark Castle", "Expert"));
+        thisMaps.add(new Map("Muddy Puddles", "Expert"));
+        thisMaps.add(new Map("#ouch", "Expert"));
+        defaultMaps.put("Expert", thisMaps.toArray(type));
+        // Default maps saved in memory!
+        Map.isInitDefaultMaps = true;
+    }
 
-	public static LinkedHashMap<String, Map> getMaps() {
-		if(!Map.isMapsInit) Map.initMaps();
-		return Map.maps;
-	}
+    public String getDifficulty() {return this.difficulty;}
 
-	public static Map getMapByName(String mapName, LinkedHashMap<String, Map> mapsSearch) throws Exception {
-		ArrayList<Map> result = new ArrayList<>();
-		result.add(0, null);
-		if(mapsSearch == null) throw new Exception(
-			"Cannot search in empty map!",
-			new Throwable("Provided searchMap is null.", new Throwable()));
-		Map.maps.forEach((n, m) -> {if(n.equals(mapName) && result.get(0) == null) result.add(0, m);});
-		if(result.get(0) == null) throw new Exception(
-			"No result matching the criteria!",
-			new Throwable("No map with name '" + mapName + "' was found.", new Throwable()));
-		return result.get(0);
-	}
+    public void setDifficulty(String difficulty) {this.difficulty = difficulty;}
 
-	private static void initMaps() {
-		Map.maps = new LinkedHashMap<>();
-		//Beginner
-		maps.put("Monkey Meadow", new Map("Monkey Meadow", "Beginner", 650, 150));
-		maps.put("Tree Stump", new Map("Tree Stump", "Beginner", 650, 150));
-		maps.put("Town Center", new Map("Town Center", "Beginner", 650, 150));
-		maps.put("Resort", new Map("Resort", "Beginner", 650, 150));
-		maps.put("Skates", new Map("Skates", "Beginner", 650, 150));
-		maps.put("Lotus Island", new Map("Lotus Island", "Beginner", 650, 150));
-		maps.put("Candy Falls", new Map("Candy Falls", "Beginner", 650, 150));
-		maps.put("Winter Park", new Map("Winter Park", "Beginner", 650, 150));
-		maps.put("Carved", new Map("Carved", "Beginner", 650, 150));
-		maps.put("Park Path", new Map("Park Path", "Beginner", 650, 150));
-		maps.put("Alpine Run", new Map("Alpine Run", "Beginner", 650, 150));
-		maps.put("Frozen Over", new Map("Frozen Over", "Beginner", 650, 150));
-		maps.put("In The Loop", new Map("In The Loop", "Beginner", 650, 150));
-		maps.put("Cubism", new Map("Cubism", "Beginner", 650, 150));
-		maps.put("Four Circles", new Map("Four Circles", "Beginner", 650, 150));
-		maps.put("Hedge", new Map("Hedge", "Beginner", 650, 150));
-		maps.put("End Of The Road", new Map("End Of The Road", "Beginner", 650, 150));
-		maps.put("Logs", new Map("Logs", "Beginner", 650, 150));
-		//Intermediate
-		maps.put("Balance", new Map("Balance", "Intermediate", 650, 150));
-		maps.put("Encrypted", new Map("Encrypted", "Intermediate", 650, 150));
-		maps.put("Bazaar", new Map("Bazaar", "Intermediate", 650, 150));
-		maps.put("Adora's Temple", new Map("Adora's Temple", "Intermediate", 650, 150));
-		maps.put("Spring Spring", new Map("Spring Spring", "Intermediate", 650, 150));
-		maps.put("KartsNDarts", new Map("KartsNDarts", "Intermediate", 650, 150));
-		maps.put("Moon Landing", new Map("Moon Landing", "Intermediate", 650, 150));
-		maps.put("Haunted", new Map("Haunted", "Intermediate", 650, 150));
-		maps.put("Downstream", new Map("Downstream", "Intermediate", 650, 150));
-		maps.put("Firing Range", new Map("Firing Range", "Intermediate", 650, 150));
-		maps.put("Cracked", new Map("Cracked", "Intermediate", 650, 150));
-		maps.put("Streambed", new Map("Streambed", "Intermediate", 650, 150));
-		maps.put("Chutes", new Map("Chutes", "Intermediate", 650, 150));
-		maps.put("Rake", new Map("Rake", "Intermediate", 650, 150));
-		maps.put("Spice Islands", new Map("Spice Islands", "Intermediate", 650, 150));
-		//Advanced
-		maps.put("X Factor", new Map("X Factor", "Advanced", 650, 150));
-		maps.put("Mesa", new Map("Mesa", "Advanced", 650, 150));
-		maps.put("Geared", new Map("Geared", "Advanced", 650, 150));
-		maps.put("Spillway", new Map("Spillway", "Advanced", 650, 150));
-		maps.put("Cargo", new Map("Cargo", "Advanced", 650, 150));
-		maps.put("Pat's Pond", new Map("Pat's Pond", "Advanced", 650, 150));
-		maps.put("Peninsula", new Map("Peninsula", "Advanced", 650, 150));
-		maps.put("High Finance", new Map("High Finance", "Advanced", 650, 150));
-		maps.put("Another Brick", new Map("Another Brick", "Advanced", 650, 150));
-		maps.put("Off The Coast", new Map("Off The Coast", "Advanced", 650, 150));
-		maps.put("Cornfield", new Map("Cornfield", "Advanced", 650, 150));
-		maps.put("Underground", new Map("Underground", "Advanced", 650, 150));
-		//Expert
-		maps.put("Sanctuary", new Map("Sanctuary", "Expert", 650, 150));
-		maps.put("Ravine", new Map("Ravine", "Expert", 650, 150));
-		maps.put("Flooded Valley", new Map("Flooded Valley", "Expert", 650, 150));
-		maps.put("Infernal", new Map("Infernal", "Expert", 650, 150));
-		maps.put("Bloody Puddles", new Map("Bloody Puddles", "Expert", 650, 150));
-		maps.put("Workshop", new Map("Workshop", "Expert", 650, 150));
-		maps.put("Quad", new Map("Quad", "Expert", 650, 150));
-		maps.put("Dark Castle", new Map("Dark Castle", "Expert", 650, 150));
-		maps.put("Muddy Puddles", new Map("Muddy Puddles", "Expert", 650, 150));
-		maps.put("#ouch", new Map("#ouch", "Expert", 650, 150));
-		Map.isMapsInit = true;
-	}
+    public String getGameMode() {return this.gameMode;}
 
-	public String getDifficulty() {return this.difficulty;}
+    public void setGameMode(String gameMode) {this.gameMode = gameMode;}
 
-	public void setDifficulty(String difficulty) {this.difficulty = difficulty;}
+    public long getCurrentCash() {return this.currentCash;}
 
-	public String getGameMode() {return this.gameMode;}
+    public void setCurrentCash(long currentCash) {this.currentCash = currentCash;}
 
-	public void setGameMode(String gameMode) {this.gameMode = gameMode;}
+    public int getCurrentLives() {return this.currentLives;}
 
-	public int getStartingCash() {return this.startingCash;}
+    public void setCurrentLives(int currentLives) {this.currentLives = currentLives;}
 
-	public void setStartingCash(int startingCash) {this.startingCash = startingCash;}
+    @Override
+    public String createString() {
+        StringBuffer sb = new StringBuffer();
+        sb.delete(0, sb.length());
+        sb.append(super.createString());
+        sb.append(", difficulty=").append(getDifficulty());
+        sb.append(", game_mode=").append(getGameMode());
+        sb.append(", current_cash=").append(getCurrentCash());
+        sb.append(", current_lives=").append(getCurrentLives());
+        return sb.toString();
+    }
 
-	public int getStartingLives() {return this.startingLives;}
+    @Override
+    public String toString() {return new Gson().toJson(this);}
 
-	public void setStartingLives(int startingLives) {this.startingLives = startingLives;}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (int) (currentCash ^ (currentCash >>> 32));
+        result = prime * result + currentLives;
+        result = prime * result + ((difficulty == null) ? 0 : difficulty.hashCode());
+        result = prime * result + ((gameMode == null) ? 0 : gameMode.hashCode());
+        return result;
+    }
 
-	public long getCurrentCash() {return this.currentCash;}
-
-	public void setCurrentCash(long currentCash) {this.currentCash = currentCash;}
-
-	public int getCurrentLives() {return this.currentLives;}
-
-	public void setCurrentLives(int currentLives) {this.currentLives = currentLives;}
-
-	@Override
-	public String createString() {
-		StringBuffer sb = new StringBuffer();
-		sb.delete(0, sb.length());
-		sb.append(super.createString());
-		sb.append(", difficulty=").append(getDifficulty());
-		sb.append(", game_mode=").append(getGameMode());
-		sb.append(", starting_cash=").append(getStartingCash());
-		sb.append(", starting_lives=").append(getStartingLives());
-		sb.append(", current_cash=").append(getCurrentCash());
-		sb.append(", current_lives=").append(getCurrentLives());
-		return sb.toString();
-	}
-
-	@Override
-	public String toString() {
-		return new Gson().toJson(this);
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + (int) (currentCash ^ (currentCash >>> 32));
-		result = prime * result + currentLives;
-		result = prime * result + ((difficulty == null) ? 0 : difficulty.hashCode());
-		result = prime * result + ((gameMode == null) ? 0 : gameMode.hashCode());
-		result = prime * result + startingCash;
-		result = prime * result + startingLives;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Map other = (Map) obj;
-		if (currentCash != other.currentCash)
-			return false;
-		if (currentLives != other.currentLives)
-			return false;
-		if (difficulty == null) {
-			if (other.difficulty != null)
-				return false;
-		} else if (!difficulty.equals(other.difficulty))
-			return false;
-		if (gameMode == null) {
-			if (other.gameMode != null)
-				return false;
-		} else if (!gameMode.equals(other.gameMode))
-			return false;
-		if (startingCash != other.startingCash)
-			return false;
-		if (startingLives != other.startingLives)
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Map other = (Map) obj;
+        if (currentCash != other.currentCash)
+            return false;
+        if (currentLives != other.currentLives)
+            return false;
+        if (difficulty == null) {
+            if (other.difficulty != null)
+                return false;
+        } else if (!difficulty.equals(other.difficulty))
+            return false;
+        if (gameMode == null) {
+            if (other.gameMode != null)
+                return false;
+        } else if (!gameMode.equals(other.gameMode))
+            return false;
+        return true;
+    }
 }

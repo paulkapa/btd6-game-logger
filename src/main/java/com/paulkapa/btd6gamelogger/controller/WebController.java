@@ -4,10 +4,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.database.system.UserInterface;
-import com.paulkapa.btd6gamelogger.models.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.game.Map;
-import com.paulkapa.btd6gamelogger.models.system.SavedData;
+import com.paulkapa.btd6gamelogger.models.game.Tower;
+import com.paulkapa.btd6gamelogger.models.game.Upgrade;
 import com.paulkapa.btd6gamelogger.models.system.User;
 
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +38,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     private static final Logger logger = LoggerFactory.getLogger(WebController.class);
     private ApplicationContext context;
-    
+
     private boolean isLoginAllowed;
     private boolean isFailedLoginAttempt;
     private boolean isLoggedIn;
@@ -135,7 +137,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     this.isApplicationAllowed && !this.isApplicationStarted) {
                         this.btd6.getUser().setAccountAge();
                         rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(this.btd6.getUser().getAccountAge()));
-                        rootModel.addAttribute("maps", Map.getMaps());
+                        rootModel.addAttribute("maps", Map.getDefaultMaps());
                         rootModel.addAttribute("diffs", GameContainer.DIFFICULTIES);
                         rootModel.addAttribute("modes", GameContainer.GAME_MODES);
                         rootModel.addAttribute("appSetup", new Map());
@@ -235,9 +237,9 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     // Perform final check and save account
                     else {
                         this.ui.save(newUser);
-                        this.btd6.setUser(this.ui.findByNameAndPassword(newUser.getName(), newUser.getPassword()));
+                        this.btd6.replaceUser(this.ui.findByNameAndPassword(newUser.getName(), newUser.getPassword()));
                         this.isFailedRegisterAttempt = !(newUser.equals(this.btd6.getUser()));
-                        this.btd6.setUser(null);
+                        this.btd6.replaceUser(null);
                         this.isRegisterAllowed = this.isFailedRegisterAttempt;
                         this.failedMessage = !this.isFailedRegisterAttempt ? "Success! You may login..." : "Error creating account!";
                         logger.info("Register attempt: [" + newUser.getName() + "] {failed : " + this.isFailedRegisterAttempt + "}");
@@ -278,7 +280,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             try {
                 if(formInfo.getName().trim().equals("btd6gluser")) {
                     if(formInfo.getPassword().equals(User.getDefaultUser().getPassword())) {
-                        this.btd6.setUser(User.getDefaultUser());
+                        this.btd6.replaceUser(User.getDefaultUser());
                         this.isLoginAllowed = false;
                         this.isFailedLoginAttempt = false;
                         this.isLoggedIn = true;
@@ -295,7 +297,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         newUser.setType(result.getType());
                         newUser.setEmail(result.getEmail());
                         newUser.setCreationDate(result.getCreationDate());
-                        this.btd6.setUser(newUser);
+                        this.btd6.replaceUser(newUser);
                         this.isLoginAllowed = false;
                         this.isFailedLoginAttempt = false;
                         this.isLoggedIn = true;
@@ -335,7 +337,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     this.ui.flush();
                     // Add updated information to database
                     this.ui.save(updates);
-                    this.btd6.setUser(updates);
+                    this.btd6.replaceUser(updates);
                     this.failedMessage = "Success! Account updated.";
                     logger.info("Update account attempt: User [" + this.btd6.getUser().getName() + "] to User [" + updates.getName() + "] + {status : success}");
                 } catch (Exception e) {
@@ -373,7 +375,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                 this.isFailedRegisterAttempt = false;
                 this.isApplicationAllowed = false;
                 this.isApplicationStarted = false;
-                this.btd6.setUser(null);
+                this.btd6.replaceUser(new User(null, "deleted", null));
                 this.failedMessage = "Info: Your account has been deleted from database...";
             }
         } catch(Exception e) {
@@ -398,7 +400,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.isApplicationAllowed = false;
         this.isApplicationStarted = false;
         this.failedMessage = "Success! You have been logged out...";
-        this.btd6.setUser(null);
+        this.btd6.resetContainer();
         return "redirect:/";
     }
 
@@ -413,13 +415,13 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                 !this.isRegisterAllowed && !this.isFailedRegisterAttempt &&
                 this.isApplicationAllowed && !this.isApplicationStarted &&
                 appSetup.getName() != null && appSetup.getName() != "Map...") {
-            Map selectedMap = Map.getMapByName(appSetup.getName(), Map.getMaps());
+            Map selectedMap = new Map(Map.getMapByName(appSetup.getName(), Map.getDefaultMaps()));
             selectedMap.setDifficulty(appSetup.getDifficulty());
             selectedMap.setGameMode(appSetup.getGameMode());
-            selectedMap.setStartingCash(GameContainer.getStartingCashByGameMode(selectedMap.getGameMode()));
-            selectedMap.setStartingLives(GameContainer.getStartingLives(selectedMap.getDifficulty(), selectedMap.getGameMode()));
+            selectedMap.setCurrentCash(GameContainer.calculateStartingCash(selectedMap.getGameMode()));
+            selectedMap.setCurrentLives(GameContainer.calculateStartingLives(selectedMap.getDifficulty(), selectedMap.getGameMode()));
             this.lastAppSelection = selectedMap;
-            this.btd6.addMap(selectedMap);
+            this.btd6.getMaps().put(selectedMap.getType(), new Map[]{selectedMap});
             this.isApplicationStarted = true;
             this.failedMessage = "Info: If you encounter any problems please open an issue by accessing the link at the bottom of the page!";
         } else {
@@ -456,6 +458,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
      * @param errorInfo model that passes data to views
      * @return error view
      */
+    @ExceptionHandler
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model errorInfo) {
         errorInfo.addAttribute("isLoginAllowed", this.isLoginAllowed);
@@ -467,7 +470,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         errorInfo.addAttribute("isApplicationStarted", this.isApplicationStarted);
         this.isApplicationStarted = false;
         errorInfo.addAttribute("failedMessage", "Latest alert message: [" + this.failedMessage + "]");
-        this.failedMessage = "Application Error Detected!";
+        this.failedMessage = null;
         errorInfo.addAttribute("currUser", (this.isLoggedIn) ? this.btd6.getUser() : null);
         // Get request info if exists
         try {
@@ -509,7 +512,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         } catch(Exception e) {
             this.isApplicationStarted = false;
             this.lastError = e;
-            this.failedMessage = "Application Error Detected!";
+            this.failedMessage = "SQL: Application Error Detected!";
             logger.error("TRUNCATE ERROR on table " + table + "!", e);
         }
     }
@@ -531,13 +534,72 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.truncate("users");
             this.ui.save(User.getDefaultUser());
             logger.info("Saved default anonymous user into database!");
+            // Testing save game operations
+            String saveName = "default_data";
+            GameContainer testContainer = new GameContainer(User.getDefaultUser(), saveName);
+            testContainer.setDiff("Easy");
+            testContainer.setMode("Standard");
+            testContainer.setMaps(Map.getDefaultMaps());
+            testContainer.setTowers(Tower.getDefaultTowers());
+            testContainer.setUpgrades(Upgrade.getDefaultUpgrades());
+            testContainer.saveGame();
+            // Testing get by criteria methods
+            System.out.println("----------------------------------------------------------getMapByName(-----------------------------------------------------------------------------------");
+            try{System.out.println(Map.getMapByName("unknown_map", Map.getDefaultMaps()).toString()); // test error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getMapByName(-----------------------------------------------------------------------------------");
+            try{System.out.println(Map.getMapByName("#ouch", Map.getDefaultMaps()).toString()); // test success
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowerByName(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowerByName("unknown_tower", Tower.getDefaultTowers()).toString()); // test error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowerByName(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowerByName("Super Monkey", Tower.getDefaultTowers()).toString()); // test success
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowerWithHighestSellValue(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowerWithHighestSellValue(Tower.getDefaultTowers()).toString()); // possibly only error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowerWithMostCashGenerated(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowerWithMostCashGenerated(Tower.getDefaultTowers()).toString()); // possibly only error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowerWithMostPops(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowerWithMostPops(Tower.getDefaultTowers()).toString()); // definetely only error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowersByCost(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowersByCost(0, 0, Tower.getDefaultTowers()).toString()); // test error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowersByCost(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowersByCost(0, 500, Tower.getDefaultTowers()).toString()); // test success
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowersByType(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowersByType("unknown_tower_type", Tower.getDefaultTowers()).toString()); // test error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowersByType(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowersByType("Hero", Tower.getDefaultTowers()).toString()); // test success
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getTowersNames(-----------------------------------------------------------------------------------");
+            try{System.out.println(Tower.getTowersNames(Tower.getDefaultTowers()).toString()); // test success
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------countAppliedUpgrades(-----------------------------------------------------------------------------------");
+            try{System.out.println(Upgrade.countAppliedUpgrades(Upgrade.getDefaultUpgrades())); // possibly only error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------countUnlockedUpgrades(-----------------------------------------------------------------------------------");
+            try{System.out.println(Upgrade.countUnlockedUpgrades(Upgrade.getDefaultUpgrades())); // possibly only error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getUpgradesByTowerName(-----------------------------------------------------------------------------------");
+            try{System.out.println(Upgrade.getUpgradesByTowerName("unknown_tower", Upgrade.getDefaultUpgrades()).toString()); // test error
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("----------------------------------------------------------getUpgradesByTowerName(-----------------------------------------------------------------------------------");
+            try{System.out.println(Upgrade.getUpgradesByTowerName("Super Monkey", Upgrade.getDefaultUpgrades()).toString()); // test success
+            } catch(Exception e) {e.printStackTrace();}
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
+
         } catch (Exception e) {
             this.isApplicationStarted = false;
-            this.failedMessage = "Application Error Detected!";
+            this.failedMessage = "CommandLineRunner: Application Error Detected!";
             this.lastError = e;
             logger.error("Run method error: ", e);
         }
-        new SavedData();
     }
 
     /**
@@ -546,6 +608,6 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
      */
     @Override
     public void setApplicationContext(ApplicationContext arg0) throws BeansException {
-        this.context = arg0;        
+        this.context = arg0;
     }
 }

@@ -14,10 +14,10 @@ import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
 /**
  * <h4>Class that defines the properties of a real user</h4>
- * 
+ *
  * May be used for database storage, defining {@code password}, {@code email},
  * and {@code creation_date} columns.
- * 
+ *
  * @Entity name="User"
  * @Table name="users"
  * @see BaseEntity
@@ -83,7 +83,7 @@ public class User extends BaseEntity {
 		this.accountAge = other.getAccountAge();
 	}
 
-	public static User getDefaultUser() {User defaultUser =  new User("btd6gluser", "anonymous", "pass", null, null); defaultUser.setID(0); return defaultUser;}
+	public static User getDefaultUser() {return new User("btd6gluser", "anonymous", "pass", null, null);}
 
 	public String getPassword() {return this.password;}
 
@@ -94,8 +94,8 @@ public class User extends BaseEntity {
 
 	/**
 	 * Encrypts a password string provided as parameter.
-	 * @param password the password to encrypt
-	 * @return encrypted password
+	 * @param password the password to be encrypted provided as a string
+	 * @return a string containing the encrypted password
 	 * @throws NoSuchAlgorithmException
 	 */
 	private static String encryptPassword(String password) throws NoSuchAlgorithmException {
@@ -107,8 +107,7 @@ public class User extends BaseEntity {
 		md.update(passBytes);
 		byte[] bytes = md.digest();
 		for(byte b : bytes) sb.append(b);
-		if(sb.charAt(0) == '-') sb.replace(0, 1, "");
-		return sb.toString();
+		return sb.toString().substring(2, sb.length() - 2);
 	}
 
 	public String getEmail() {return this.email;}
