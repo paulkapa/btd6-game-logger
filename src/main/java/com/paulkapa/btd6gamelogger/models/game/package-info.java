@@ -1,5 +1,4 @@
 /**
- * Contains bottom level classes defining models and entities used
- * throughout the application.
+ * Contains definitions for game models, such as map, tower, upgrade.
  */
 package com.paulkapa.btd6gamelogger.models.game;

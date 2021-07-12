@@ -1,0 +1,505 @@
+{
+  "Begginner": [
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Monkey Meadow",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Tree Stump",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Town Center",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Resort",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Skates",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Lotus Island",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Candy Falls",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Winter Park",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Carved",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Park Path",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Alpine Run",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Frozen Over",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "In The Loop",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Cubism",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Four Circles",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Hedge",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "End Of The Road",
+      "type": "Beginner"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Logs",
+      "type": "Beginner"
+    }
+  ],
+  "Intermediate": [
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Balance",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Encrypted",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Bazaar",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Adora\u0027s Temple",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Spring Spring",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "KartsNDarts",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Moon Landing",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Haunted",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Downstream",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Firing Range",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Cracked",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Streambed",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Chutes",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Rake",
+      "type": "Intermediate"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Spice Islands",
+      "type": "Intermediate"
+    }
+  ],
+  "Advanced": [
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "X Factor",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Mesa",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Geared",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Spillway",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Cargo",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Pat\u0027s Pond",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Peninsula",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "High Finance",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Another Brick",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Off The Coast",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Cornfield",
+      "type": "Advanced"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Underground",
+      "type": "Advanced"
+    }
+  ],
+  "Expert": [
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Sanctuary",
+      "type": "Expert"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Ravine",
+      "type": "Expert"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Flooded Valley",
+      "type": "Expert"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Infernal",
+      "type": "Expert"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Bloody Puddles",
+      "type": "Expert"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Workshop",
+      "type": "Expert"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Quad",
+      "type": "Expert"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Dark Castle",
+      "type": "Expert"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "Muddy Puddles",
+      "type": "Expert"
+    },
+    {
+      "difficulty": "Medium",
+      "gameMode": "Standard",
+      "currentCash": 650,
+      "currentLives": 150,
+      "ID": 0,
+      "name": "#ouch",
+      "type": "Expert"
+    }
+  ]
+}

@@ -1,23 +1,30 @@
 package com.paulkapa.btd6gamelogger.models.game;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
 /**
  * <h4>Class that defines the properties of a Tower</h4>
  *
- * Provides static storage for all towers.
+ * Provides static methods to query towers.
  *
  * @see BaseEntity
  */
 public class Tower extends BaseEntity {
-
-    private static LinkedHashMap<String, Tower[]> defaultTowers = null;
-    private static boolean isInitDefaultTowers = false;
 
     private int cost;
     private int sellValue;
@@ -34,14 +41,14 @@ public class Tower extends BaseEntity {
 
     /**
      * Preferred constructor.
-     * @param name
-     * @param type
-     * @param cost
+     * @param name tower name
+     * @param type tower type
+     * @param cost tower cost
      */
     public Tower(String name, String type, int cost) {
         super(name, type);
         this.cost = cost;
-        this.sellValue = 0;
+        this.sellValue = (int) Math.ceil((double) cost * 0.7d);
         this.pops = 0l;
         this.cashGenerated = 0;
     }
@@ -56,7 +63,7 @@ public class Tower extends BaseEntity {
 
     /**
      * Copy constructor.
-     * @param other
+     * @param other the tower to copy data from
      */
     public Tower(Tower other) {
         super(other.getInstance());
@@ -66,9 +73,14 @@ public class Tower extends BaseEntity {
         this.cashGenerated = other.getCashGenerated();
     }
 
-    public static LinkedHashMap<String, Tower[]> getDefaultTowers() {
-        if(!Tower.isInitDefaultTowers) Tower.initDefaultTowers();
-        return Tower.defaultTowers;
+    /**
+     * Initializes default towers from storage if not previously initialized.
+     * @return a {@code LinkedHashMap<String, Tower[]>} with the default towers.
+     * @throws IOException if towers cannot be found in storage
+     */
+    public static LinkedHashMap<String, Tower[]> getDefaultTowers() throws IOException {
+        if(!GameContainer.isInitDefaultTowers) {GameContainer.isInitDefaultTowers = true; return Tower.initDefaultTowers();}
+        return null;
     }
 
     public static ArrayList<String> getTowersNames(LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
@@ -168,62 +180,38 @@ public class Tower extends BaseEntity {
         return result.get(0);
     }
 
-    private static void initDefaultTowers() {
-        Tower.defaultTowers = new LinkedHashMap<>();
-        ArrayList<Tower> thisTowers = new ArrayList<>(0);
-        Tower[] type = new Tower[0];
-        // Primary
-        thisTowers.clear();
-        thisTowers.add(new Tower("Dart Monkey", "Primary", 200));
-        thisTowers.add(new Tower("Boomerang Monkey", "Primary", 325));
-        thisTowers.add(new Tower("Bomb Shooter", "Primary", 600));
-        thisTowers.add(new Tower("Tack Shooter", "Primary", 280));
-        thisTowers.add(new Tower("Ice Monkey", "Primary", 500));
-        thisTowers.add(new Tower("Glue Gunner", "Primary", 275));
-        defaultTowers.put("Primary", thisTowers.toArray(type));
-        // Military
-        thisTowers.clear();
-        thisTowers.add(new Tower("Sniper Monkey", "Military", 350));
-        thisTowers.add(new Tower("Monkey Sub", "Military", 325));
-        thisTowers.add(new Tower("Monkey Buccaneer", "Military", 500));
-        thisTowers.add(new Tower("Monkey Ace", "Military", 800));
-        thisTowers.add(new Tower("Heli Pilot", "Military", 1600));
-        thisTowers.add(new Tower("Mortar Monkey", "Military", 750));
-        thisTowers.add(new Tower("Dartling Gunner", "Military", 850));
-        defaultTowers.put("Military", thisTowers.toArray(type));
-        // Magic
-        thisTowers.clear();
-        thisTowers.add(new Tower("Wizard Monkey", "Magic", 400));
-        thisTowers.add(new Tower("Super Monkey", "Magic", 2500));
-        thisTowers.add(new Tower("Ninja Monkey", "Magic", 500));
-        thisTowers.add(new Tower("Alchemist", "Magic", 550));
-        thisTowers.add(new Tower("Druid", "Magic", 425));
-        defaultTowers.put("Magic", thisTowers.toArray(type));
-        // Support
-        thisTowers.clear();
-        thisTowers.add(new Tower("Banana Farm", "Support", 1250));
-        thisTowers.add(new Tower("Spike Factory", "Support", 1000));
-        thisTowers.add(new Tower("Monkey Village", "Support", 1200));
-        thisTowers.add(new Tower("Engineer Monkey", "Support", 450));
-        defaultTowers.put("Support", thisTowers.toArray(type));
-        // Heroes
-        thisTowers.clear();
-        thisTowers.add(new Tower("Quincy", "Hero", 540));
-        thisTowers.add(new Tower("Gwendolin", "Hero", 900));
-        thisTowers.add(new Tower("Striker Jones", "Hero", 750));
-        thisTowers.add(new Tower("Obyn Greenfoot", "Hero", 650));
-        thisTowers.add(new Tower("Captain Churchill", "Hero", 2000));
-        thisTowers.add(new Tower("Benjamin", "Hero", 1200));
-        thisTowers.add(new Tower("Ezili", "Hero", 600));
-        thisTowers.add(new Tower("Pat Fusty", "Hero", 800));
-        thisTowers.add(new Tower("Adora", "Hero", 1000));
-        thisTowers.add(new Tower("Admiral Brickell", "Hero", 750));
-        thisTowers.add(new Tower("Etienne", "Hero", 850));
-        thisTowers.add(new Tower("Sauda", "Hero", 600));
-        thisTowers.add(new Tower("Psi", "Hero", 800));
-        defaultTowers.put("Heroes", thisTowers.toArray(type));
+    private static LinkedHashMap<String, Tower[]> initDefaultTowers() throws IOException {
+        LinkedHashMap<String, Tower[]> defaultTowers = new LinkedHashMap<>();
+        // aux variable to apply getClass() method on
+        LinkedHashMap<String, Tower[]> mapType = new LinkedHashMap<>(0);
+        // aux variable to apply getClass() method on
+        Tower[] arrayType = new Tower[0];
+        // aux variable to apply getClass() method on
+        Tower objectType = new Tower();
+
+        // opens a file as read-only
+        FileReader fr = new FileReader(new File(GameContainer.ABSOLUTE_PATH + GameContainer.RELATIVE_DATA_PATH + "towers.json"));
+        // opens a read stream from the file reader
+        BufferedReader br = new BufferedReader(fr);
+        // gson object
+        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
+        // reads entire file contents as a 'mapType'
+        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
+        // converts the element to an object
+        JsonObject object = element.getAsJsonObject();
+        // parses trough the entries read and saves them in the respective types while building the method return value
+        for(Entry<String, JsonElement> e : object.entrySet()) {
+            JsonArray array = e.getValue().getAsJsonArray();
+            ArrayList<Tower> currTowers = new ArrayList<>();
+            for(int i = 0; i < array.size(); i++) {
+                currTowers.add(new Tower(gson.fromJson(array.get(i), objectType.getClass())));
+            }
+            defaultTowers.put(e.getKey(), currTowers.toArray(arrayType));
+        }
+        br.close();
+        fr.close();
         // Default towers saved in memory!
-        Tower.isInitDefaultTowers = true;
+        return defaultTowers;
     }
 
     public int getCost() {return this.cost;}

@@ -25,8 +25,8 @@
               <td class="swopt" th:text="${appSetup.type}"></td>
               <td th:text="${appSetup.difficulty}"></td>
               <td th:text="${appSetup.gameMode}"></td>
-              <td th:text="${appSetup.startingCash}"></td>
-              <td th:text="${appSetup.startingLives}"></td>
+              <td th:text="${appSetup.currentCash}"></td>
+              <td th:text="${appSetup.currentLives}"></td>
               <td th:text="${appSetup.gameMode != 'CHIMPS' && appSetup.gameMode != 'Sandbox'} ? 'Yes' : 'No'"></td>
             </tr>
           </tbody>
@@ -47,12 +47,12 @@
         </th>
         <th:block>
           <tbody>
-            <tr th:each="i : ${#numbers.sequence(0, 100)}" th:with="m = ${appData.getMaps().get(0)}">
+            <tr th:each="i : ${#numbers.sequence(0, 100)}" th:with="m = ${appData.getMap()}">
               <td th:text="${i}"></td>
-              <td th:text="${i} == '0' ? ${m.startingCash} : ${m.startingCash*7*i}"></td>
-              <td th:text="${i} == '0' ? ${m.startingLives} : ${m.startingLives}"></td>
-              <td th:text="${i} == '0' ? ${m.startingCash} : ${m.startingCash*7*i + m.startingCash*7*(i-1)}"></td>
-              <td th:text="${i} == '0' ? ${m.startingLives} : ${m.startingLives}"></td>
+              <td th:text="${i} == '0' ? ${m.currentCash} : ${m.currentCash*7*i}"></td>
+              <td th:text="${i} == '0' ? ${m.currentLives} : ${m.currentLives}"></td>
+              <td th:text="${i} == '0' ? ${m.currentCash} : ${m.currentCash*7*i + m.currentCash*7*(i-1)}"></td>
+              <td th:text="${i} == '0' ? ${m.currentLives} : ${m.currentLives}"></td>
             </tr>
           </tbody>
         </th:block>

@@ -12,6 +12,11 @@ import java.util.Scanner;
 import com.paulkapa.btd6gamelogger.models.game.Tower;
 import com.paulkapa.btd6gamelogger.models.game.Upgrade;
 
+/**
+ * <h4>Helper Class</h4>
+ * It is used to calculate the cost modifiers for different game difficulties or modes,
+ * based on the costs set for Medium difficulty, Standard game mode.
+ */
 public class Calculator {
 
     private static Scanner sc = new Scanner(System.in);

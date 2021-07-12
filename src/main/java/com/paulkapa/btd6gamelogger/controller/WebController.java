@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.database.system.UserInterface;
 import com.paulkapa.btd6gamelogger.models.game.Map;
-import com.paulkapa.btd6gamelogger.models.game.Tower;
-import com.paulkapa.btd6gamelogger.models.game.Upgrade;
 import com.paulkapa.btd6gamelogger.models.system.User;
 
 import org.slf4j.Logger;
@@ -24,7 +22,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -120,7 +117,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                 if(!this.isLoginAllowed && this.isLoggedIn &&
                     !this.isRegisterAllowed &&
                     this.isApplicationAllowed && this.isApplicationStarted) {
-                        rootModel.addAttribute("maps", this.btd6.getMaps());
+                        rootModel.addAttribute("maps", this.btd6.getMap());
                         rootModel.addAttribute("towers", this.btd6.getTowers());
                         rootModel.addAttribute("upgrades", this.btd6.getUpgrades());
                         rootModel.addAttribute("diff", this.btd6.getDiff());
@@ -137,7 +134,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     this.isApplicationAllowed && !this.isApplicationStarted) {
                         this.btd6.getUser().setAccountAge();
                         rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(this.btd6.getUser().getAccountAge()));
-                        rootModel.addAttribute("maps", Map.getDefaultMaps());
+                        rootModel.addAttribute("maps", GameContainer.getDefaultMaps());
                         rootModel.addAttribute("diffs", GameContainer.DIFFICULTIES);
                         rootModel.addAttribute("modes", GameContainer.GAME_MODES);
                         rootModel.addAttribute("appSetup", new Map());
@@ -415,13 +412,13 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                 !this.isRegisterAllowed && !this.isFailedRegisterAttempt &&
                 this.isApplicationAllowed && !this.isApplicationStarted &&
                 appSetup.getName() != null && appSetup.getName() != "Map...") {
-            Map selectedMap = new Map(Map.getMapByName(appSetup.getName(), Map.getDefaultMaps()));
+            Map selectedMap = new Map(Map.getMapByName(appSetup.getName(), GameContainer.getDefaultMaps()));
             selectedMap.setDifficulty(appSetup.getDifficulty());
             selectedMap.setGameMode(appSetup.getGameMode());
             selectedMap.setCurrentCash(GameContainer.calculateStartingCash(selectedMap.getGameMode()));
             selectedMap.setCurrentLives(GameContainer.calculateStartingLives(selectedMap.getDifficulty(), selectedMap.getGameMode()));
             this.lastAppSelection = selectedMap;
-            this.btd6.getMaps().put(selectedMap.getType(), new Map[]{selectedMap});
+            this.btd6.setMap(new Map(selectedMap));
             this.isApplicationStarted = true;
             this.failedMessage = "Info: If you encounter any problems please open an issue by accessing the link at the bottom of the page!";
         } else {
@@ -458,7 +455,6 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
      * @param errorInfo model that passes data to views
      * @return error view
      */
-    @ExceptionHandler
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model errorInfo) {
         errorInfo.addAttribute("isLoginAllowed", this.isLoginAllowed);
@@ -534,66 +530,64 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.truncate("users");
             this.ui.save(User.getDefaultUser());
             logger.info("Saved default anonymous user into database!");
-            // Testing save game operations
-            String saveName = "default_data";
-            GameContainer testContainer = new GameContainer(User.getDefaultUser(), saveName);
-            testContainer.setDiff("Easy");
-            testContainer.setMode("Standard");
-            testContainer.setMaps(Map.getDefaultMaps());
-            testContainer.setTowers(Tower.getDefaultTowers());
-            testContainer.setUpgrades(Upgrade.getDefaultUpgrades());
-            testContainer.saveGame();
+            /*
+            // Testing read default models from storage
+            System.out.println(GameContainer.getDefaultMaps().getClass() + "--------------------------------------------------------------------------------------------------------");
+            System.out.println(GameContainer.getDefaultTowers().getClass() + "--------------------------------------------------------------------------------------------------------");
+            System.out.println(GameContainer.getDefaultUpgrades().getClass() + "--------------------------------------------------------------------------------------------------------");
+            */
+            /*
             // Testing get by criteria methods
             System.out.println("----------------------------------------------------------getMapByName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Map.getMapByName("unknown_map", Map.getDefaultMaps()).toString()); // test error
+            try{System.out.println(Map.getMapByName("unknown_map", GameContainer.getDefaultMaps()).toString()); // test error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getMapByName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Map.getMapByName("#ouch", Map.getDefaultMaps()).toString()); // test success
+            try{System.out.println(Map.getMapByName("#ouch", GameContainer.getDefaultMaps()).toString()); // test success
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowerByName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerByName("unknown_tower", Tower.getDefaultTowers()).toString()); // test error
+            try{System.out.println(Tower.getTowerByName("unknown_tower", GameContainer.getDefaultTowers()).toString()); // test error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowerByName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerByName("Super Monkey", Tower.getDefaultTowers()).toString()); // test success
+            try{System.out.println(Tower.getTowerByName("Super Monkey", GameContainer.getDefaultTowers()).toString()); // test success
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowerWithHighestSellValue(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerWithHighestSellValue(Tower.getDefaultTowers()).toString()); // possibly only error
+            try{System.out.println(Tower.getTowerWithHighestSellValue(GameContainer.getDefaultTowers()).toString()); // possibly only error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowerWithMostCashGenerated(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerWithMostCashGenerated(Tower.getDefaultTowers()).toString()); // possibly only error
+            try{System.out.println(Tower.getTowerWithMostCashGenerated(GameContainer.getDefaultTowers()).toString()); // possibly only error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowerWithMostPops(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerWithMostPops(Tower.getDefaultTowers()).toString()); // definetely only error
+            try{System.out.println(Tower.getTowerWithMostPops(GameContainer.getDefaultTowers()).toString()); // definetely only error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowersByCost(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersByCost(0, 0, Tower.getDefaultTowers()).toString()); // test error
+            try{System.out.println(Tower.getTowersByCost(0, 0, GameContainer.getDefaultTowers()).toString()); // test error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowersByCost(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersByCost(0, 500, Tower.getDefaultTowers()).toString()); // test success
+            try{System.out.println(Tower.getTowersByCost(0, 500, GameContainer.getDefaultTowers()).toString()); // test success
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowersByType(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersByType("unknown_tower_type", Tower.getDefaultTowers()).toString()); // test error
+            try{System.out.println(Tower.getTowersByType("unknown_tower_type", GameContainer.getDefaultTowers()).toString()); // test error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowersByType(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersByType("Hero", Tower.getDefaultTowers()).toString()); // test success
+            try{System.out.println(Tower.getTowersByType("Hero", GameContainer.getDefaultTowers()).toString()); // test success
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getTowersNames(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersNames(Tower.getDefaultTowers()).toString()); // test success
+            try{System.out.println(Tower.getTowersNames(GameContainer.getDefaultTowers()).toString()); // test success
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------countAppliedUpgrades(-----------------------------------------------------------------------------------");
-            try{System.out.println(Upgrade.countAppliedUpgrades(Upgrade.getDefaultUpgrades())); // possibly only error
+            try{System.out.println(Upgrade.countAppliedUpgrades(GameContainer.getDefaultUpgrades())); // possibly only error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------countUnlockedUpgrades(-----------------------------------------------------------------------------------");
-            try{System.out.println(Upgrade.countUnlockedUpgrades(Upgrade.getDefaultUpgrades())); // possibly only error
+            try{System.out.println(Upgrade.countUnlockedUpgrades(GameContainer.getDefaultUpgrades())); // possibly only error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getUpgradesByTowerName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Upgrade.getUpgradesByTowerName("unknown_tower", Upgrade.getDefaultUpgrades()).toString()); // test error
+            try{System.out.println(Upgrade.getUpgradesByTowerName("unknown_tower", GameContainer.getDefaultUpgrades()).toString()); // test error
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("----------------------------------------------------------getUpgradesByTowerName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Upgrade.getUpgradesByTowerName("Super Monkey", Upgrade.getDefaultUpgrades()).toString()); // test success
+            try{System.out.println(Upgrade.getUpgradesByTowerName("Super Monkey", GameContainer.getDefaultUpgrades()).toString()); // test success
             } catch(Exception e) {e.printStackTrace();}
             System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
-
+            */
         } catch (Exception e) {
             this.isApplicationStarted = false;
             this.failedMessage = "CommandLineRunner: Application Error Detected!";
@@ -603,7 +597,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     }
 
     /**
-     * Something happens and the application context is passed here as parameter.
+     * Something happens and the application context is magically passed here as parameter.
      * @param arg0
      */
     @Override

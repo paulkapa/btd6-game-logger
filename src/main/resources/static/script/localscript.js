@@ -123,8 +123,8 @@ try {
 function registerInfoToggleVisibility() {
   var registerInfoToggle = document.getElementById("registerInfoToggle");
   if(registerInfoToggle.innerHTML.includes("Show")) {
-    var iElement1 = document.createElementNS("i");
-    var iElement2 = document.createElementNS("i");
+    var iElement1 = document.createElement("i");
+    var iElement2 = document.createElement("i");
     var pElement = document.createElement("p");
     pElement.classList.add("d-inline", "p-2");
     pElement.innerHTML = "Hide More Information";

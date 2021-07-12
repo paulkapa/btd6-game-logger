@@ -1,0 +1,3808 @@
+{
+  "Dart Monkey": [
+    [
+      {
+        "towerName": "Dart Monkey",
+        "cost": 140,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Sharp Shots",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 220,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Razor Sharp Shots",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Spike-o-pult",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 1800,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Juggernaut",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 15000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Ultra-Juggernaut",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Dart Monkey",
+        "cost": 100,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Quick Shots",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 190,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Very Quick Shots",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Triple Shot",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 8000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Super Monkey Fan Club",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 45000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Plasma Monkey Fan Club",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Dart Monkey",
+        "cost": 90,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Long Range Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Enhanced Eyesight",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 625,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Crossbow",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 2000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Sharp Shooter",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dart Monkey",
+        "cost": 25000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Crossbow Master",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Boomerang Monkey": [
+    [
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 200,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Improved Rangs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 280,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Glaives",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 1300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Glaives Ricochet",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "M.O.A.R Glaives",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 32400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Glaive Lord",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 175,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Faster Throwing",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Faster Rangs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 1600,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Bionic Boomerang",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 4000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Turbo Charge",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 35000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Perma Charge",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 100,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Long Range Rangs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Red Hot Rangs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 1300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Kylie Boomerang",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 2200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "MOAB Press",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Boomerang Monkey",
+        "cost": 60000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "MOAB Domination",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Bomb Shooter": [
+    [
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Bigger Bombs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 650,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Heavy Bombs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 1200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Really Big Bombs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 3600,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Bloon Impact",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 55000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Bloon Crush",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Faster Reload",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Missile Launcher",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "MOAB Mauler",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 3200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "MOAB Assassin",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 25000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "MOAB Eliminator",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 200,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Extra Range",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Frag Bombs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 800,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Cluster Bombs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 2800,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Recursive Cluster",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Bomb Shooter",
+        "cost": 35000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Bomb Blitz",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Tack Shooter": [
+    [
+      {
+        "towerName": "Tack Shooter",
+        "cost": 150,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Faster Shooting",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Even Faster Shooting",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 600,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Hot Shots",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 3500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Ring of Fire",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 45500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Inferno Ring",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Tack Shooter",
+        "cost": 100,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Long Range Tacks",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 225,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Super Range Tacks",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 550,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Blade Shooter",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 2700,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Blade Maelstorm",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 15000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Super Maelstorm",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Tack Shooter",
+        "cost": 100,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "More Tacks",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 100,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Even More Tacks",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 450,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Tack Sprayer",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 3200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Overdrive",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Tack Shooter",
+        "cost": 20000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "The Tack Zone",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Ice Monkey": [
+    [
+      {
+        "towerName": "Ice Monkey",
+        "cost": 100,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Permafrost",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Metal Freeze",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 1500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Ice Shards",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 2200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Embrittlement",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 28000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Super Brittle",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Ice Monkey",
+        "cost": 225,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Enhanced Freeze",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Deep Freeze",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 2900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Arctic Wind",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Snowstorm",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 26000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Absolute Zero",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Ice Monkey",
+        "cost": 100,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Larger Radius",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Re-Freeze",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 1750,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Cry Cannon",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 2000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Icicles",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Ice Monkey",
+        "cost": 30000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Icicle Impale",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Glue Gunner": [
+    [
+      {
+        "towerName": "Glue Gunner",
+        "cost": 200,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Glue Soak",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Corrosive Glue",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 2500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Bloon Dissolver",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 5000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Bloon Liquefier",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 22000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "The Bloon Solver",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Glue Gunner",
+        "cost": 100,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Bigger Globs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 1800,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Glue Splatter",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 3250,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Glue Hose",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 3500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Glue Strike",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 15000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Glue Storm",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Glue Gunner",
+        "cost": 120,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Stickier Glue",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Stringer Glue",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 3400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "MOAB Glue",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Relentless Glue",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Glue Gunner",
+        "cost": 28000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Super Glue",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Sniper Monkey": [
+    [
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Full Metal Jacket",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 1500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Large Calibre",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Deadly Precision",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 5000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Maim MOAB",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 34000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Cripple MOAB",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Night Vision Goggles",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 450,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Sharpnel Shot",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 3200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Bouncing Bullet",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 7200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Supply Drop",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 13000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Elite Sniper",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Fast Firing",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Even Faster Firing",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 3500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Semi-Automatic",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 4750,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Full Auto Rifle",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Sniper Monkey",
+        "cost": 14000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Elite Defender",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Monkey Sub": [
+    [
+      {
+        "towerName": "Monkey Sub",
+        "cost": 130,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Longer Range",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Advanced Intel",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Submerge and Support",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 2500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Bloontonium Reactor",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 32000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Energizer",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Monkey Sub",
+        "cost": 450,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Barbed Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Heat-tipped Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 1400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Balistic Missile",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 13000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "First Strike Capability",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 32000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Pre-emptive Strike",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Monkey Sub",
+        "cost": 450,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Twin Guns",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 1000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Airburst Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 1100,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Triple Guns",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Armor Piercing Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Sub",
+        "cost": 25000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Sub Commander",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Monkey Buccaneer": [
+    [
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Faster Shooting",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 550,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Double Shot",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 2950,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Destroyer",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 7200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Aircraft Carrier",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 25000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Carrier Flagship",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 550,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Grape Shot",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Hot Shot",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Cannon Ship",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 4500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Monkey Pirates",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 21000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Pirate Lord",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 180,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Long Range",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Crow\u0027s Nest",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 2300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Merchantman",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 5500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Favored Trades",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Buccaneer",
+        "cost": 23000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Trade Empire",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Monkey Ace": [
+    [
+      {
+        "towerName": "Monkey Ace",
+        "cost": 650,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Rapid Fire",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 650,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Lots More Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 1000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Fighter Plane",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Operation: Dart Storm",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 40000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Sky Shredder",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Monkey Ace",
+        "cost": 200,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Exploding Pineapple",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Spy Plane",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Bomber Ace",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 14000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Ground Zero",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 35000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Tsar Bomba",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Monkey Ace",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Sharper Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Centered Path",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 2200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Neva-Miss Targeting",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 24000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Spectre",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Ace",
+        "cost": 100000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Flying Fortress",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Heli Pilot": [
+    [
+      {
+        "towerName": "Heli Pilot",
+        "cost": 800,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Quad Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Pursuit",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 1750,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Razor Rotors",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 19600,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Apache Dartship",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 45000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Apache Prime",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Heli Pilot",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Bigger Jets",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 600,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "IFR",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Downdraft",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 12000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Support Chinook",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 30000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Special Poperations",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Heli Pilot",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Faster Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Faster Firing",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 3500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "MOAB Shove",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 8500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Comanche Defense",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Heli Pilot",
+        "cost": 35000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Comanche Commander",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Mortar Monkey": [
+    [
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Bigger Blast",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 650,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Bloon Buster",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 1100,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Shell Shock",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 8000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "The Big One",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 28000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "The Biggest One",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Faster Reload",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Rapid Reload",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Heavy Shells",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 5500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Artillery Battery",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 30000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Pop and Awe",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 200,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Increased Accuracy",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Burny Stuff",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 700,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Signal Flare",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 11000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Shattering Shells",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Mortar Monkey",
+        "cost": 40000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Blooncineration",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Dartling Gunner": [
+    [
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Focused Firing",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Laser Shock",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 4250,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Laser Cannon",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 11000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Plasma Accelerator",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 95000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Ray of Doom",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Advanced Targeting",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 950,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Faster Barrel Spin",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 5250,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Hydra Rocket pods",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 5100,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Rocket Storm",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 60000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "M.A.D",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 150,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Faster Swivel",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 1200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Powerfull Darts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 3400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Buckshot",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 12000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Bloon Area Denial System",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Dartling Gunner",
+        "cost": 58000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Bloon Exclusion Zone",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Wizard Monkey": [
+    [
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 150,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Guided Magic",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 0,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Arcane Blast",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 1300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Arcane Mastery",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 10900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Arcane Spike",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 32000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Archmage",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Fireball",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Wall of Fire",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Dragon\u0027s Breath",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 4000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Summon Phoenix",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 54000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Wizard Lord Phoenix",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Intense Magic",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Monkey Sense",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 1700,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Shimmer",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 2800,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Necromancer: Unpopped Army",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Wizard Monkey",
+        "cost": 24000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Prince of Darkness",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Super Monkey": [
+    [
+      {
+        "towerName": "Super Monkey",
+        "cost": 2500,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Laser Blasts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 4500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Plasma Blasts",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 22000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Sun Avatar",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 100000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Sun Temple",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 500000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "True Sun God",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Super Monkey",
+        "cost": 1000,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Super Range",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 1400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Epic Range",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 7000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Robo Monkey",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 19000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Tech Terror",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 90000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "The Anti-Bloon",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Super Monkey",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Knockback",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 1200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Ultravision",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 5500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Dark Knight",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 60000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Dark Champion",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 240000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Legend of the Night",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Ninja Monkey": [
+    [
+      {
+        "towerName": "Super Monkey",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Ninja Discipline",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Sharp Shurikens",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 850,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Double Shot",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 2750,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Bloonjitsu",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 35000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Grandmaster Ninja",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Super Monkey",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Distraction",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Counter-Espionage",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Shinobi Tactics",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Ninja Monkey",
+        "cost": 5200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Bloon Sabotage",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Ninja Monkey",
+        "cost": 22000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Grand Saboteur",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Super Monkey",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Seeking Shurikens",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Caltrops",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 750,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Flash Bomb",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 4500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Sticky Bomb",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Super Monkey",
+        "cost": 40000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Master Bomber",
+        "type": "Ability"
+      }
+    ]
+  ],
+  "Alchemist": [
+    [
+      {
+        "towerName": "Alchemist",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Larger Potions",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Acidic Mixture Dip",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 1250,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Berseker Brew",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Stronger Stimulant",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 60000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Permanent Brew",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Alchemist",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Stronger Acid",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 475,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Perishing Potions",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Unstable Concotion",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 4500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Transforming Tonic",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 45000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Total Transformation",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Alchemist",
+        "cost": 650,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Faster Throwing",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 450,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Acid Pool",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 1000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Lead to Gold",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 2750,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Rubber to Gold",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Alchemist",
+        "cost": 40000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Bloon Master Alchemist",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Druid": [
+    [
+      {
+        "towerName": "Druid",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Hard Thorns",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 1000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Heart of Thunder",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 1850,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Druid of the Storm",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 5100,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Ball Lightning",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 90000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Superstorm",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Druid",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Thorn Swarm",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Heart of Oak",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 950,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Druid of the Jungle",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 5000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Jungle\u0027s Bounty",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 35000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Spirit of the Forest",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Druid",
+        "cost": 100,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Druidic Reachs",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Heart of Vengeance",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 600,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Druid of Wrath",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 2500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Poplust",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Druid",
+        "cost": 45000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Avatar of Wrath",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Banana Farm": [
+    [
+      {
+        "towerName": "Banana Farm",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Increased Production",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 600,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Greater Production",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Banana Plantation",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 19000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Banana Research Facility",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 100000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Banana Central",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Banana Farm",
+        "cost": 300,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Long Life Bananas",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 800,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Valuable Bananas",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 3500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Monkey Bank",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 7500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "IMF Loan",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 100000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Monkey-Nomics",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Banana Farm",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "EZ Collect",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 200,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Banana Salvage",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 2900,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Marketplace",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 15000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Central Market",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Banana Farm",
+        "cost": 60000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Monkey Wall Street",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Spike Factory": [
+    [
+      {
+        "towerName": "Spike Factory",
+        "cost": 800,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Bigger Stacks",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 600,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "White Hot Spikes",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 2300,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Spiked Balls",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 9500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Spiked Mines",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 162500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Super Mines",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Spike Factory",
+        "cost": 600,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Faster Production",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 800,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Even Faster Production",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 2500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "MOAB Shredder",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 5000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Spike Storm",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 40000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Carpet of Spikes",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Spike Factory",
+        "cost": 150,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Long Reach",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Smart Spikes",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 1400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Long Life Spikes",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 3500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Deadly Spikes",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Spike Factory",
+        "cost": 30000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Perma Spike",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Monkey Village": [
+    [
+      {
+        "towerName": "Monkey Village",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Bigger Radius",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 1500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Jungle Drums",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 800,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Primary Training",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 2500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Primary Mentoring",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 25000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Primary Expertise",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Monkey Village",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Grow Blocker",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 2000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Radar Scanner",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 7500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Monkey Intelligence Bureau",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 20000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Call to Arms",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 40000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Homeland Defense",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Monkey Village",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Monkey Business",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Monkey Comerce",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 10000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Monkey Town",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 3000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Monkey City",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Monkey Village",
+        "cost": 5000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "Monkeyopolis",
+        "type": "Upgrade"
+      }
+    ]
+  ],
+  "Engineer Monkey": [
+    [
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 1,
+        "tier": 1,
+        "ID": 0,
+        "name": "Sentry Gun",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 400,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 2,
+        "ID": 0,
+        "name": "Faster Engineering",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 525,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 3,
+        "ID": 0,
+        "name": "Sprockets",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 2500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 4,
+        "ID": 0,
+        "name": "Sentry Expert",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 32000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 1,
+        "tier": 5,
+        "ID": 0,
+        "name": "Sentry Paragon",
+        "type": "Upgrade"
+      }
+    ],
+    [
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 250,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 2,
+        "tier": 1,
+        "ID": 0,
+        "name": "Larger Service Area",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 350,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 2,
+        "ID": 0,
+        "name": "Deconstruction",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 800,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 3,
+        "ID": 0,
+        "name": "Cleansing Foam",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 13500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 4,
+        "ID": 0,
+        "name": "Overclock",
+        "type": "Ability"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 120000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 2,
+        "tier": 5,
+        "ID": 0,
+        "name": "Ultraboost",
+        "type": "Ability"
+      }
+    ],
+    [
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 450,
+        "isApplied": false,
+        "isLocked": false,
+        "path": 3,
+        "tier": 1,
+        "ID": 0,
+        "name": "Oversize Nails",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 220,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 2,
+        "ID": 0,
+        "name": "Pin",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 3,
+        "ID": 0,
+        "name": "Double Gun",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 3500,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 4,
+        "ID": 0,
+        "name": "Bloon Trap",
+        "type": "Upgrade"
+      },
+      {
+        "towerName": "Engineer Monkey",
+        "cost": 54000,
+        "isApplied": false,
+        "isLocked": true,
+        "path": 3,
+        "tier": 5,
+        "ID": 0,
+        "name": "XXXL Trap",
+        "type": "Upgrade"
+      }
+    ]
+  ]
+}

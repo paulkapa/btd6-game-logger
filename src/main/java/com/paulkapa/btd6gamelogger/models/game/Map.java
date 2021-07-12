@@ -1,22 +1,29 @@
 package com.paulkapa.btd6gamelogger.models.game;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
 /**
  * <h4>Class that defines the properties of a Map</h4>
  *
- * Provides static storage for all maps.
+ * Provides static methods to query maps.
  *
  * @see BaseEntity
  */
 public class Map extends BaseEntity {
-
-    private static LinkedHashMap<String, Map[]> defaultMaps = null;
-    private static boolean isInitDefaultMaps = false;
 
     private String difficulty;
     private String gameMode;
@@ -33,10 +40,8 @@ public class Map extends BaseEntity {
 
     /**
      * Preffered constructor.
-     * @param name
-     * @param type
-     * @param startingCash
-     * @param startingLives
+     * @param name map name
+     * @param type map type
      */
     public Map(String name, String type) {
         super(name, type);
@@ -54,7 +59,7 @@ public class Map extends BaseEntity {
 
     /**
      * Copy constructor.
-     * @param other
+     * @param other the map to copy data from
      */
     public Map(Map other) {
         super(other.getInstance());
@@ -64,98 +69,61 @@ public class Map extends BaseEntity {
         this.currentLives = other.getCurrentLives();
     }
 
-    public static LinkedHashMap<String, Map[]> getDefaultMaps() {
-        if(!Map.isInitDefaultMaps) Map.initDefaultMaps();
-        return Map.defaultMaps;
+    /**
+     * Initializes default maps from storage if not previously initialized.
+     * @return a {@code LinkedHashMap<String, Map[]>} with the default maps.
+     * @throws IOException if maps cannot be found in storage
+     */
+    public static LinkedHashMap<String, Map[]> getDefaultMaps() throws IOException {
+        if(!GameContainer.isInitDefaultMaps) {GameContainer.isInitDefaultMaps = true; return Map.initDefaultMaps();}
+        else return null;
     }
 
     public static Map getMapByName(String mapName, LinkedHashMap<String, Map[]> mapsSearch) throws Exception {
         ArrayList<Map> result = new ArrayList<>(0);
-        result.add(0, null);
         if(mapsSearch == null) throw new Exception(
             "Cannot search in empty map!",
             new Throwable("Provided mapsSearch is null."));
         mapsSearch.forEach((n, m) -> {for(int i=0; i<m.length; i++)
-            if(result.get(0) == null && m[i].getName().equals(mapName)) {result.add(0, m[i]); break;}});
+            if(result.size() == 0 && m[i].getName().equals(mapName)) result.add(m[i]);});
         if(result.get(0) == null) throw new Exception(
             "No result matching the criteria!",
             new Throwable("No map with name '" + mapName + "' was found."));
         return result.get(0);
     }
 
-    private static void initDefaultMaps() {
-        Map.defaultMaps = new LinkedHashMap<>();
-        ArrayList<Map> thisMaps = new ArrayList<>(0);
-        Map[] type = new Map[0];
-        // Beginner
-        thisMaps.clear();
-        thisMaps.add(new Map("Monkey Meadow", "Beginner"));
-        thisMaps.add(new Map("Tree Stump", "Beginner"));
-        thisMaps.add(new Map("Town Center", "Beginner"));
-        thisMaps.add(new Map("Resort", "Beginner"));
-        thisMaps.add(new Map("Skates", "Beginner"));
-        thisMaps.add(new Map("Lotus Island", "Beginner"));
-        thisMaps.add(new Map("Candy Falls", "Beginner"));
-        thisMaps.add(new Map("Winter Park", "Beginner"));
-        thisMaps.add(new Map("Carved", "Beginner"));
-        thisMaps.add(new Map("Park Path", "Beginner"));
-        thisMaps.add(new Map("Alpine Run", "Beginner"));
-        thisMaps.add(new Map("Frozen Over", "Beginner"));
-        thisMaps.add(new Map("In The Loop", "Beginner"));
-        thisMaps.add(new Map("Cubism", "Beginner"));
-        thisMaps.add(new Map("Four Circles", "Beginner"));
-        thisMaps.add(new Map("Hedge", "Beginner"));
-        thisMaps.add(new Map("End Of The Road", "Beginner"));
-        thisMaps.add(new Map("Logs", "Beginner"));
-        defaultMaps.put("Begginner", thisMaps.toArray(type));
-        // Intermediate
-        thisMaps.clear();
-        thisMaps.add(new Map("Balance", "Intermediate"));
-        thisMaps.add(new Map("Encrypted", "Intermediate"));
-        thisMaps.add(new Map("Bazaar", "Intermediate"));
-        thisMaps.add(new Map("Adora's Temple", "Intermediate"));
-        thisMaps.add(new Map("Spring Spring", "Intermediate"));
-        thisMaps.add(new Map("KartsNDarts", "Intermediate"));
-        thisMaps.add(new Map("Moon Landing", "Intermediate"));
-        thisMaps.add(new Map("Haunted", "Intermediate"));
-        thisMaps.add(new Map("Downstream", "Intermediate"));
-        thisMaps.add(new Map("Firing Range", "Intermediate"));
-        thisMaps.add(new Map("Cracked", "Intermediate"));
-        thisMaps.add(new Map("Streambed", "Intermediate"));
-        thisMaps.add(new Map("Chutes", "Intermediate"));
-        thisMaps.add(new Map("Rake", "Intermediate"));
-        thisMaps.add(new Map("Spice Islands", "Intermediate"));
-        defaultMaps.put("Intermediate", thisMaps.toArray(type));
-        // Advanced
-        thisMaps.clear();
-        thisMaps.add(new Map("X Factor", "Advanced"));
-        thisMaps.add(new Map("Mesa", "Advanced"));
-        thisMaps.add(new Map("Geared", "Advanced"));
-        thisMaps.add(new Map("Spillway", "Advanced"));
-        thisMaps.add(new Map("Cargo", "Advanced"));
-        thisMaps.add(new Map("Pat's Pond", "Advanced"));
-        thisMaps.add(new Map("Peninsula", "Advanced"));
-        thisMaps.add(new Map("High Finance", "Advanced"));
-        thisMaps.add(new Map("Another Brick", "Advanced"));
-        thisMaps.add(new Map("Off The Coast", "Advanced"));
-        thisMaps.add(new Map("Cornfield", "Advanced"));
-        thisMaps.add(new Map("Underground", "Advanced"));
-        defaultMaps.put("Advanced", thisMaps.toArray(type));
-        // Expert
-        thisMaps.clear();
-        thisMaps.add(new Map("Sanctuary", "Expert"));
-        thisMaps.add(new Map("Ravine", "Expert"));
-        thisMaps.add(new Map("Flooded Valley", "Expert"));
-        thisMaps.add(new Map("Infernal", "Expert"));
-        thisMaps.add(new Map("Bloody Puddles", "Expert"));
-        thisMaps.add(new Map("Workshop", "Expert"));
-        thisMaps.add(new Map("Quad", "Expert"));
-        thisMaps.add(new Map("Dark Castle", "Expert"));
-        thisMaps.add(new Map("Muddy Puddles", "Expert"));
-        thisMaps.add(new Map("#ouch", "Expert"));
-        defaultMaps.put("Expert", thisMaps.toArray(type));
+    private static LinkedHashMap<String, Map[]> initDefaultMaps() throws IOException {
+        LinkedHashMap<String, Map[]> defaultMaps = new LinkedHashMap<>();
+        // aux variable to apply getClass() method on
+        LinkedHashMap<String, Map[]> mapType = new LinkedHashMap<>(0);
+        // aux variable to apply getClass() method on
+        Map[] arrayType = new Map[0];
+        // aux variable to apply getClass() method on
+        Map type = new Map();
+
+        // opens a file as read-only
+        FileReader fr = new FileReader(new File(GameContainer.ABSOLUTE_PATH + GameContainer.RELATIVE_DATA_PATH + "maps.json"));
+        // opens a read stream from the file reader
+        BufferedReader br = new BufferedReader(fr);
+        // gson object
+        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
+        // reads entire file contents as a 'mapType'
+        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
+        // converts the element to an object
+        JsonObject object = element.getAsJsonObject();
+        // parses trough the entries read and saves them in the respective types while building the method return value
+        for(Entry<String, JsonElement> e : object.entrySet()) {
+            JsonArray array = e.getValue().getAsJsonArray();
+            ArrayList<Map> currMaps = new ArrayList<>();
+            for(int i = 0; i < array.size(); i++) {
+                currMaps.add(new Map(gson.fromJson(array.get(i), type.getClass())));
+            }
+            defaultMaps.put(e.getKey(), currMaps.toArray(arrayType));
+        }
+        br.close();
+        fr.close();
         // Default maps saved in memory!
-        Map.isInitDefaultMaps = true;
+        return defaultMaps;
     }
 
     public String getDifficulty() {return this.difficulty;}

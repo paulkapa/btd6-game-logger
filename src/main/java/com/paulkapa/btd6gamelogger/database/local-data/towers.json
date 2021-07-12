@@ -1,0 +1,327 @@
+{
+  "Primary": [
+    {
+      "cost": 200,
+      "sellValue": 140,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Dart Monkey",
+      "type": "Primary"
+    },
+    {
+      "cost": 325,
+      "sellValue": 228,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Boomerang Monkey",
+      "type": "Primary"
+    },
+    {
+      "cost": 600,
+      "sellValue": 420,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Bomb Shooter",
+      "type": "Primary"
+    },
+    {
+      "cost": 280,
+      "sellValue": 196,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Tack Shooter",
+      "type": "Primary"
+    },
+    {
+      "cost": 500,
+      "sellValue": 350,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Ice Monkey",
+      "type": "Primary"
+    },
+    {
+      "cost": 275,
+      "sellValue": 193,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Glue Gunner",
+      "type": "Primary"
+    }
+  ],
+  "Military": [
+    {
+      "cost": 350,
+      "sellValue": 245,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Sniper Monkey",
+      "type": "Military"
+    },
+    {
+      "cost": 325,
+      "sellValue": 228,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Monkey Sub",
+      "type": "Military"
+    },
+    {
+      "cost": 500,
+      "sellValue": 350,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Monkey Buccaneer",
+      "type": "Military"
+    },
+    {
+      "cost": 800,
+      "sellValue": 560,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Monkey Ace",
+      "type": "Military"
+    },
+    {
+      "cost": 1600,
+      "sellValue": 1120,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Heli Pilot",
+      "type": "Military"
+    },
+    {
+      "cost": 750,
+      "sellValue": 525,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Mortar Monkey",
+      "type": "Military"
+    },
+    {
+      "cost": 850,
+      "sellValue": 595,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Dartling Gunner",
+      "type": "Military"
+    }
+  ],
+  "Magic": [
+    {
+      "cost": 400,
+      "sellValue": 280,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Wizard Monkey",
+      "type": "Magic"
+    },
+    {
+      "cost": 2500,
+      "sellValue": 1750,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Super Monkey",
+      "type": "Magic"
+    },
+    {
+      "cost": 500,
+      "sellValue": 350,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Ninja Monkey",
+      "type": "Magic"
+    },
+    {
+      "cost": 550,
+      "sellValue": 385,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Alchemist",
+      "type": "Magic"
+    },
+    {
+      "cost": 425,
+      "sellValue": 298,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Druid",
+      "type": "Magic"
+    }
+  ],
+  "Support": [
+    {
+      "cost": 1250,
+      "sellValue": 875,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Banana Farm",
+      "type": "Support"
+    },
+    {
+      "cost": 1000,
+      "sellValue": 700,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Spike Factory",
+      "type": "Support"
+    },
+    {
+      "cost": 1200,
+      "sellValue": 840,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Monkey Village",
+      "type": "Support"
+    },
+    {
+      "cost": 450,
+      "sellValue": 315,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Engineer Monkey",
+      "type": "Support"
+    }
+  ],
+  "Heroes": [
+    {
+      "cost": 540,
+      "sellValue": 378,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Quincy",
+      "type": "Hero"
+    },
+    {
+      "cost": 900,
+      "sellValue": 630,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Gwendolin",
+      "type": "Hero"
+    },
+    {
+      "cost": 750,
+      "sellValue": 525,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Striker Jones",
+      "type": "Hero"
+    },
+    {
+      "cost": 650,
+      "sellValue": 455,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Obyn Greenfoot",
+      "type": "Hero"
+    },
+    {
+      "cost": 2000,
+      "sellValue": 1400,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Captain Churchill",
+      "type": "Hero"
+    },
+    {
+      "cost": 1200,
+      "sellValue": 840,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Benjamin",
+      "type": "Hero"
+    },
+    {
+      "cost": 600,
+      "sellValue": 420,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Ezili",
+      "type": "Hero"
+    },
+    {
+      "cost": 800,
+      "sellValue": 560,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Pat Fusty",
+      "type": "Hero"
+    },
+    {
+      "cost": 1000,
+      "sellValue": 700,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Adora",
+      "type": "Hero"
+    },
+    {
+      "cost": 750,
+      "sellValue": 525,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Admiral Brickell",
+      "type": "Hero"
+    },
+    {
+      "cost": 850,
+      "sellValue": 595,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Etienne",
+      "type": "Hero"
+    },
+    {
+      "cost": 600,
+      "sellValue": 420,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Sauda",
+      "type": "Hero"
+    },
+    {
+      "cost": 800,
+      "sellValue": 560,
+      "pops": 0,
+      "cashGenerated": 0,
+      "ID": 0,
+      "name": "Psi",
+      "type": "Hero"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 /**
- * Contains various definitions of objects that are used to
- * catalog, handle and store the data passing trough the application.
+ * Contains various definitions of models that are used troughout the application.
+ *
+ * @see com.paulkapa.btd6gamelogger.models.BaseEntity
  */
 package com.paulkapa.btd6gamelogger.models;

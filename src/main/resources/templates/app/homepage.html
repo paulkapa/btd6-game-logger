@@ -16,7 +16,9 @@
               <select id="mapSelect" class="form-select" title="Maps" th:field="*{name}" required>
                 <option class="w-100" selected="" value="">Map...</option>
                 <th:block th:each="m : ${maps.keySet()}">
-                  <option class="w-100" th:value="${m}" th:text="${m}"></option>
+                  <th:block th:each="curr : ${maps.get(m)}">
+                    <option class="w-100" th:value="${curr.name}" th:text="${curr.name}"></option>
+                  </th:block>
                 </th:block>
               </select>
             </div>
@@ -79,12 +81,16 @@
         </th>
         <th:block>
           <tbody>
-            <tr th:each="m : ${maps.keySet()}">
-              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${m}"></td>
-              <td class="tdout d-none" th:classappend="td + ${mStat.index}" th:text="${maps.get(m).type}"></td>
-              <td class="tdout d-none td-diff" th:classappend="td + ${mStat.index}" th:text="''"></td>
-              <td class="tdout d-none td-mode" th:classappend="td + ${mStat.index}" th:text="''"></td>
-              <td class="tdout d-none td-mk" th:classappend="td + ${mStat.index}" th:text="''"></td>
+            <tr>
+              <th:block th:each="m, mStat : ${maps.keySet()}">
+                <th:block th:each="curr, currStat : ${maps.get(m)}">
+                  <td class="tdout d-none" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="${curr.name}"></td>
+                  <td class="tdout d-none" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="${curr.type}"></td>
+                  <td class="tdout d-none td-diff" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
+                  <td class="tdout d-none td-mode" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
+                  <td class="tdout d-none td-mk" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
+                </th:block>
+              </th:block>
             </tr>
           </tbody>
         </th:block>
