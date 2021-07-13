@@ -13,8 +13,8 @@ import com.google.gson.Gson;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
 /**
- * <h4>Class that defines the properties of a real user</h4>
- *
+ * <b>Class that defines the properties of a real user</b>
+ * <p>
  * May be used as database entity, defining {@code password}, {@code email},
  * and {@code creation_date} columns for a table named "users".
  * <p>
@@ -26,15 +26,27 @@ import com.paulkapa.btd6gamelogger.models.BaseEntity;
 @Table(name = "users")
 public class User extends BaseEntity {
 
+    /**
+     * The current password.
+     */
     @Column(name = "password")
     private String password;
 
+    /**
+     * The current email.
+     */
     @Column(name = "email")
     private String email;
 
+    /**
+     * The user creation date.
+     */
     @Column(name = "creation_date")
     private Timestamp creationDate;
 
+    /**
+     * The current account age.
+     */
     @Transient
     private long accountAge;
 
@@ -63,6 +75,14 @@ public class User extends BaseEntity {
         this.accountAge = 0l;
     }
 
+    /**
+     * Complete constructor.
+     * @param name the user name
+     * @param type the user type
+     * @param password the user's password
+     * @param email the user's email
+     * @param creationDate the user creation date
+     */
     public User(String name, String type, String password, String email, Timestamp creationDate) {
         super(name, type);
         this.setPassword(password);
@@ -89,8 +109,16 @@ public class User extends BaseEntity {
      */
     public static User getDefaultUser() {return new User("btd6gluser", "anonymous", "pass", null, null);}
 
+    /**
+     * Gets the current password.
+     * @return a string representing the current password
+     */
     public String getPassword() {return this.password;}
 
+    /**
+     * Sets the current password.
+     * @param password the current password string
+     */
     public void setPassword(String password) {
         try {this.password = User.encryptPassword(password);
         } catch (NoSuchAlgorithmException e) {e.printStackTrace();}
@@ -114,16 +142,41 @@ public class User extends BaseEntity {
         return sb.toString().substring(2, sb.length() - 2);
     }
 
+    /**
+     * Gets the current email.
+     * @return a stringrepresenting the current email
+     */
     public String getEmail() {return this.email;}
 
+    /**
+     * Sets the current email.
+     * @param email the current email
+     */
     public void setEmail(String email) {this.email = email;}
 
+    /**
+     * Gets the creation date.
+     * @return a timestamp representing the creation date
+     */
     public Timestamp getCreationDate() {return this.creationDate;}
 
+    /**
+     * Sets the creation date.
+     * @param creationDate the creation date
+     */
     public void setCreationDate(Timestamp creationDate) {this.creationDate = creationDate == null ? new Timestamp(System.currentTimeMillis()) : creationDate;}
 
+    /**
+     * Gets the current account age.
+     * @return a long value representing the current account age
+     */
     public long getAccountAge() {return this.accountAge;}
 
+    /**
+     * Sets the current account age.
+     * <p>
+     * Account age is calculated using the formula 'current date' - 'creation date'.
+     */
     public void setAccountAge() {this.accountAge = this.creationDate == null ? 0l : System.currentTimeMillis() - this.creationDate.getTime();}
 
     /**

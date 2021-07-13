@@ -18,19 +18,34 @@ import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
 /**
- * <h4>Class that defines the properties of a Tower</h4>
- *
+ * <b>Class that defines the properties of a Tower</b>
+ * <p>
  * Provides static methods to query towers.
  *
  * @see BaseEntity
  */
 public class Tower extends BaseEntity {
 
+    /**
+     * Cost of the tower
+     */
     private int cost;
+    /**
+     * The sell value of the tower
+     */
     private int sellValue;
+    /**
+     * The pops made by this tower
+     */
     private long pops;
+    /**
+     * The cash this tower generated
+     */
     private int cashGenerated;
 
+    /**
+     * Default constructor.
+     */
     public Tower() {
         super();
         this.cost = 0;
@@ -53,6 +68,15 @@ public class Tower extends BaseEntity {
         this.cashGenerated = 0;
     }
 
+    /**
+     * Complete constructor.
+     * @param name tower name
+     * @param type tower type
+     * @param cost tower cost
+     * @param sellValue tower sell value
+     * @param pops tower pops
+     * @param cashGenerated cash the tower generated
+     */
     public Tower(String name, String type, int cost, int sellValue, long pops, int cashGenerated) {
         super(name, type);
         this.cost = cost;
@@ -75,7 +99,7 @@ public class Tower extends BaseEntity {
 
     /**
      * Initializes default towers from storage if not previously initialized.
-     * @return a {@code LinkedHashMap<String, Tower[]>} with the default towers.
+     * @return a list containing the default towers.
      * @throws IOException if towers cannot be found in storage
      */
     public static LinkedHashMap<String, Tower[]> getDefaultTowers() throws IOException {
@@ -83,6 +107,12 @@ public class Tower extends BaseEntity {
         return null;
     }
 
+    /**
+     * Return the list of all tower names found in the towers list provided.
+     * @param towersSearch a list containing the towers to search for
+     * @return a list containing all the tower names found
+     * @throws Exception if the list provided as search location is null or empty, or does not comply to the search
+     */
     public static ArrayList<String> getTowersNames(LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<String> result = new ArrayList<>();
         if(towersSearch == null) throw new Exception(
@@ -95,6 +125,13 @@ public class Tower extends BaseEntity {
         return result;
     }
 
+    /**
+     * Return the tower found in the towers list provided that has a specific name.
+     * @param towerName the name of the tower to search for
+     * @param towersSearch a list containing the towers to search for
+     * @return a tower with the requested name
+     * @throws Exception if the list provided as search location is null or empty, or if no tower was found with the specified tower name
+     */
     public static Tower getTowerByName(String towerName, LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>(0);
         result.add(0, null);
@@ -109,6 +146,13 @@ public class Tower extends BaseEntity {
         return result.get(0);
     }
 
+    /**
+     * Return a list of towers found in the towers list provided that have a specific type.
+     * @param towerType the type of the towers to search for
+     * @param towersSearch a list containing the towers to search for
+     * @return a list containing towers with the requested type
+     * @throws Exception if the list provided as search location is null or empty, or if no tower was found with the specified type
+     */
     public static ArrayList<Tower> getTowersByType(String towerType, LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>(0);
         result.add(0, null);
@@ -122,6 +166,14 @@ public class Tower extends BaseEntity {
         return result;
     }
 
+    /**
+     * Return a list of towers found in the towers list provided that are included in a specific cost range.
+     * @param min min cost to search for
+     * @param max max cost to search for
+     * @param towersSearch a list containing the towers to search for
+     * @return a list of towers that are included in the specified cost range
+     * @throws Exception if the list provided as search location is null or empty, or if no tower was found within the specified cost range
+     */
     public static ArrayList<Tower> getTowersByCost(int min, int max, LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>(0);
         if(towersSearch == null) throw new Exception(
@@ -135,6 +187,12 @@ public class Tower extends BaseEntity {
         return result;
     }
 
+    /**
+     * Return a tower found in the towers list provided that has the highest sell value.
+     * @param towersSearch a list containing the towers to search for
+     * @return the tower with highest sell value found in the provided list
+     * @throws Exception if the list provided as search location is null or empty, or if no tower has the sell value greater than 0
+     */
     public static Tower getTowerWithHighestSellValue(LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>();
         result.add(0, null);
@@ -150,6 +208,12 @@ public class Tower extends BaseEntity {
         return result.get(0);
     }
 
+    /**
+     * Return a tower found in the towers list provided that has the most pops made.
+     * @param towersSearch a list containing the towers to search for
+     * @return the tower with the most pops made found in the provided list
+     * @throws Exception if the list provided as search location is null or empty, or if no tower has the pops value greater than 0
+     */
     public static Tower getTowerWithMostPops(LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>();
         result.add(0, null);
@@ -165,6 +229,12 @@ public class Tower extends BaseEntity {
         return result.get(0);
     }
 
+    /**
+     * Return a tower found in the towers list provided that has the cash generated.
+     * @param towersSearch a list containing the towers to search for
+     * @return the tower with the most cash generated found in the provided list
+     * @throws Exception if the list provided as search location is null or empty, or if no tower has the cashGenerated value greater than 0
+     */
     public static Tower getTowerWithMostCashGenerated(LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>();
         result.add(0, null);
@@ -180,6 +250,11 @@ public class Tower extends BaseEntity {
         return result.get(0);
     }
 
+    /**
+     * Reads the default towers from 'towers.json' file found in application local storage.
+     * @return a list containing the default towers
+     * @throws IOException if towers cannot be found in storage
+     */
     private static LinkedHashMap<String, Tower[]> initDefaultTowers() throws IOException {
         LinkedHashMap<String, Tower[]> defaultTowers = new LinkedHashMap<>();
         // aux variable to apply getClass() method on
@@ -214,20 +289,52 @@ public class Tower extends BaseEntity {
         return defaultTowers;
     }
 
+    /**
+     * Gets the tower cost.
+     * @return an int representing the tower cost
+     */
     public int getCost() {return this.cost;}
 
+    /**
+     * Sets the tower cost.
+     * @param cost the tower cost
+     */
     public void setCost(int cost) {this.cost = cost;}
 
+    /**
+     * Gets the tower sell value.
+     * @return an int representing the tower sell value
+     */
     public int getSellValue() {return this.sellValue;}
 
+    /**
+     * Sets the tower sell value.
+     * @param sellValue the tower sell value
+     */
     public void setSellValue(int sellValue) {this.sellValue = sellValue;}
 
+    /**
+     * Gets the pops made by the tower.
+     * @return a long representing the pops made by the tower
+     */
     public long getPops() {return this.pops;}
 
+    /**
+     * Sets the pops made by the tower.
+     * @param pops the pops made by the tower
+     */
     public void setPops(long pops) {this.pops = pops;}
 
+    /**
+     * Gets the cash generated by the tower.
+     * @return an int representing the cash genereated by the tower
+     */
     public int getCashGenerated() {return this.cashGenerated;}
 
+    /**
+     * Sets the cash generated by the tower.
+     * @param cashGenerated the cash generated by the tower
+     */
     public void setCashGenerated(int cashGenerated) {this.cashGenerated = cashGenerated;}
 
     @Override

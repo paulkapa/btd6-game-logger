@@ -17,19 +17,38 @@ import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
 /**
- * <h4>Class that defines the properties of a Map</h4>
- *
+ * <b>Class that defines the properties of a Map</b>
+ * <p>
  * Provides static methods to query maps.
  *
  * @see BaseEntity
  */
 public class Map extends BaseEntity {
 
+    /**
+     * Current difficulty that applies to this map.
+     */
     private String difficulty;
+    /**
+     * Current game mode that applies to this map.
+     */
     private String gameMode;
+    /**
+     * Current cash available on this map.
+     * <p>
+     * Defaults to starting cash if difficulty and game mode are set.
+     */
     private long currentCash;
+    /**
+     * Current lives remaining on this map.
+     * <p>
+     * Defaults to starting lives if difficulty and game mode are set.
+     */
     private int currentLives;
 
+    /**
+     * Default constructor.
+     */
     public Map() {
         super();
         this.difficulty = null;
@@ -49,6 +68,15 @@ public class Map extends BaseEntity {
         this.currentLives = 0;
     }
 
+    /**
+     * Complete constructor.
+     * @param name map name
+     * @param type map type
+     * @param difficulty current difficulty
+     * @param gameMode current game mode
+     * @param currentCash current cash available
+     * @param currentLives current lives remaining
+     */
     public Map(String name, String type, String difficulty, String gameMode, long currentCash, int currentLives) {
         super(name, type);
         this.difficulty = difficulty;
@@ -71,7 +99,7 @@ public class Map extends BaseEntity {
 
     /**
      * Initializes default maps from storage if not previously initialized.
-     * @return a {@code LinkedHashMap<String, Map[]>} with the default maps.
+     * @return a list containing the default maps.
      * @throws IOException if maps cannot be found in storage
      */
     public static LinkedHashMap<String, Map[]> getDefaultMaps() throws IOException {
@@ -79,6 +107,13 @@ public class Map extends BaseEntity {
         else return null;
     }
 
+    /**
+     * Return a map found in the maps list that has a specified name.
+     * @param mapName the map name to search for
+     * @param mapsSearch a list containing the maps to search for
+     * @return a map with the specified name
+     * @throws Exception if the list provided as search location is null or empty, or if no map could be found with the provided name
+     */
     public static Map getMapByName(String mapName, LinkedHashMap<String, Map[]> mapsSearch) throws Exception {
         ArrayList<Map> result = new ArrayList<>(0);
         if(mapsSearch == null) throw new Exception(
@@ -92,6 +127,11 @@ public class Map extends BaseEntity {
         return result.get(0);
     }
 
+    /**
+     * Reads the default maps from 'maps.json' file found in application local storage.
+     * @return a list containing the default maps
+     * @throws IOException if maps cannot be found in storage
+     */
     private static LinkedHashMap<String, Map[]> initDefaultMaps() throws IOException {
         LinkedHashMap<String, Map[]> defaultMaps = new LinkedHashMap<>();
         // aux variable to apply getClass() method on
@@ -126,20 +166,52 @@ public class Map extends BaseEntity {
         return defaultMaps;
     }
 
+    /**
+     * Gets the current difficulty.
+     * @return a string representing the current difficulty
+     */
     public String getDifficulty() {return this.difficulty;}
 
+    /**
+     * Sets the current difficulty.
+     * @param difficulty the current difficulty
+     */
     public void setDifficulty(String difficulty) {this.difficulty = difficulty;}
 
+    /**
+     * Gets the current game mode.
+     * @return a string representing the current game mode
+     */
     public String getGameMode() {return this.gameMode;}
 
+    /**
+     * Sets the current game mode.
+     * @param gameMode the current game mode
+     */
     public void setGameMode(String gameMode) {this.gameMode = gameMode;}
 
+    /**
+     * Gets the current available cash.
+     * @return a long representing the current available cash
+     */
     public long getCurrentCash() {return this.currentCash;}
 
+    /**
+     * Sets the current available cash.
+     * @param currentCash the current available cash
+     */
     public void setCurrentCash(long currentCash) {this.currentCash = currentCash;}
 
+    /**
+     * Gets the current remaining lives.
+     * @return an int representing the current remaining lives
+     */
     public int getCurrentLives() {return this.currentLives;}
 
+    /**
+     * Sets the current remaining lives.
+     * @param currentLives the current remaining lives
+     */
     public void setCurrentLives(int currentLives) {this.currentLives = currentLives;}
 
     @Override

@@ -13,12 +13,16 @@ import com.paulkapa.btd6gamelogger.models.game.Tower;
 import com.paulkapa.btd6gamelogger.models.game.Upgrade;
 
 /**
- * <h4>Helper Class</h4>
- * It is used to calculate the cost modifiers for different game difficulties or modes,
+ * <b>Helper Class</b>
+ * <p>
+ * It is used to calculate the cost modifiers for different game difficulties or game modes,
  * based on the costs set for Medium difficulty, Standard game mode.
  */
 public class Calculator {
 
+    /**
+     * Scanner instance used to get input from user.
+     */
     private static Scanner sc = new Scanner(System.in);
 
     public static void main(String args[]) throws Exception {
@@ -107,6 +111,11 @@ public class Calculator {
         sc.close();
     }
 
+    /**
+     * Transforms a double into a simplified fraction.
+     * @param arg0 a double value
+     * @return an int array of 2 values: the numerator and the denominator
+     */
     private static int[] findFraction(double arg0) {
         for(int i = 0; i < 10000; i++)
             for(int j = 1; j < 10000; j++)
@@ -115,6 +124,12 @@ public class Calculator {
         return null;
     }
 
+    /**
+     * Parses trough a list and returns a new list containing only the original values found.
+     * @param <T> the type of the values in the list
+     * @param list the list of values
+     * @return a list with no duplicate values retrieved from the provided list
+     */
     private static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) {
         ArrayList<T> newList = new ArrayList<T>();
         for (T element : list)
@@ -123,6 +138,15 @@ public class Calculator {
         return newList;
     }
 
+    /**
+     * Shows on the screen the cost of all the towers, one by one, and for each tower waits for
+     * input of a new cost.
+     * <p>
+     * At the end of the execution, saves the results of 'new cost'/'tower cost' for each tower in two
+     * separate files, one with detailed description, the other with only the values, one on each line.
+     * @param difficulty the difficulty the original tower cost is based upon
+     * @throws IOException if the results could not be saved in files
+     */
     private static void calculatePriceDifferenceTowers(String difficulty) throws IOException {
         System.out.println("----------------------------------------------------------");
         ArrayList<Tower[]> towers = new ArrayList<>(Tower.getDefaultTowers().values());
@@ -170,6 +194,16 @@ public class Calculator {
         fwr.close();
     }
 
+    /**
+     * Shows on the screen the cost of all the upgrades, one by one, and for each upgrade waits for
+     * input of a new cost.
+     * <p>
+     * At the end of the execution, saves the results of 'new cost'/'upgrade cost' for each upgrade in two
+     * separate files, one with detailed description, the other with only the values, one on each line.
+     * @param towerName the tower the upgrades apply to
+     * @param difficulty the difficulty the original upgrade cost is based upon
+     * @throws IOException if the results could not be saved in files
+     */
     private static void calculatePriceDifferenceUpgrades(String towerName, String difficulty) throws Exception {
         System.out.println("----------------------------------------------------------");
         ArrayList<Upgrade[]> upgrades = new ArrayList<>(Upgrade.getUpgradesByTowerName(towerName, Upgrade.getDefaultUpgrades()));
@@ -215,6 +249,14 @@ public class Calculator {
         fwr.close();
     }
 
+    /**
+     * Prompts for a file name input and if a valid file is found, calculates tha average of all the
+     * decimal values found. The file should contain only one value on each line, with no preceding or trailing
+     * whitespaces.
+     * @param input the file where the values can be found at
+     * @return a double value representing the average of the decimal numbers found in the provided file
+     * @throws IOException if file cannot be found or accessed
+     */
     private static double calculateAverage(File input) throws IOException {
         FileReader fr = new FileReader(input);
         BufferedReader br = new BufferedReader(fr);

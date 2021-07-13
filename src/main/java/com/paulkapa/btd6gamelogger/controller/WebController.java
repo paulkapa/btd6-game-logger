@@ -28,33 +28,98 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+/**
+ * <b>Web Servlet controller</b>
+ * <p>
+ * Provides Web Requests handling for URL's mapped by this application.
+ * <p>
+ * Handles all user session data and login information.
+ *
+ * @see org.springframework.boot.web.servlet.error.ErrorController
+ * @see org.springframework.boot.CommandLineRunner
+ * @see org.springframework.context.ApplicationContextAware
+ */
 @Controller
 @Component
 @Transactional(readOnly = false)
 public class WebController implements ErrorController, CommandLineRunner, ApplicationContextAware {
 
+    /**
+     * org.slf4j.Logger accessor.
+     * <p>
+     * Prints logs to the console in the same format as the default
+     * Spring Application logs.
+     */
     private static final Logger logger = LoggerFactory.getLogger(WebController.class);
+    /**
+     * The ApplicationContext attached to the running Spring Application.
+     */
     private ApplicationContext context;
 
+    /**
+     * Stores if login page access is allowed.
+     */
     private boolean isLoginAllowed;
+    /**
+     * Stores if a failed login attempt was performed.
+     */
     private boolean isFailedLoginAttempt;
+    /**
+     * Stores if an user is currently logged in.
+     */
     private boolean isLoggedIn;
+    /**
+     * Stores if register page access is allowed.
+     */
     private boolean isRegisterAllowed;
+    /**
+     * Stores if a failed register attempt was performed.
+     */
     private boolean isFailedRegisterAttempt;
+    /**
+     * Stores if restricted access pages are allowed.
+     */
     private boolean isApplicationAllowed;
+    /**
+     * Stores if user entered a game logging session.
+     */
     private boolean isApplicationStarted;
+    /**
+     * Stores the last fail message.
+     */
     private String failedMessage;
+    /**
+     * Stores the last Exception thrown by the application.
+     */
     private Exception lastError;
+    /**
+     * Stores if the application shutdown was initiated.
+     */
     private boolean isShutdownStarted;
 
+    /**
+     * Session container.
+     */
     private GameContainer btd6;
+    /**
+     * Selected map for the current session.
+     */
     private Map lastAppSelection;
 
+    /**
+     * The Persistance Context EntityManager used to send queries to the database.
+     */
     @PersistenceContext
     private EntityManager em;
+    /**
+     * The UserInterface Repository used to query the "users" table.
+     */
     @Autowired
     private UserInterface ui;
 
+    /**
+     * Default constructor.
+     */
     @Autowired
     public WebController() {
         this.isLoginAllowed = false;
@@ -67,39 +132,39 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.failedMessage = null;
         this.lastError = new Exception("Application has no errors!");
         this.isShutdownStarted = false;
-
         this.btd6 = new GameContainer();
         this.lastAppSelection = null;
     }
 
     /**
      * Root application controller.
-     * @param rootModel pass data to views
+     * @param rootModel the list of attributes to be passed to the view engine
      * @return the view name to be displayed
      */
     @GetMapping("/")
     public String rootController(Model rootModel) {
         try {
-            //Shutdown notifier
+            // Shutdown notifier
             rootModel.addAttribute("shutdown", this.isShutdownStarted);
-            //Login
+            // Login
             rootModel.addAttribute("isLoginAllowed", this.isLoginAllowed);
             rootModel.addAttribute("isLoggedIn", this.isLoggedIn);
             rootModel.addAttribute("isFailedLoginAttempt", this.isFailedLoginAttempt);
-            //Register
+            // Register
             rootModel.addAttribute("isRegisterAllowed", this.isRegisterAllowed);
             rootModel.addAttribute("isFailedRegisterAttempt", this.isFailedRegisterAttempt);
-            //App
+            // App
             rootModel.addAttribute("isApplicationAllowed", this.isApplicationAllowed);
             rootModel.addAttribute("isApplicationStarted", this.isApplicationStarted);
             rootModel.addAttribute("failedMessage", this.failedMessage);
             this.failedMessage = null;
-            //User
+            // User
             rootModel.addAttribute("uname", ((this.isLoggedIn) ? this.btd6.getUser().getName() : null));
             rootModel.addAttribute("uemail", ((this.isLoggedIn) ? this.btd6.getUser().getName() : null));
             rootModel.addAttribute("uaccountAge", null);
             rootModel.addAttribute("newUser", ((this.isLoggedIn) ? this.btd6.getUser() : User.getDefaultUser()));
-            /*logger.error("DEBUG INFORMATION" +
+            /*
+            logger.error("DEBUG INFORMATION" +
                                     "\nLogin Status:" +
                                     "\n\t{allowed : " + this.isLoginAllowed + "} \n\t{loggedIn : " + this.isLoggedIn + "}" + "\n\t{failed : " + this.isFailedLoginAttempt + "}" +
                                     "\nRegistration Status:" +
@@ -107,13 +172,14 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                                     "\nRegistration: {failed : " + this.isFailedRegisterAttempt + "}" +
                                     "\nApplication Status:" +
                                     "\n\t{allowed : " + this.isApplicationAllowed + "}" + "\n\t{started : " + this.isApplicationStarted + "}" +
-                                    "\nLAST ERROR: ", this.lastError);*/
-            //Check shutdown status
+                                    "\nLAST ERROR: ", this.lastError);
+            */
+            // Check shutdown status
             if(this.isShutdownStarted) {
                 rootModel.addAttribute("context", (ConfigurableApplicationContext)context);
                 return "backup";
             } else {
-                //Get App page
+                // Get App page
                 if(!this.isLoginAllowed && this.isLoggedIn &&
                     !this.isRegisterAllowed &&
                     this.isApplicationAllowed && this.isApplicationStarted) {
@@ -128,7 +194,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         logger.info("Application accessed. Enjoy!");
                     return "index";
                 }
-                //Get Home page
+                // Get Home page
                 else if(!this.isLoginAllowed && this.isLoggedIn &&
                     !this.isRegisterAllowed &&
                     this.isApplicationAllowed && !this.isApplicationStarted) {
@@ -142,7 +208,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         logger.info("Sign up process complete for: " + this.btd6.getUser().getName() + ". Welcome!");
                     return "index";
                 }
-                //Get Registration Page
+                // Get Registration Page
                 else if(!this.isLoginAllowed && !this.isLoggedIn &&
                     this.isRegisterAllowed &&
                     !this.isApplicationAllowed && !this.isApplicationStarted) {
@@ -150,7 +216,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         logger.warn("Registration status: {failed : " + this.isFailedRegisterAttempt + "}. Returning to registration form.");
                     return "index";
                 }
-                //Get Login Page
+                // Get Login Page
                 else if(this.isLoginAllowed && !this.isLoggedIn &&
                     !this.isRegisterAllowed &&
                     !this.isApplicationAllowed && !this.isApplicationStarted) {
@@ -158,7 +224,8 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         logger.warn("Login status: {failed : " + this.isFailedLoginAttempt + "}. Returning to login form.");
                     return "index";
                 }
-                //Get First Login Page -- TODO: change to welcome page
+                // Get First Login Page
+                // TODO: change to welcome page
                 else if(!this.isLoginAllowed && !this.isLoggedIn &&
                     !this.isRegisterAllowed &&
                     !this.isApplicationAllowed && !this.isApplicationStarted) {
@@ -166,7 +233,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         logger.info("Performing First Time Login...");
                     return "index";
                 }
-                //Request /error
+                // Request /error
                 else {
                     logger.error("Could not perform any view operations. Error controller called!" +
                                     "\nLogin Status:" +
@@ -181,7 +248,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                 }
             }
         }
-        //Catch any exception and request /error
+        // Catch any exception and request /error
         catch (Exception e) {
             this.isApplicationStarted = false;
             this.failedMessage = "Severe Application Error Detected!";
@@ -193,7 +260,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Perform register operations.
-     * @param formInfo retrieve data from register form
+     * @param formInfo the form data passed as an user
      * @return redirect to "/"
      */
     @PostMapping("/signup")
@@ -205,13 +272,13 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.isFailedRegisterAttempt = true;
         this.isApplicationAllowed = false;
         this.isApplicationStarted = false;
-        //If method called as GET
+        // If method called as GET
         if(formInfo.getName() == null) {
             this.isFailedRegisterAttempt = false;
             logger.warn("Request: redirect to registration form.");
             return "redirect:/";
         }
-        //If method called as POST
+        // If method called as POST
         else {
             try {
                 if(formInfo.getName().trim().equals("btd6gluser")) {
@@ -253,7 +320,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Perform login operations.
-     * @param formInfo retrieve data from login form
+     * @param formInfo the form data passed as an user
      * @return redirect to "/"
      */
     @PostMapping("/login")
@@ -265,14 +332,14 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.isFailedRegisterAttempt = false;
         this.isApplicationAllowed = false;
         this.isApplicationStarted = false;
-        //If method called as GET
+        // If method called as GET
         logger.info("Login form info: " + formInfo.createString());
         if(formInfo.getName() == null) {
             this.isFailedLoginAttempt = false;
             logger.warn("Request: redirect to login form!");
             return "redirect:/";
         }
-        //If method called as POST
+        // If method called as POST
         else {
             try {
                 if(formInfo.getName().trim().equals("btd6gluser")) {
@@ -317,7 +384,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Perform update user account operations.
-     * @param updatedUser retrieve data from update form
+     * @param updatedUser the form data passed as an user
      * @return redirect to "/"
      */
     @PostMapping(value="/updateUserInfo")
@@ -356,6 +423,8 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Perform delete user account operations.
+     * <p>
+     * Receives no id or attribute value, instead deletes the currently logged in user.
      * @return redirect to "/"
      */
     @PostMapping(value="/deleteUserAccount")
@@ -403,8 +472,9 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Handle app access request.
+     * @param appSetup the form data passed as a map
      * @return redirect to "/"
-     * @throws Exception
+     * @throws Exception if default maps could not be retrieved
      */
     @PostMapping("/logger")
     public String mainApplication(@ModelAttribute Map appSetup) throws Exception {
@@ -430,7 +500,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Perform game data save operations.
-     * @param savedAppData
+     * @param savedAppData the form data passed as a session container
      * @return redirect to "/"
      */
     @PostMapping(value="/save")
@@ -451,8 +521,8 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Handle application errors.
-     * @param request the HTTP request information
-     * @param errorInfo model that passes data to views
+     * @param request the Servlet HTTP Request information
+     * @param errorInfo the list of attributes to be passed to the view engine
      * @return error view
      */
     @RequestMapping("/error")
@@ -499,7 +569,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Truncates the provided table.
-     * @param table
+     * @param table the name of the table to truncate
      */
     public void truncate(String table) {
         try {
@@ -514,15 +584,17 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     }
 
     /**
-     * Runs at application start and initializes the database with one single user.
+     * Runs at application start and initializes the database with the default, anonymous user.
      * <p>
-     * May be called again at any time by classes with access to it.
+     * May be called again at any time by classes with access to it, though it is mostly use to initiate database or to perform testing.
      * <p>
      * User created:
      * <ul>
      * <li>Username: btd6gluser;
      * <li>Password: pass;
+     * <li>Type: anonymous;
      * <li>Email: null.
+     * </ul>
      */
     @Override
     public void run(String... args) {
@@ -598,7 +670,8 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Something happens and the application context is magically passed here as parameter.
-     * @param arg0
+     * @param arg0 the application context attached to the running spring application
+     * @throws BeansException if the application context cannot be resolved
      */
     @Override
     public void setApplicationContext(ApplicationContext arg0) throws BeansException {

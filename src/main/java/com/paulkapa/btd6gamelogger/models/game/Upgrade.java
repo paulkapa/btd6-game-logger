@@ -17,21 +17,42 @@ import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
 /**
- * <h4>Class that defines the attributes af an Upgrade</h4>
- *
+ * <b>Class that defines the attributes af an Upgrade</b>
+ * <p>
  * Provides static methods to query upgrades.
  *
  * @see BaseEntity
  */
 public class Upgrade extends BaseEntity {
 
+    /**
+     * Name of the tower this upgrade applies to.
+     */
     private String towerName;
+    /**
+     * Cost of the upgrade
+     */
     private int cost;
+    /**
+     * If this upgrade is applied on the tower it belongs to.
+     */
     private boolean isApplied;
+    /**
+     * If this upgrade can be applied on the tower it belongs to.
+     */
     private boolean isLocked;
+    /**
+     * The path this upgrade is included in.
+     */
     private int path;
+    /**
+     * The path tier this upgrade is found at.
+     */
     private int tier;
 
+    /**
+     * Default constructor.
+     */
     public Upgrade() {
         super();
         this.towerName = null;
@@ -46,7 +67,7 @@ public class Upgrade extends BaseEntity {
      * Preferred constructor.
      * @param name upgrade name
      * @param type upgrade type
-     * @param towerName tower name for which this upgrade applies
+     * @param towerName name of the tower this upgrade applies to
      * @param cost upgrade cost
      */
     public Upgrade(String name, String type, String towerName, int cost) {
@@ -59,6 +80,17 @@ public class Upgrade extends BaseEntity {
         this.tier = 0;
     }
 
+    /**
+     * Complete constructor.
+     * @param name upgrade name
+     * @param type upgrade type
+     * @param towerName name of the tower this upgrade applies to
+     * @param cost upgrade cost
+     * @param isApplied if this upgrade can be applied on the tower it belongs to
+     * @param isLocked if this upgrade can be applied on the tower it belongs to
+     * @param path the path this upgrade is included in
+     * @param tier the path tier this upgrade is found at
+     */
     public Upgrade(String name, String type, String towerName, int cost, boolean isApplied, boolean isLocked, int path, int tier) {
         super(name, type);
         this.towerName = towerName;
@@ -83,6 +115,11 @@ public class Upgrade extends BaseEntity {
         this.tier = other.getTier();
     }
 
+    /**
+     * Counts the number of upgrades found in the provided list that can be applied to the tower the belong to.
+     * @param upgradesList a list containing the upgrades to check
+     * @return an int representing the number of unlocked upgrades
+     */
     public static int countUnlockedUpgrades(LinkedHashMap<String, Upgrade[][]> upgradesList) {
         ArrayList<Integer> result = new ArrayList<>();
         result.add(0, 0);
@@ -95,6 +132,11 @@ public class Upgrade extends BaseEntity {
         return result.get(0);
     }
 
+    /**
+     * Counts the number of upgrades found in the provided list that are applied to the tower the belong to.
+     * @param upgradesList a list containing the upgrades to check
+     * @return an int representing the number of applied upgrades
+     */
     public static int countAppliedUpgrades(LinkedHashMap<String, Upgrade[][]> upgradesList) {
         ArrayList<Integer> result = new ArrayList<>();
         result.add(0, 0);
@@ -109,7 +151,7 @@ public class Upgrade extends BaseEntity {
 
     /**
      * Initializes default upgrades from storage if not previously initialized.
-     * @return a {@code LinkedHashMap<String, Upgrade[][]>} with the default upgrades.
+     * @return a list containing the default upgrades.
      * @throws Exception if towers names could not be retrieved or if upgrades cannot be found in storage
      */
     public static LinkedHashMap<String, Upgrade[][]> getDefaultUpgrades() throws Exception {
@@ -117,6 +159,13 @@ public class Upgrade extends BaseEntity {
         return null;
     }
 
+    /**
+     * Return the upgrades found in the provided list that belong to a specific tower.
+     * @param towerName a string representing the tower name the search is based upon
+     * @param upgradesSearch a list containing the upgrades to check
+     * @return a list containing the upgrades belonging to the provided tower name
+     * @throws Exception if provided search list is null or empty, or if no results were found for the tower name specified
+     */
     public static ArrayList<Upgrade[]> getUpgradesByTowerName(String towerName, LinkedHashMap<String, Upgrade[][]> upgradesSearch) throws Exception {
         ArrayList<Upgrade[]> result = new ArrayList<>();
 		result.add(0, null);
@@ -130,6 +179,11 @@ public class Upgrade extends BaseEntity {
 		return result;
     }
 
+    /**
+     * Reads the default upgrades from 'upgrades.json' file found in application local storage.
+     * @return a list containing the default upgrades
+     * @throws Exception if towers names could not be retrieved or if upgrades cannot be found in storage
+     */
     private static LinkedHashMap<String, Upgrade[][]> initDefaultUpgrades() throws Exception {
         LinkedHashMap<String, Upgrade[][]> defaultUpgrades = new LinkedHashMap<>();
         // aux variable to apply getClass() method on
@@ -178,28 +232,76 @@ public class Upgrade extends BaseEntity {
         return defaultUpgrades;
     }
 
+    /**
+     * Gets the tower name this upgrade applies to.
+     * @return a string representing the tower name this upgrade applies to
+     */
     public String getTowerName() {return this.towerName;}
 
+    /**
+     * Sets the tower name this upgrade applies to.
+     * @param towerName the tower name this upgrade applies to
+     */
     public void setTowerName(String towerName) {this.towerName = towerName;}
 
+    /**
+     * Gets the upgrade cost.
+     * @return an int representing the cost of this upgrade
+     */
     public int getCost() {return this.cost;}
 
+    /**
+     * Sets the upgrade cost.
+     * @param baseCost the upgrade cost
+     */
     public void setCost(int baseCost) {this.cost = baseCost;}
 
+    /**
+     * Gets the value of the attribute {@code isApplied}.
+     * @return true if this upgrade is applied to the tower it belongs to, false otherwise
+     */
     public boolean isApplied() {return this.isApplied;}
 
+    /**
+     * Sets the value of the attribute {@code isApplied}.
+     * @param isApplied true if this upgrade is applied to the tower it belongs to, false otherwise
+     */
     public void setApplied(boolean isApplied) {this.isApplied = isApplied;}
 
+    /**
+     * Gets the value of the attribute {@code isLocked}.
+     * @return true if this upgrade can be applied to the tower it belongs to, false otherwise
+     */
     public boolean isLocked() {return this.isLocked;}
 
+    /**
+     * Sets the value of the attribute {@code isLocked}.
+     * @param isLocked true if this upgrade can be applied to the tower it belongs to, false otherwise
+     */
     public void setLocked(boolean isLocked) {this.isLocked = isLocked;}
 
+    /**
+     * Gets the path this upgrade is included in.
+     * @return an int representing the upgrade path
+     */
     public int getPath() {return this.path;}
 
+    /**
+     * Sets the path this upgrade is included in.
+     * @param path the upgrade path
+     */
     public void setPath(int path) {this.path = path;}
 
+    /**
+     * Gets the path tier this upgrade is found at.
+     * @return an int representing the upgrade tier
+     */
     public int getTier() {return this.tier;}
 
+    /**
+     * Sets the path tier this upgrade is found at.
+     * @param tier the upgrade tier
+     */
     public void setTier(int tier)  {this.tier = tier;}
 
     @Override

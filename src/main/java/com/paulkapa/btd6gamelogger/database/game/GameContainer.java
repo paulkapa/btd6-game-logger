@@ -24,20 +24,25 @@ import com.paulkapa.btd6gamelogger.models.game.Upgrade;
 import com.paulkapa.btd6gamelogger.models.system.User;
 
 /**
- * <h4>Container class</h4>
- *
- * Stores in-memory or locally objects of type {@code User}
+ * <b>Container class for current game session</b>
+ * <p>
+ * Stores in-memory or locally objects of type {@code User},
  * {@code Map}, {@code Tower} and {@code Upgrade}.
  * <p>
- * Provides static storage for default maps, towers with upgrades, and game modifiers, difficulties,
+ * Provides static storage for default maps, default towers, default upgrades, and game modifiers, difficulties and
  * game modes.
  *
  * @see BaseEntity
  */
 public class GameContainer extends BaseEntity {
 
-    // Game options
+    /**
+     * All game difficulties.
+     */
     public static final String[] DIFFICULTIES = {"Easy", "Medium", "Hard"};
+    /**
+     * All gamem modes.
+     */
     public static final String[] GAME_MODES = {
         "Standard",
         "Primary Monkeys Only", "Deflation",
@@ -45,54 +50,152 @@ public class GameContainer extends BaseEntity {
         "Magic Monkeys Only", "Double HP MOABs", "Half Cash", "Alternate Bloon Rounds", "Impoppable", "CHIMPS",
         "Sandbox"
     };
-    // Starting cash modifiers
+    /**
+     * Base starting cash.
+     */
     public static final int BASE_STARTING_CASH = 650;
+    /**
+     * Deflation starting cash.
+     */
     public static final int DEFLATION_STARTING_CASH = 20000;
+    /**
+     * Half Cash starting cash.
+     */
     public static final int HALF_CASH_STARTING_CASH = 325;
+    /**
+     * Sandbox starting cash.
+     */
     public static final int SANDBOX_STARTING_CASH = 9999999;
+    /**
+     * Monnkey Knowledge bonus starting cash.
+     */
     public static final int MK_BONUS_STARTING_CASH = 200;
-    // Lives modifiers
+    /**
+     * Easy difficulty starting lives.
+     */
     public static final int EASY_STARTING_LIVES = 200;
+    /**
+     * Base starting lives. Represents starting lives for Medium difficulty.
+     */
     public static final int BASE_STARTING_LIVES = 150;
+    /**
+     * Hard difficulty starting lives.
+     */
     public static final int HARD_STARTING_LIVES = 100;
+    /**
+     * Impoppable game mode starting lives.
+     */
     public static final int IMPOPPABLE_STARTING_LIVES = 1;
+    /**
+     * CHIMPS game mode starting lives.
+     */
     public static final int CHIMPS_STARTING_LIVES = 1;
+    /**
+     * Sandbox starting lives.
+     */
     public static final int SANDBOX_STARTING_LIVES = 9999999;
+    /**
+     * Monkey Knowledge bonus starting lives. Represents a lives shiled that
+     * replenishes over time.
+     */
     public static final int MK_BONUS_STARTING_LIVES = 25;
-    // Cost modifiers
+    /**
+     * Modifier for Easy difficulty towers and upgrades cost.
+     * <p>
+     * It is multiplied by the base cost of towers and upgrades to return
+     * the cost of towers and upgrades for Easy difficulty.
+     */
     public static final double EASY_COST_MODIFIER = 0.85d;
+    /**
+     * Base cost modifier. Represents the cost modifier for Medium difficulty.
+     * <p>
+     * Defaults to 1 and suggests that the cost of towers and upgrades for Medium
+     * difficulty is the base cost of towers and upgrades.
+     */
     public static final double BASE_COST_MODIFIER = 1d;
+    /**
+     * Modifier for Hard difficulty towers and upgrades cost.
+     * <p>
+     * It is multiplied by the base cost of towers and upgrades to return
+     * the cost of towers and upgrades for Hard difficulty.
+     */
     public static final double HARD_COST_MODIFIER = 1.08d;
 
-    // Absolute path to the root application directory
+    /**
+     * Stores the absolute path of the application root directory.
+     */
     public static final String ABSOLUTE_PATH = new File("").getAbsolutePath();
-    // Path to data folder, relative to application root directory
+    /**
+     * Stores the path relative to the application root directory that point into
+     * the local-data directory.
+     */
     public static final String RELATIVE_DATA_PATH = "\\src\\main\\java\\com\\paulkapa\\btd6gamelogger\\database\\local-data\\";
-    // Path to save files folder, relative to application root directory
+    /**
+     * Stores the path relative to the application root directory that point to
+     * the saved-games directory.
+     */
     public static final String RELATIVE_SAVE_DIR_PATH = "\\src\\main\\java\\com\\paulkapa\\btd6gamelogger\\database\\game\\saved-games";
-    // Local saved games
+    /**
+     * The list of save files found in the saved-games directory.
+     */
     private static HashMap<String, String[]> savedGames = null;
-    // Default maps
+    /**
+     * The list of default maps found in the local-data directory.
+     */
     private static LinkedHashMap<String, Map[]> defaultMaps = null;
+    /**
+     * True if the list of default maps was initialized from file.
+     */
     public static boolean isInitDefaultMaps = false;
-    // Default towers
+    /**
+     * The list of default towers found in the local-data directory.
+     */
     private static LinkedHashMap<String, Tower[]> defaultTowers = null;
+    /**
+     * True if the list of default towers was initialized from file.
+     */
     public static boolean isInitDefaultTowers = false;
-    // Defaul upgrades
+    /**
+     * The list of default upgrades found in the local-data directory.
+     */
     private static LinkedHashMap<String, Upgrade[][]> defaultUpgrades = null;
+    /**
+     * True if the list of default upgrades was initialized from file.
+     */
     public static boolean isInitDefaultUpgrades = false;
 
+    /**
+     * The user attached to this game session.
+     */
     private User user;
+    /**
+     * The save name of the current game session.
+     */
     private String saveName;
+    /**
+     * The selected difficulty.
+     */
     private String diff;
+    /**
+     * The selected game mode.
+     */
     private String mode;
-    // In use map
+    /**
+     * The selected map.
+     */
     private Map map;
-    // In use towers
+    /**
+     * The used towers.
+     */
     private LinkedHashMap<String, Tower[]> towers;
-    // In use upgrades
+    /**
+     * The applied and/or unlocked upgrades.
+     */
     private LinkedHashMap<String, Upgrade[][]> upgrades;
 
+    /**
+     * Default constructor.
+     */
     public GameContainer() {
         super("BTD6", "Container");
         this.user = null;
@@ -117,8 +220,8 @@ public class GameContainer extends BaseEntity {
 
     /**
      * Preffered constructor.
-     * @param user the logged in user
-     * @param saveName the name of the game session picked by the user. Defaults to save_1
+     * @param user user attached to this game session
+     * @param saveName save name of the current game session
      */
     public GameContainer(User user, String saveName) {
         super("BTD6", "Container-" + saveName);
@@ -131,6 +234,16 @@ public class GameContainer extends BaseEntity {
         this.upgrades = null;
     }
 
+    /**
+     * Complete constructor.
+     * @param user user attached to this game session
+     * @param diff selected difficulty
+     * @param mode selected game mode
+     * @param saveName save name of the current game session
+     * @param map selected map
+     * @param towers in use towers
+     * @param upgrades applied and/or unlocked upgrades
+     */
     public GameContainer(User user, String diff, String mode, String saveName,
             Map map,
             LinkedHashMap<String, Tower[]> towers,
@@ -160,26 +273,45 @@ public class GameContainer extends BaseEntity {
         this.upgrades = other.getUpgrades();
     }
 
+    /**
+     * Returns the list of default maps.
+     * @return a list containing the default maps
+     * @throws IOException if default maps could not be retrieved.
+     */
     public static LinkedHashMap<String, Map[]> getDefaultMaps() throws IOException {
         if(!GameContainer.isInitDefaultMaps) GameContainer.defaultMaps = Map.getDefaultMaps();
         return GameContainer.defaultMaps;
     }
 
+    /**
+     * Returns the list of default towers.
+     * @return a list containing the default towers
+     * @throws IOException if default towers could not be retrieved.
+     */
     public static LinkedHashMap<String, Tower[]> getDefaultTowers() throws IOException {
         if(!GameContainer.isInitDefaultTowers) GameContainer.defaultTowers = Tower.getDefaultTowers();
         return GameContainer.defaultTowers;
     }
 
+    /**
+     * Returns the list of default upgrades.
+     * @return a list containing the default upgrades
+     * @throws IOException if default upgrades could not be retrieved.
+     */
     public static LinkedHashMap<String, Upgrade[][]> getDefaultUpgrades() throws Exception {
         if(!GameContainer.isInitDefaultUpgrades) GameContainer.defaultUpgrades = Upgrade.getDefaultUpgrades();
         return GameContainer.defaultUpgrades;
     }
 
+    /**
+     * Returns the user attached to this game session.
+     * @return a user
+     */
     public User getUser() {return this.user;}
 
     /**
-     * Replaces current logged in user and resets all other container data.
-     * @param user the new logged in user
+     * Replaces the user attached to this game session and resets all session data to defaults.
+     * @param user the new user
      */
     public void replaceUser(User user) {
         super.setID(0);
@@ -193,28 +325,76 @@ public class GameContainer extends BaseEntity {
         this.user = new User(user);
     }
 
+    /**
+     * Gets the session save name.
+     * @return a string representing the session save name
+     */
     public String getSaveName() {return this.saveName;}
 
+    /**
+     * Set the session save name.
+     * @param saveName the session save name
+     */
     public void setSaveName(String saveName) {this.saveName = saveName;}
 
+    /**
+     * Gets the selected difficulty.
+     * @return a string representing the selected difficulty
+     */
     public String getDiff() {return this.diff;}
 
+    /**
+     * Sets the current difficulty.
+     * @param diff the selected difficulty
+     */
     public void setDiff(String diff) {this.diff = diff;}
 
+    /**
+     * Gets the selected game mode.
+     * @return a string representing the selected game mode
+     */
     public String getMode() {return this.mode;}
 
+    /**
+     * Sets the current game mode.
+     * @param mode the selected game mode
+     */
     public void setMode(String mode) {this.mode = mode;}
 
+    /**
+     * Gets the selected map.
+     * @return the selected map
+     */
     public Map getMap() {return this.map;}
 
+    /**
+     * Sets the current map.
+     * @param map the selected map
+     */
     public void setMap(Map map) {this.map = map;}
 
+    /**
+     * Gets the towers in use.
+     * @return a list containing in use towers
+     */
     public LinkedHashMap<String, Tower[]> getTowers() {return this.towers;}
 
+    /**
+     * Sets the towers in use.
+     * @param towers a list containing the in use towers
+     */
     public void setTowers(LinkedHashMap<String, Tower[]> towers) {this.towers = towers;}
 
+    /**
+     * Gets the applied and/or unlocked upgrades.
+     * @return a list containing the applied and/or unlocked upgrades
+     */
     public LinkedHashMap<String, Upgrade[][]> getUpgrades() {return this.upgrades;}
 
+    /**
+     * Sets the applied and/or unlocked upgrades.
+     * @param upgrades a list containing the applied and/or unlocked upgrades
+     */
     public void setUpgrades(LinkedHashMap<String, Upgrade[][]> upgrades) {this.upgrades = upgrades;}
 
     /**
@@ -276,9 +456,10 @@ public class GameContainer extends BaseEntity {
     }
 
     /**
-     * Resets the current container to the default values.
+     * Resets the current session container to the default values.
      * <p>
-     * Data related to this container will not be accessible after the method executes.
+     * Data related to this container will not be accessible after the method executes and will be deleted from
+     * memory as the Java Garbage Collection system defines.
      */
     public void resetContainer() {
         super.setID(0);
@@ -293,9 +474,10 @@ public class GameContainer extends BaseEntity {
     }
 
     /**
-     * Saves current container data to a save file with the name:
+     * Saves current session data to a save file with name:
      * <ul>
-     * <li>'[user_name]-[save_name].json'.
+     * <li>'[user_name]-[save_name].json'
+     * </ul>
      */
     public void saveGame() {
         try {
@@ -309,10 +491,10 @@ public class GameContainer extends BaseEntity {
     }
 
     /**
-     * Restores saved data from a save file with the name '[u]-[s].json'.
+     * Restores session data from a save file with the name '[u]-[s].json'.
      * @param u the user's name that created the file
      * @param s the save name
-     * @return a new container initialized with the save file data
+     * @return a new session container initialized with the save file data
      */
     public static GameContainer restoreSave(String u, String s) {
         try {
@@ -325,12 +507,16 @@ public class GameContainer extends BaseEntity {
 
     /**
      * Provides template for file name, constructed from an user-name and a save-name.
-     * @param u
-     * @param s
+     * @param u the user's name
+     * @param s the save name
      * @return a templated file name
      */
     private static String createFileName(String u, String s) {return u + "-" + s + ".json";}
 
+    /**
+     * Returns a list of save file names found in the saved-games directory, mapped by the user's name that created them.
+     * @return a list of save file names, mapped by user name
+     */
     private static HashMap<String, String[]> getSaveNames() {
         HashMap<String, String[]> saveNames = new HashMap<>();
         try {
@@ -350,6 +536,7 @@ public class GameContainer extends BaseEntity {
                     }
                 }
             });
+            paths.close();
         } catch (IOException e) {e.printStackTrace();}
         return saveNames;
     }
