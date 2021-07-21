@@ -1,100 +1,119 @@
 <!doctype html>
 <html lang="en">
-  <head>
-  </head>
-  <body>
-    <section id="homeContentGrid" class="modal-content border border-white rounded-3 row flex-row bg-dark w-100 m-auto mt-2" th:fragment="homepage">
-      <!-- App setup selection form -->
-      <div class="modal-content col flex-column bg-dark m-auto mt-2 mb-2">
-        <form id="optionSelector" class="modal-content row flex-row justify-content-center bg-secondary w-auto m-auto mt-2 mb-2 p-2" method="post" action=""
-                th:action="@{/logger}" th:object="${appSetup}">
-          <p class="text-white h4 mt-2">Make your game selections and press Start</p>
-          <!-- Selection controls -->
-          <div class="col flex-column m-auto mt-2">
-            <!-- Map select -->
-            <div class="row flex-row rounded-3 text-start m-auto">
-              <select id="mapSelect" class="form-select" title="Maps" th:field="*{name}" required>
-                <option class="w-100" selected="" value="">Map...</option>
-                <th:block th:each="m : ${maps.keySet()}">
-                  <th:block th:each="curr : ${maps.get(m)}">
-                    <option class="w-100" th:value="${curr.name}" th:text="${curr.name}"></option>
-                  </th:block>
+
+    <head>
+        <title></title>
+    </head>
+
+    <body>
+        <section id="homeContentGrid"
+            class="modal-content border border-white rounded-3 row flex-row bg-dark w-100 m-auto mt-2"
+            th:fragment="homepage">
+            <!-- App setup selection form -->
+            <div class="modal-content col flex-column bg-dark m-auto mt-2 mb-2">
+                <form id="optionSelector"
+                    class="modal-content row flex-row justify-content-center bg-secondary w-auto m-auto mt-2 mb-2 p-2"
+                    method="post" action="" th:action="@{/logger}" th:object="${appSetup}">
+                    <p class="text-white h4 mt-2">Make your game selections and press Start</p>
+                    <!-- Selection controls -->
+                    <div class="col flex-column m-auto mt-2">
+                        <!-- Map select -->
+                        <div class="row flex-row rounded-3 text-start m-auto">
+                            <select id="mapSelect" class="form-select" title="Maps" th:field="*{name}" required>
+                                <option class="w-100" selected="" value="">Map...</option>
+                                <th:block th:each="m : ${maps.keySet()}">
+                                    <th:block th:each="curr : ${maps.get(m)}">
+                                        <option class="w-100" th:value="${curr.name}" th:text="${curr.name}"></option>
+                                    </th:block>
+                                </th:block>
+                            </select>
+                        </div>
+                        <!-- Difficutly select -->
+                        <div class="row flex-row rounded-3 text-start m-auto mt-2">
+                            <select id="diffSelect" class="form-select" title="Game Modes" th:field="*{difficulty}"
+                                required>
+                                <option selected="" value="">Difficulty...</option>
+                                <option class="odiff-info" value="info" disabled>Select map first!</option>
+                                <th:block th:each="diff : ${diffs}">
+                                    <option th:class="'d-none odiff'" th:value="${diff}" th:text="${diff}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <!-- Mode select -->
+                        <div class="row flex-row rounded-3 text-start m-auto mt-2">
+                            <select id="modeSelect" class="form-select" title="Game Modes" th:field="*{gameMode}"
+                                required>
+                                <option selected="" value="">Game Mode...</option>
+                                <option class="omode-info" value="info" disabled>Select difficulty first!</option>
+                                <th:block th:each="mode, modeStat : ${modes}">
+                                    <option th:class="'d-none omode om' + ${modeStat.index}" th:value="${mode}"
+                                        th:text="${mode}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <!-- Submit selection -->
+                        <div class="row flex-row justify-content-end m-auto mt-2">
+                            <button class="col col-auto btn btn-primary btn-sm m-1" type=submit>Start</button>
+                            <button class="col col-auto btn btn-warning btn-sm m-1" type=reset>Reset</button>
+                        </div>
+                    </div>
+                    <!-- Selection preview -->
+                    <div id="selectOutput"
+                        class="col flex-column border border-2 rounded-3 border-warning bg-dark text-white m-2">
+                        <p for="selectOutput" class="text-start text-muted m-auto">Your selection:</p>
+                        <div class="text-start m-auto mt-2">
+                            <em class="fas fa-arrow-alt-circle-right fa-1x mt-1"></em>
+                            <p id="selectedMap" class="d-inline">Select...</p>
+                        </div>
+                        <div class="text-start m-auto mt-2 mb-1">
+                            <div class="fas fa-arrow-alt-circle-right fa-1x mt-1"></div>
+                            <p id="selectedDiff" class="d-inline">Select...</p>
+                        </div>
+                        <div class="text-start m-auto mt-2 mb-1">
+                            <div class="fas fa-arrow-alt-circle-right fa-1x mt-1"></div>
+                            <p id="selectedMode" class="d-inline">Select...</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- Complete app selection view -->
+        <section id="homeSelectionViewGrid"
+            class="modal-content border border-white rounded-3 col flex-column justify-content-center bg-dark w-100 m-auto mt-2 p-2"
+            th:fragment="extended">
+            <table class="table small text-muted m-auto" aria-label="Game options">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Difficulty</th>
+                        <th scope="col">Game Mode</th>
+                        <th scope="col">Monkey Knowledge</th>
+                        <th scope="col">Monkey Knowledge</th>
+                    </tr>
+                </thead>
+                <th:block>
+                    <tbody>
+                        <tr>
+                            <th:block th:each="m, mStat : ${maps.keySet()}">
+                                <th:block th:each="curr, currStat : ${maps.get(m)}">
+                                    <td class="tdout d-none" th:classappend="td + ${mStat.index*10 + currStat.index}"
+                                        th:text="${curr.name}"></td>
+                                    <td class="tdout d-none" th:classappend="td + ${mStat.index*10 + currStat.index}"
+                                        th:text="${curr.type}"></td>
+                                    <td class="tdout d-none td-diff"
+                                        th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
+                                    <td class="tdout d-none td-mode"
+                                        th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
+                                    <td class="tdout d-none td-mk"
+                                        th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
+                                </th:block>
+                            </th:block>
+                        </tr>
+                    </tbody>
                 </th:block>
-              </select>
-            </div>
-            <!-- Difficutly select -->
-            <div class="row flex-row rounded-3 text-start m-auto mt-2">
-              <select id="diffSelect" class="form-select" title="Game Modes" th:field="*{difficulty}" required>
-                <option selected="" value="">Difficulty...</option>
-                <option class="odiff-info" value="info" disabled>Select map first!</option>
-                <th:block th:each="diff : ${diffs}">
-                  <option th:class="'d-none odiff'" th:value="${diff}" th:text="${diff}"></option>
-                </th:block>
-              </select>
-            </div>
-            <!-- Mode select -->
-            <div class="row flex-row rounded-3 text-start m-auto mt-2">
-              <select id="modeSelect" class="form-select" title="Game Modes" th:field="*{gameMode}" required>
-                <option selected="" value="">Game Mode...</option>
-                <option class="omode-info" value="info" disabled>Select difficulty first!</option>
-                <th:block th:each="mode, modeStat : ${modes}">
-                  <option th:class="'d-none omode om' + ${modeStat.index}" th:value="${mode}" th:text="${mode}"></option>
-                </th:block>
-              </select>
-            </div>
-            <!-- Submit selection -->
-            <div class="row flex-row justify-content-end m-auto mt-2">
-              <button class="col col-auto btn btn-primary btn-sm m-1" type=submit>Start</button>
-              <button class="col col-auto btn btn-warning btn-sm m-1" type=reset>Reset</button>
-            </div>
-          </div>
-          <!-- Selection preview -->
-          <div id="selectOutput" class="col flex-column border border-2 rounded-3 border-warning bg-dark text-white m-2">
-            <p for="selectOutput" class="text-start text-muted m-auto">Your selection:</p>
-            <div class="text-start m-auto mt-2">
-              <i class="fas fa-arrow-alt-circle-right fa-1x mt-1"></i>
-              <p id="selectedMap" class="d-inline">Select...</p>
-            </div>
-            <div class="text-start m-auto mt-2 mb-1">
-              <div class="fas fa-arrow-alt-circle-right fa-1x mt-1"></div>
-              <p id="selectedDiff" class="d-inline">Select...</p>
-            </div>
-            <div class="text-start m-auto mt-2 mb-1">
-              <div class="fas fa-arrow-alt-circle-right fa-1x mt-1"></div>
-              <p id="selectedMode" class="d-inline">Select...</p>
-            </div>
-          </div>
-        </form>
-      </div>
-    </section>
-    <!-- Complete app selection view -->
-    <section id="homeSelectionViewGrid" class="modal-content border border-white rounded-3 col flex-column justify-content-center bg-dark w-100 m-auto mt-2 p-2" th:fragment="extended">
-      <table class="table small text-muted m-auto">
-        <thead>
-          <tr>
-            <td>Name</td>
-            <td>Type</td>
-            <td>Difficulty</td>
-            <td>Game Mode</td>
-            <td>Monkey Knowledge</td>
-          </tr>
-        </th>
-        <th:block>
-          <tbody>
-            <tr>
-              <th:block th:each="m, mStat : ${maps.keySet()}">
-                <th:block th:each="curr, currStat : ${maps.get(m)}">
-                  <td class="tdout d-none" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="${curr.name}"></td>
-                  <td class="tdout d-none" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="${curr.type}"></td>
-                  <td class="tdout d-none td-diff" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
-                  <td class="tdout d-none td-mode" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
-                  <td class="tdout d-none td-mk" th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
-                </th:block>
-              </th:block>
-            </tr>
-          </tbody>
-        </th:block>
-      </table>
-    </section>
-  </body>
+            </table>
+        </section>
+    </body>
+
 </html>

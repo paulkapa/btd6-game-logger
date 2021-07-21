@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 /**
  * <b>Web Servlet controller</b>
  * <p>
@@ -47,14 +46,18 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     /**
      * org.slf4j.Logger accessor.
      * <p>
-     * Prints logs to the console in the same format as the default
-     * Spring Application logs.
+     * Prints logs to the console in the same format as the default Spring
+     * Application logs.
      */
     private static final Logger logger = LoggerFactory.getLogger(WebController.class);
     /**
      * The ApplicationContext attached to the running Spring Application.
      */
     private ApplicationContext context;
+
+    public static final String REDIRECT = "redirect:/";
+    public static final String PAGE = "index";
+    public static final String PAGE_TITLE_ATTR = "currentPageTitle";
 
     /**
      * Stores if login page access is allowed.
@@ -138,6 +141,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Root application controller.
+     *
      * @param rootModel the list of attributes to be passed to the view engine
      * @return the view name to be displayed
      */
@@ -163,87 +167,74 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             rootModel.addAttribute("uemail", ((this.isLoggedIn) ? this.btd6.getUser().getName() : null));
             rootModel.addAttribute("uaccountAge", null);
             rootModel.addAttribute("newUser", ((this.isLoggedIn) ? this.btd6.getUser() : User.getDefaultUser()));
-            /*
-            logger.error("DEBUG INFORMATION" +
-                                    "\nLogin Status:" +
-                                    "\n\t{allowed : " + this.isLoginAllowed + "} \n\t{loggedIn : " + this.isLoggedIn + "}" + "\n\t{failed : " + this.isFailedLoginAttempt + "}" +
-                                    "\nRegistration Status:" +
-                                    "\n\t{allowed : " + this.isRegisterAllowed + "}" + "\n\t{failed : " + this.isFailedRegisterAttempt + "}" +
-                                    "\nRegistration: {failed : " + this.isFailedRegisterAttempt + "}" +
-                                    "\nApplication Status:" +
-                                    "\n\t{allowed : " + this.isApplicationAllowed + "}" + "\n\t{started : " + this.isApplicationStarted + "}" +
-                                    "\nLAST ERROR: ", this.lastError);
-            */
             // Check shutdown status
-            if(this.isShutdownStarted) {
-                rootModel.addAttribute("context", (ConfigurableApplicationContext)context);
+            if (this.isShutdownStarted) {
+                rootModel.addAttribute("context", (ConfigurableApplicationContext) context);
                 return "backup";
             } else {
                 // Get App page
-                if(!this.isLoginAllowed && this.isLoggedIn &&
-                    !this.isRegisterAllowed &&
-                    this.isApplicationAllowed && this.isApplicationStarted) {
-                        rootModel.addAttribute("maps", this.btd6.getMap());
-                        rootModel.addAttribute("towers", this.btd6.getTowers());
-                        rootModel.addAttribute("upgrades", this.btd6.getUpgrades());
-                        rootModel.addAttribute("diff", this.btd6.getDiff());
-                        rootModel.addAttribute("mode", this.btd6.getMode());
-                        rootModel.addAttribute("appSetup", this.lastAppSelection);
-                        rootModel.addAttribute("appData", this.btd6);
-                        rootModel.addAttribute("currentPageTitle", "App");
-                        logger.info("Application accessed. Enjoy!");
-                    return "index";
+                if (!this.isLoginAllowed && this.isLoggedIn && !this.isRegisterAllowed && this.isApplicationAllowed
+                        && this.isApplicationStarted) {
+                    rootModel.addAttribute("maps", this.btd6.getMap());
+                    rootModel.addAttribute("towers", this.btd6.getTowers());
+                    rootModel.addAttribute("upgrades", this.btd6.getUpgrades());
+                    rootModel.addAttribute("diff", this.btd6.getDiff());
+                    rootModel.addAttribute("mode", this.btd6.getMode());
+                    rootModel.addAttribute("appSetup", this.lastAppSelection);
+                    rootModel.addAttribute("appData", this.btd6);
+                    rootModel.addAttribute(WebController.PAGE_TITLE_ATTR, "App");
+                    logger.info("Application accessed. Enjoy!");
+                    return WebController.PAGE;
                 }
                 // Get Home page
-                else if(!this.isLoginAllowed && this.isLoggedIn &&
-                    !this.isRegisterAllowed &&
-                    this.isApplicationAllowed && !this.isApplicationStarted) {
-                        this.btd6.getUser().setAccountAge();
-                        rootModel.addAttribute("uaccountAge", User.visualizeAccountAge(this.btd6.getUser().getAccountAge()));
-                        rootModel.addAttribute("maps", GameContainer.getDefaultMaps());
-                        rootModel.addAttribute("diffs", GameContainer.DIFFICULTIES);
-                        rootModel.addAttribute("modes", GameContainer.GAME_MODES);
-                        rootModel.addAttribute("appSetup", new Map());
-                        rootModel.addAttribute("currentPageTitle", "Home");
-                        logger.info("Sign up process complete for: " + this.btd6.getUser().getName() + ". Welcome!");
-                    return "index";
+                else if (!this.isLoginAllowed && this.isLoggedIn && !this.isRegisterAllowed
+                        && this.isApplicationAllowed) {
+                    this.btd6.getUser().setAccountAge();
+                    rootModel.addAttribute("uaccountAge",
+                            User.visualizeAccountAge(this.btd6.getUser().getAccountAge()));
+                    rootModel.addAttribute("maps", GameContainer.getDefaultMaps());
+                    rootModel.addAttribute("diffs", GameContainer.DIFFICULTIES);
+                    rootModel.addAttribute("modes", GameContainer.GAME_MODES);
+                    rootModel.addAttribute("appSetup", new Map());
+                    rootModel.addAttribute(WebController.PAGE_TITLE_ATTR, "Home");
+                    logger.info("Sign up process complete for: " + this.btd6.getUser().getName() + ". Welcome!");
+                    return WebController.PAGE;
                 }
                 // Get Registration Page
-                else if(!this.isLoginAllowed && !this.isLoggedIn &&
-                    this.isRegisterAllowed &&
-                    !this.isApplicationAllowed && !this.isApplicationStarted) {
-                        rootModel.addAttribute("currentPageTitle", "Register");
-                        logger.warn("Registration status: {failed : " + this.isFailedRegisterAttempt + "}. Returning to registration form.");
-                    return "index";
+                else if (!this.isLoginAllowed && !this.isLoggedIn && this.isRegisterAllowed
+                        && !this.isApplicationAllowed && !this.isApplicationStarted) {
+                    rootModel.addAttribute(WebController.PAGE_TITLE_ATTR, "Register");
+                    logger.warn("Registration status: {failed : " + this.isFailedRegisterAttempt
+                            + "}. Returning to registration form.");
+                    return WebController.PAGE;
                 }
                 // Get Login Page
-                else if(this.isLoginAllowed && !this.isLoggedIn &&
-                    !this.isRegisterAllowed &&
-                    !this.isApplicationAllowed && !this.isApplicationStarted) {
-                        rootModel.addAttribute("currentPageTitle", "Login");
-                        logger.warn("Login status: {failed : " + this.isFailedLoginAttempt + "}. Returning to login form.");
-                    return "index";
+                else if (this.isLoginAllowed && !this.isLoggedIn && !this.isRegisterAllowed
+                        && !this.isApplicationAllowed && !this.isApplicationStarted) {
+                    rootModel.addAttribute(WebController.PAGE_TITLE_ATTR, "Login");
+                    logger.warn("Login status: {failed : " + this.isFailedLoginAttempt + "}. Returning to login form.");
+                    return WebController.PAGE;
                 }
                 // Get First Login Page
                 // TODO: change to welcome page
-                else if(!this.isLoginAllowed && !this.isLoggedIn &&
-                    !this.isRegisterAllowed &&
-                    !this.isApplicationAllowed && !this.isApplicationStarted) {
-                        rootModel.addAttribute("currentPageTitle", "Login");
-                        logger.info("Performing First Time Login...");
-                    return "index";
+                else if (!this.isLoginAllowed && !this.isLoggedIn && !this.isRegisterAllowed
+                        && !this.isApplicationAllowed && !this.isApplicationStarted) {
+                    rootModel.addAttribute(WebController.PAGE_TITLE_ATTR, "Login");
+                    logger.info("Performing First Time Login...");
+                    return WebController.PAGE;
                 }
                 // Request /error
                 else {
-                    logger.error("Could not perform any view operations. Error controller called!" +
-                                    "\nLogin Status:" +
-                                    "\n\t{allowed : " + this.isLoginAllowed + "} {\n\tloggedIn : " + this.isLoggedIn + "}" + "\n\t{failed : " + this.isFailedLoginAttempt + "}" +
-                                    "\nRegistration Status:" +
-                                    "\n\t{allowed : " + this.isRegisterAllowed + "}" + "\n\t{failed : " + this.isFailedRegisterAttempt + "}" +
-                                    "\nRegistration: {failed : " + this.isFailedRegisterAttempt + "}" +
-                                    "\nApplication Status:" +
-                                    "\n\t{allowed : " + this.isApplicationAllowed + "}" + "\n\t{started : " + this.isApplicationStarted + "}" +
-                                    "\nLast error: ", this.lastError);
+                    logger.error(
+                            "Could not perform any view operations. Error controller called!" + "\nLogin Status:"
+                                    + "\n\t{allowed : " + this.isLoginAllowed + "} {\n\tloggedIn : " + this.isLoggedIn
+                                    + "}" + "\n\t{failed : " + this.isFailedLoginAttempt + "}"
+                                    + "\nRegistration Status:" + "\n\t{allowed : " + this.isRegisterAllowed + "}"
+                                    + "\n\t{failed : " + this.isFailedRegisterAttempt + "}"
+                                    + "\nRegistration: {failed : " + this.isFailedRegisterAttempt + "}"
+                                    + "\nApplication Status:" + "\n\t{allowed : " + this.isApplicationAllowed + "}"
+                                    + "\n\t{started : " + this.isApplicationStarted + "}" + "\nLast error: ",
+                            this.lastError);
                     return "/error";
                 }
             }
@@ -260,6 +251,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
 
     /**
      * Perform register operations.
+     *
      * @param formInfo the form data passed as an user
      * @return redirect to "/"
      */
@@ -273,28 +265,21 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.isApplicationAllowed = false;
         this.isApplicationStarted = false;
         // If method called as GET
-        if(formInfo.getName() == null) {
+        if (formInfo.getName() == null) {
             this.isFailedRegisterAttempt = false;
             logger.warn("Request: redirect to registration form.");
-            return "redirect:/";
         }
         // If method called as POST
         else {
             try {
-                if(formInfo.getName().trim().equals("btd6gluser")) {
-                    this.isFailedRegisterAttempt = true;
+                if (formInfo.getName().trim().equals("btd6gluser")) {
                     this.failedMessage = "You tried to copy the default anonymous account. Account already exists!";
                 } else {
                     // New User constructed from form details
-                    User newUser = new User(
-                        formInfo.getName().trim(), "regular",
-                        formInfo.getPassword().trim(),
-                        formInfo.getEmail().trim(),
-                        null
-                    );
+                    User newUser = new User(formInfo.getName().trim(), "regular", formInfo.getPassword().trim(),
+                            formInfo.getEmail().trim(), null);
                     // Check if account already exists in database
-                    if(this.ui.findByName(newUser.getName()) != null) {
-                        this.isFailedRegisterAttempt = true;
+                    if (this.ui.findByName(newUser.getName()) != null) {
                         this.failedMessage = "Account already exists!";
                         logger.warn("Register attempt: User [" + newUser.getName() + "] already exists in database.");
                     }
@@ -305,21 +290,24 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         this.isFailedRegisterAttempt = !(newUser.equals(this.btd6.getUser()));
                         this.btd6.replaceUser(null);
                         this.isRegisterAllowed = this.isFailedRegisterAttempt;
-                        this.failedMessage = !this.isFailedRegisterAttempt ? "Success! You may login..." : "Error creating account!";
-                        logger.info("Register attempt: [" + newUser.getName() + "] {failed : " + this.isFailedRegisterAttempt + "}");
+                        this.failedMessage = !this.isFailedRegisterAttempt ? "Success! You may login..."
+                                : "Error creating account!";
+                        logger.info("Register attempt: [" + newUser.getName() + "] {failed : "
+                                + this.isFailedRegisterAttempt + "}");
                     }
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 this.failedMessage = "Registration failed. Application error detected, please try again!";
                 this.lastError = e;
                 logger.error("Register attempt failed due to exception.", e.getCause());
             }
-            return "redirect:/";
         }
+        return WebController.REDIRECT;
     }
 
     /**
      * Perform login operations.
+     *
      * @param formInfo the form data passed as an user
      * @return redirect to "/"
      */
@@ -334,16 +322,15 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.isApplicationStarted = false;
         // If method called as GET
         logger.info("Login form info: " + formInfo.createString());
-        if(formInfo.getName() == null) {
+        if (formInfo.getName() == null) {
             this.isFailedLoginAttempt = false;
             logger.warn("Request: redirect to login form!");
-            return "redirect:/";
         }
         // If method called as POST
         else {
             try {
-                if(formInfo.getName().trim().equals("btd6gluser")) {
-                    if(formInfo.getPassword().equals(User.getDefaultUser().getPassword())) {
+                if (formInfo.getName().trim().equals("btd6gluser")) {
+                    if (formInfo.getPassword().equals(User.getDefaultUser().getPassword())) {
                         this.btd6.replaceUser(User.getDefaultUser());
                         this.isLoginAllowed = false;
                         this.isFailedLoginAttempt = false;
@@ -357,7 +344,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     // Database query result for form details
                     User result = ui.findByNameAndPassword(newUser.getName(), newUser.getPassword());
                     // Check if account exists in database
-                    if(result != null) {
+                    if (result != null) {
                         newUser.setType(result.getType());
                         newUser.setEmail(result.getEmail());
                         newUser.setCreationDate(result.getCreationDate());
@@ -371,30 +358,32 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         this.failedMessage = "Login failed. Provided information doesn't exist.";
                     }
                 }
-                logger.info("Sign in attempt: [" + formInfo.getName().trim() + "] {status : " +
-                                ((this.isLoggedIn && !this.isFailedLoginAttempt) ? "successful" : "failed") + "}");
-            } catch(Exception e) {
+                logger.info("Sign in attempt: [" + formInfo.getName().trim() + "] {status : "
+                        + ((this.isLoggedIn && !this.isFailedLoginAttempt) ? "successful" : "failed") + "}");
+            } catch (Exception e) {
                 this.failedMessage = "Login failed. Application error detected, please try again!";
                 this.lastError = e;
                 logger.error("Login attempt failed due to exception.", e.getCause());
             }
-            return "redirect:/";
         }
+        return WebController.REDIRECT;
     }
 
     /**
      * Perform update user account operations.
+     *
      * @param updatedUser the form data passed as an user
      * @return redirect to "/"
      */
-    @PostMapping(value="/updateUserInfo")
+    @PostMapping(value = "/updateUserInfo")
     public String updateUserInformation(@ModelAttribute User updatedUser) {
         try {
             // Updated user constructed from form details
-            User updates = new User(updatedUser.getName().trim(), "regular-modified", updatedUser.getPassword(), updatedUser.getEmail(), this.btd6.getUser().getCreationDate());
-            if(!this.btd6.getUser().getName().equals(updates.getName()) ||
-                    !this.btd6.getUser().getPassword().equals(updates.getPassword()) ||
-                    !this.btd6.getUser().getEmail().equals(updates.getEmail())) {
+            User updates = new User(updatedUser.getName().trim(), "regular-modified", updatedUser.getPassword(),
+                    updatedUser.getEmail(), this.btd6.getUser().getCreationDate());
+            if (!this.btd6.getUser().getName().equals(updates.getName())
+                    || !this.btd6.getUser().getPassword().equals(updates.getPassword())
+                    || !this.btd6.getUser().getEmail().equals(updates.getEmail())) {
                 try {
                     // Delete existing information from database
                     this.ui.delete(this.ui.findByName(this.btd6.getUser().getName()));
@@ -403,57 +392,63 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     this.ui.save(updates);
                     this.btd6.replaceUser(updates);
                     this.failedMessage = "Success! Account updated.";
-                    logger.info("Update account attempt: User [" + this.btd6.getUser().getName() + "] to User [" + updates.getName() + "] + {status : success}");
+                    logger.info("Update account attempt: User [" + this.btd6.getUser().getName() + "] to User ["
+                            + updates.getName() + "] + {status : success}");
                 } catch (Exception e) {
-                    if(this.ui.findById(this.btd6.getUser().getID()) == null) this.ui.save(this.btd6.getUser());
+                    if (this.ui.findById(this.btd6.getUser().getId()) == null)
+                        this.ui.save(this.btd6.getUser());
                     this.lastError = e;
                     this.failedMessage = "Update account information failed! No changes were made.";
-                    logger.warn("Update account attempt: User [" + this.btd6.getUser().getName() + "] to User [" + updates.getName() + "] {status : failed}. Rolling back changes...");
+                    logger.warn("Update account attempt: User [" + this.btd6.getUser().getName() + "] to User ["
+                            + updates.getName() + "] {status : failed}. Rolling back changes...");
                 }
             } else {
                 this.failedMessage = "Info: No changes made to your account!";
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.lastError = e;
             this.failedMessage = "Update account failed. Application error detected, please try again!";
             logger.error("Update account attempt failed due to Exception. No changes will be made.", e.getCause());
         }
-        return "redirect:/";
+        return WebController.REDIRECT;
     }
 
     /**
      * Perform delete user account operations.
      * <p>
-     * Receives no id or attribute value, instead deletes the currently logged in user.
+     * Receives no id or attribute value, instead deletes the currently logged in
+     * user.
+     *
      * @return redirect to "/"
      */
-    @PostMapping(value="/deleteUserAccount")
+    @PostMapping(value = "/deleteUserAccount")
     public String deleteUserAccount() {
-        try{
-            if(this.isLoggedIn) {
+        try {
+            if (this.isLoggedIn) {
                 this.ui.delete(this.ui.findByName(this.btd6.getUser().getName()));
                 this.ui.flush();
                 this.isLoginAllowed = false;
                 this.isFailedLoginAttempt = false;
                 this.isLoggedIn = false;
                 this.isRegisterAllowed = false;
-                this.isFailedLoginAttempt = false;
                 this.isFailedRegisterAttempt = false;
                 this.isApplicationAllowed = false;
                 this.isApplicationStarted = false;
                 this.btd6.replaceUser(new User(null, "deleted", null));
                 this.failedMessage = "Info: Your account has been deleted from database...";
             }
-        } catch(Exception e) {
-            if(this.isLoggedIn && this.ui.findByName(this.btd6.getUser().getName()) == null) this.ui.save(this.btd6.getUser());
+        } catch (Exception e) {
+            if (this.isLoggedIn && this.ui.findByName(this.btd6.getUser().getName()) == null)
+                this.ui.save(this.btd6.getUser());
             this.lastError = e;
             this.failedMessage = "Info: Couldn't delete your account... Please try again!";
         }
-        return "redirect:/";
+        return WebController.REDIRECT;
     }
 
     /**
      * Handle logout request.
+     *
      * @return redirect to "/"
      */
     @PostMapping("/logout")
@@ -467,26 +462,27 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.isApplicationStarted = false;
         this.failedMessage = "Success! You have been logged out...";
         this.btd6.resetContainer();
-        return "redirect:/";
+        return WebController.REDIRECT;
     }
 
     /**
      * Handle app access request.
+     *
      * @param appSetup the form data passed as a map
      * @return redirect to "/"
      * @throws Exception if default maps could not be retrieved
      */
     @PostMapping("/logger")
     public String mainApplication(@ModelAttribute Map appSetup) throws Exception {
-        if(!this.isLoginAllowed && this.isLoggedIn && !this.isFailedLoginAttempt &&
-                !this.isRegisterAllowed && !this.isFailedRegisterAttempt &&
-                this.isApplicationAllowed && !this.isApplicationStarted &&
-                appSetup.getName() != null && appSetup.getName() != "Map...") {
+        if (!this.isLoginAllowed && this.isLoggedIn && !this.isFailedLoginAttempt && !this.isRegisterAllowed
+                && !this.isFailedRegisterAttempt && this.isApplicationAllowed && !this.isApplicationStarted
+                && appSetup.getName() != null && !appSetup.getName().equals("Map...")) {
             Map selectedMap = new Map(Map.getMapByName(appSetup.getName(), GameContainer.getDefaultMaps()));
             selectedMap.setDifficulty(appSetup.getDifficulty());
             selectedMap.setGameMode(appSetup.getGameMode());
             selectedMap.setCurrentCash(GameContainer.calculateStartingCash(selectedMap.getGameMode()));
-            selectedMap.setCurrentLives(GameContainer.calculateStartingLives(selectedMap.getDifficulty(), selectedMap.getGameMode()));
+            selectedMap.setCurrentLives(
+                    GameContainer.calculateStartingLives(selectedMap.getDifficulty(), selectedMap.getGameMode()));
             this.lastAppSelection = selectedMap;
             this.btd6.setMap(new Map(selectedMap));
             this.isApplicationStarted = true;
@@ -495,33 +491,36 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.isApplicationStarted = false;
             this.failedMessage = "App page is not available at the moment. Please try again!";
         }
-        return "redirect:/";
+        return WebController.REDIRECT;
     }
 
     /**
      * Perform game data save operations.
+     *
      * @param savedAppData the form data passed as a session container
      * @return redirect to "/"
      */
-    @PostMapping(value="/save")
+    @PostMapping(value = "/save")
     public String saveAppData(@ModelAttribute GameContainer savedAppData) {
         this.failedMessage = "Info: It is not yet possible to save your activity!";
-        return "redirect:/";
+        return WebController.REDIRECT;
     }
 
     /**
      * Handle go home request.
+     *
      * @return redirect to "/"
      */
-    @PostMapping(value="/home")
+    @PostMapping(value = "/home")
     public String goHomeButton() {
         this.isApplicationStarted = false;
-        return "redirect:/";
+        return WebController.REDIRECT;
     }
 
     /**
      * Handle application errors.
-     * @param request the Servlet HTTP Request information
+     *
+     * @param request   the Servlet HTTP Request information
      * @param errorInfo the list of attributes to be passed to the view engine
      * @return error view
      */
@@ -552,30 +551,32 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         }
         errorInfo.addAttribute("lastError", this.lastError.toString());
         errorInfo.addAttribute("shutdown", this.isShutdownStarted);
-        errorInfo.addAttribute("currentPageTitle", "Error");
+        errorInfo.addAttribute(WebController.PAGE_TITLE_ATTR, "Error");
         return "error";
     }
 
     /**
      * Handle shutdown request.
+     *
      * @return redirect to "/"
      */
     @PostMapping("/shutdown")
     public String shutdownContext() {
         logger.info("Application shutdown initiated...");
         this.isShutdownStarted = !this.isLoggedIn;
-        return "redirect:/";
+        return WebController.REDIRECT;
     }
 
     /**
      * Truncates the provided table.
+     *
      * @param table the name of the table to truncate
      */
     public void truncate(String table) {
         try {
             em.createNativeQuery("TRUNCATE TABLE " + table).executeUpdate();
             logger.warn("TRUNCATED table " + table + "!");
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.isApplicationStarted = false;
             this.lastError = e;
             this.failedMessage = "SQL: Application Error Detected!";
@@ -584,9 +585,11 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     }
 
     /**
-     * Runs at application start and initializes the database with the default, anonymous user.
+     * Runs at application start and initializes the database with the default,
+     * anonymous user.
      * <p>
-     * May be called again at any time by classes with access to it, though it is mostly use to initiate database or to perform testing.
+     * May be called again at any time by classes with access to it, though it is
+     * mostly use to initiate database or to perform testing.
      * <p>
      * User created:
      * <ul>
@@ -602,64 +605,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.truncate("users");
             this.ui.save(User.getDefaultUser());
             logger.info("Saved default anonymous user into database!");
-            /*
-            // Testing read default models from storage
-            System.out.println(GameContainer.getDefaultMaps().getClass() + "--------------------------------------------------------------------------------------------------------");
-            System.out.println(GameContainer.getDefaultTowers().getClass() + "--------------------------------------------------------------------------------------------------------");
-            System.out.println(GameContainer.getDefaultUpgrades().getClass() + "--------------------------------------------------------------------------------------------------------");
-            */
-            /*
-            // Testing get by criteria methods
-            System.out.println("----------------------------------------------------------getMapByName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Map.getMapByName("unknown_map", GameContainer.getDefaultMaps()).toString()); // test error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getMapByName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Map.getMapByName("#ouch", GameContainer.getDefaultMaps()).toString()); // test success
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowerByName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerByName("unknown_tower", GameContainer.getDefaultTowers()).toString()); // test error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowerByName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerByName("Super Monkey", GameContainer.getDefaultTowers()).toString()); // test success
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowerWithHighestSellValue(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerWithHighestSellValue(GameContainer.getDefaultTowers()).toString()); // possibly only error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowerWithMostCashGenerated(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerWithMostCashGenerated(GameContainer.getDefaultTowers()).toString()); // possibly only error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowerWithMostPops(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowerWithMostPops(GameContainer.getDefaultTowers()).toString()); // definetely only error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowersByCost(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersByCost(0, 0, GameContainer.getDefaultTowers()).toString()); // test error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowersByCost(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersByCost(0, 500, GameContainer.getDefaultTowers()).toString()); // test success
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowersByType(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersByType("unknown_tower_type", GameContainer.getDefaultTowers()).toString()); // test error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowersByType(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersByType("Hero", GameContainer.getDefaultTowers()).toString()); // test success
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getTowersNames(-----------------------------------------------------------------------------------");
-            try{System.out.println(Tower.getTowersNames(GameContainer.getDefaultTowers()).toString()); // test success
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------countAppliedUpgrades(-----------------------------------------------------------------------------------");
-            try{System.out.println(Upgrade.countAppliedUpgrades(GameContainer.getDefaultUpgrades())); // possibly only error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------countUnlockedUpgrades(-----------------------------------------------------------------------------------");
-            try{System.out.println(Upgrade.countUnlockedUpgrades(GameContainer.getDefaultUpgrades())); // possibly only error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getUpgradesByTowerName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Upgrade.getUpgradesByTowerName("unknown_tower", GameContainer.getDefaultUpgrades()).toString()); // test error
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("----------------------------------------------------------getUpgradesByTowerName(-----------------------------------------------------------------------------------");
-            try{System.out.println(Upgrade.getUpgradesByTowerName("Super Monkey", GameContainer.getDefaultUpgrades()).toString()); // test success
-            } catch(Exception e) {e.printStackTrace();}
-            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
-            */
+            new GameContainer();
         } catch (Exception e) {
             this.isApplicationStarted = false;
             this.failedMessage = "CommandLineRunner: Application Error Detected!";
@@ -669,8 +615,11 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     }
 
     /**
-     * Something happens and the application context is magically passed here as parameter.
-     * @param arg0 the application context attached to the running spring application
+     * Something happens and the application context is magically passed here as
+     * parameter.
+     *
+     * @param arg0 the application context attached to the running spring
+     *             application
      * @throws BeansException if the application context cannot be resolved
      */
     @Override

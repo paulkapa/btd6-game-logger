@@ -9,21 +9,24 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * <b>User database repository</b>
  * <p>
- * Extends JpaRepository interface that defines methods for performing
- * CRUD operations on database objects.
+ * Extends JpaRepository interface that defines methods for performing CRUD
+ * operations on database objects.
  */
 @Repository
 @Transactional(readOnly = true)
 public interface UserInterface extends JpaRepository<User, Integer> {
     /**
      * Returns an user object with the specified name.
+     *
      * @param name the user name to search for
      * @return an user object if found, otherwise null
      */
     User findByName(String name);
+
     /**
      * Returns an user object with the specified name and password.
-     * @param name the user name to search for
+     *
+     * @param name     the user name to search for
      * @param password the user password to search for
      * @return an user object if found, otherwise null
      */

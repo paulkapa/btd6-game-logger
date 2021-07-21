@@ -59,6 +59,7 @@ public class Map extends BaseEntity {
 
     /**
      * Preffered constructor.
+     *
      * @param name map name
      * @param type map type
      */
@@ -70,11 +71,12 @@ public class Map extends BaseEntity {
 
     /**
      * Complete constructor.
-     * @param name map name
-     * @param type map type
-     * @param difficulty current difficulty
-     * @param gameMode current game mode
-     * @param currentCash current cash available
+     *
+     * @param name         map name
+     * @param type         map type
+     * @param difficulty   current difficulty
+     * @param gameMode     current game mode
+     * @param currentCash  current cash available
      * @param currentLives current lives remaining
      */
     public Map(String name, String type, String difficulty, String gameMode, long currentCash, int currentLives) {
@@ -87,6 +89,7 @@ public class Map extends BaseEntity {
 
     /**
      * Copy constructor.
+     *
      * @param other the map to copy data from
      */
     public Map(Map other) {
@@ -99,36 +102,46 @@ public class Map extends BaseEntity {
 
     /**
      * Initializes default maps from storage if not previously initialized.
+     *
      * @return a list containing the default maps.
      * @throws IOException if maps cannot be found in storage
      */
     public static LinkedHashMap<String, Map[]> getDefaultMaps() throws IOException {
-        if(!GameContainer.isInitDefaultMaps) {GameContainer.isInitDefaultMaps = true; return Map.initDefaultMaps();}
-        else return null;
+        if (!GameContainer.isInitDefaultMaps) {
+            GameContainer.isInitDefaultMaps = true;
+            return Map.initDefaultMaps();
+        } else
+            return null;
     }
 
     /**
      * Return a map found in the maps list that has a specified name.
-     * @param mapName the map name to search for
+     *
+     * @param mapName    the map name to search for
      * @param mapsSearch a list containing the maps to search for
      * @return a map with the specified name
-     * @throws Exception if the list provided as search location is null or empty, or if no map could be found with the provided name
+     * @throws Exception if the list provided as search location is null or empty,
+     *                   or if no map could be found with the provided name
      */
     public static Map getMapByName(String mapName, LinkedHashMap<String, Map[]> mapsSearch) throws Exception {
         ArrayList<Map> result = new ArrayList<>(0);
-        if(mapsSearch == null) throw new Exception(
-            "Cannot search in empty map!",
-            new Throwable("Provided mapsSearch is null."));
-        mapsSearch.forEach((n, m) -> {for(int i=0; i<m.length; i++)
-            if(result.size() == 0 && m[i].getName().equals(mapName)) result.add(m[i]);});
-        if(result.get(0) == null) throw new Exception(
-            "No result matching the criteria!",
-            new Throwable("No map with name '" + mapName + "' was found."));
+        if (mapsSearch == null)
+            throw new Exception("Cannot search in empty map!", new Throwable("Provided mapsSearch is null."));
+        mapsSearch.forEach((n, m) -> {
+            for (int i = 0; i < m.length; i++)
+                if (result.size() == 0 && m[i].getName().equals(mapName))
+                    result.add(m[i]);
+        });
+        if (result.get(0) == null)
+            throw new Exception("No result matching the criteria!",
+                    new Throwable("No map with name '" + mapName + "' was found."));
         return result.get(0);
     }
 
     /**
-     * Reads the default maps from 'maps.json' file found in application local storage.
+     * Reads the default maps from 'maps.json' file found in application local
+     * storage.
+     *
      * @return a list containing the default maps
      * @throws IOException if maps cannot be found in storage
      */
@@ -142,7 +155,14 @@ public class Map extends BaseEntity {
         Map type = new Map();
 
         // opens a file as read-only
-        FileReader fr = new FileReader(new File(GameContainer.ABSOLUTE_PATH + GameContainer.RELATIVE_DATA_PATH + "maps.json"));
+        FileReader fr = null;
+        try {
+            fr = new FileReader(
+                    new File(GameContainer.ABSOLUTE_PATH + GameContainer.SRC_RELATIVE_DATA_PATH + "maps.json"));
+        } catch (IOException e) {
+            fr = new FileReader(
+                    new File(GameContainer.ABSOLUTE_PATH + GameContainer.PROD_RELATIVE_DATA_PATH + "maps.json"));
+        }
         // opens a read stream from the file reader
         BufferedReader br = new BufferedReader(fr);
         // gson object
@@ -151,11 +171,12 @@ public class Map extends BaseEntity {
         JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
         // converts the element to an object
         JsonObject object = element.getAsJsonObject();
-        // parses trough the entries read and saves them in the respective types while building the method return value
-        for(Entry<String, JsonElement> e : object.entrySet()) {
+        // parses trough the entries read and saves them in the respective types while
+        // building the method return value
+        for (Entry<String, JsonElement> e : object.entrySet()) {
             JsonArray array = e.getValue().getAsJsonArray();
             ArrayList<Map> currMaps = new ArrayList<>();
-            for(int i = 0; i < array.size(); i++) {
+            for (int i = 0; i < array.size(); i++) {
                 currMaps.add(new Map(gson.fromJson(array.get(i), type.getClass())));
             }
             defaultMaps.put(e.getKey(), currMaps.toArray(arrayType));
@@ -168,55 +189,79 @@ public class Map extends BaseEntity {
 
     /**
      * Gets the current difficulty.
+     *
      * @return a string representing the current difficulty
      */
-    public String getDifficulty() {return this.difficulty;}
+    public String getDifficulty() {
+        return this.difficulty;
+    }
 
     /**
      * Sets the current difficulty.
+     *
      * @param difficulty the current difficulty
      */
-    public void setDifficulty(String difficulty) {this.difficulty = difficulty;}
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
 
     /**
      * Gets the current game mode.
+     *
      * @return a string representing the current game mode
      */
-    public String getGameMode() {return this.gameMode;}
+    public String getGameMode() {
+        return this.gameMode;
+    }
 
     /**
      * Sets the current game mode.
+     *
      * @param gameMode the current game mode
      */
-    public void setGameMode(String gameMode) {this.gameMode = gameMode;}
+    public void setGameMode(String gameMode) {
+        this.gameMode = gameMode;
+    }
 
     /**
      * Gets the current available cash.
+     *
      * @return a long representing the current available cash
      */
-    public long getCurrentCash() {return this.currentCash;}
+    public long getCurrentCash() {
+        return this.currentCash;
+    }
 
     /**
      * Sets the current available cash.
+     *
      * @param currentCash the current available cash
      */
-    public void setCurrentCash(long currentCash) {this.currentCash = currentCash;}
+    public void setCurrentCash(long currentCash) {
+        this.currentCash = currentCash;
+    }
 
     /**
      * Gets the current remaining lives.
+     *
      * @return an int representing the current remaining lives
      */
-    public int getCurrentLives() {return this.currentLives;}
+    public int getCurrentLives() {
+        return this.currentLives;
+    }
 
     /**
      * Sets the current remaining lives.
+     *
      * @param currentLives the current remaining lives
      */
-    public void setCurrentLives(int currentLives) {this.currentLives = currentLives;}
+    public void setCurrentLives(int currentLives) {
+        this.currentLives = currentLives;
+    }
 
     @Override
     public String createString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.delete(0, sb.length());
         sb.append(super.createString());
         sb.append(", difficulty=").append(getDifficulty());
@@ -227,7 +272,9 @@ public class Map extends BaseEntity {
     }
 
     @Override
-    public String toString() {return new Gson().toJson(this);}
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 
     @Override
     public int hashCode() {

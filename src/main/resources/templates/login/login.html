@@ -1,47 +1,53 @@
 <!doctype html>
 <html lang="en">
-  <head>
-  </head>
-  <body>
-    <section id="loginGrid" class="modal-content border border-white rounded-3 flex-column bg-dark w-100 m-auto mt-2" th:fragment="login">
-      <div class="row flex-row justify-content-center w-100 m-auto">
-        <div id="form-container" class="col col-auto bg-primary rounded-3 m-4">
-          <!-- Login form -->
-          <form method="post" action="" th:action="@{/login}" th:object="${newUser}">
-            <h2 class="form-control-plaintext text-light">Login</h2>
-            <div class="form-floating m-4">
-              <input class="form-control" id="floatingInputUsername" type="text" name="name" autocomplete="username" required
-                      th:field="*{name}">
-              <label for="floatingInputUsername">Username</label>
+
+    <head>
+        <title></title>
+    </head>
+
+    <body>
+        <section id="loginGrid"
+            class="modal-content border border-white rounded-3 flex-column bg-dark w-100 m-auto mt-2"
+            th:fragment="login">
+            <div class="row flex-row justify-content-center w-100 m-auto">
+                <div id="form-container" class="col col-auto bg-primary rounded-3 m-4">
+                    <!-- Login form -->
+                    <form method="post" action="" th:action="@{/login}" th:object="${newUser}">
+                        <h2 class="form-control-plaintext text-light">Login</h2>
+                        <div class="form-floating m-4">
+                            <input class="form-control" id="floatingInputUsername" type="text" name="name"
+                                autocomplete="username" required th:field="*{name}">
+                            <label for="floatingInputUsername">Username</label>
+                        </div>
+                        <div class="form-floating m-4">
+                            <input class="form-control" id="floatingInputType" type="text" name="type"
+                                autocomplete="additional-name" required hidden th:field="*{type}">
+                            <label for="floatingInputType">Type</label>
+                        </div>
+                        <div class="form-floating m-4">
+                            <input class="form-control" id="floatingInputPassword" type="password" name="password"
+                                autocomplete="current-password" required th:field="*{password}">
+                            <label for="floatingInputPassword">Password</label>
+                        </div>
+                        <button class="btn btn-lg btn-secondary m-3 d-inline" type="submit">Sign in</button>
+                        <input class="btn btn-lg btn-secondary m-3 d-inline" type="reset" value="Reset"><br>
+                    </form>
+                    <!-- Login information -->
+                    <div class="container bg-secondary rounded-3 text-light p-2 mb-2">
+                        <!-- Redirect to register page -->
+                        <form class="p-2" method="post" action="" th:action="@{/signup}">
+                            <div class="form-floating">
+                                <span class="form-control-plaintext text-light d-inline">Don't have an account?</span>
+                                <button
+                                    class="bg-transparent btn btn-md shadow-none bg-warning text-warning d-inline m-1"
+                                    type="submit">Register</button><br>
+                            </div>
+                        </form>
+                        <p class="p-2">More information about accounts can be found on the register page.</p>
+                    </div>
+                </div>
             </div>
-            <div class="form-floating m-4">
-              <input class="form-control" id="floatingInputType" type="text" name="type" autocomplete="additional-name" required hidden
-                      th:field="*{type}">
-              <label for="floatingInputType">Type</label>
-            </div>
-            <div class="form-floating m-4">
-              <input class="form-control" id="floatingInputPassword" type="password" name="password" autocomplete="current-password" required
-                      th:field="*{password}">
-              <label for="floatingInputPassword">Password</label>
-            </div>
-            <button class="btn btn-lg btn-secondary m-3 d-inline" type="submit">Sign in</button>
-            <input class="btn btn-lg btn-secondary m-3 d-inline" type="reset" value="Reset"><br>
-          </form>
-          <!-- Login information -->
-          <div class="container bg-secondary rounded-3 text-light p-2 mb-2">
-            <!-- Redirect to register page -->
-            <form class="p-2" method="post" action="" th:action="@{/signup}">
-              <div class="form-floating">
-                <span class="form-control-plaintext text-light d-inline">Don't have an account?</span>
-                <button class="bg-transparent btn btn-md shadow-none bg-warning text-warning d-inline m-1" type="submit">Register</button><br>
-              </div>
-            </form>
-            <p class="p-2">
-              More information about accounts can be found on the register page.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </body>
+        </section>
+    </body>
+
 </html>

@@ -1,59 +1,75 @@
 <!doctype html>
 <html lang="en">
-  <head>
-  </head>
-  <body>
-    <section id="errorInfoGrid" class="modal-content border border-white rounded-3 col flex-column bg-dark w-100 m-auto mt-2" th:fragment="error">
-      <!-- Navigation and problem description -->
-      <table class="table small text-muted m-auto mt-2">
-        <!-- Headings -->
-        <thead>
-          <tr class="text-success">
-            <td>Sorry for the inconvenience!</td>
-            <td class="text-start">Web request details</td>
-          </tr>
-        </thead>
-        <!-- Content -->
-        <tbody>
-          <tr>
-            <!-- Go back button -->
-            <td>
-              <form method="get" action="" th:action="@{/}">
-                <button class="btn btn-md btn-primary" type="submit">Go Back</button>
-              </form>
-            </td>
-            <!-- Status code -->
-            <td class="text-start">
-              <p class="text-info" th:text="${statusCode} == null ? 'Status code: unknown' : 'Status code: ' + ${statusCode}"></p>
-            </td>
-          </tr>
-          <tr>
-            <!-- Empty cell -->
-            <td class="invisible"><hr></td>
-            <!-- Exception cause -->
-            <td class="text-start">
-              <p class="text-info" th:text="${exceptionCause} == null ? 'Cause: unknown' : 'Cause: ' + ${exceptionCause}"></p>
-            </td>
-          </tr>
-          <tr>
-            <!-- Bug Icon -->
-            <td>
-              <span class="row m-2">
-                <i class="fas fa-bug fa-2x text-muted"></i>
-              </span>
-            </td>
-            <!-- Dev message -->
-            <td class="text-start">
-              <p class="text-warning">If problem persists, try getting in touch with developer!</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- Error output -->
-      <div id="errorOutputContainer" class="modal-footer border border-white rounded-3 flex-column bg-danger text-white w-100 bottom-0 m-auto mb-2 p-1">
-        <p class="text-start text-light p-5" th:text="${exceptionMessage} == null ? 'Message: unknown' : 'Message: ' + ${exceptionMessage}"></p>
-        <p class="text-light p-5" th:text="${lastError} == null ? 'Previous application error: unknown' : 'Previous application error: ' + ${lastError}"></p>
-      </div>
-    </section>
-  </body>
+
+    <head>
+        <title></title>
+    </head>
+
+    <body>
+        <section id="errorInfoGrid"
+            class="modal-content border border-white rounded-3 col flex-column bg-dark w-100 m-auto mt-2"
+            th:fragment="error">
+            <!-- Navigation and problem description -->
+            <table class="table small text-muted m-auto mt-2" aria-label="Problem detailed description">
+                <!-- Headings -->
+                <thead>
+                    <tr class="text-success">
+                        <th scope="col">Sorry for the inconvenience!</th>
+                        <th class="text-start" scope="col">Web request details</th>
+                    </tr>
+                </thead>
+                <!-- Content -->
+                <tbody>
+                    <tr>
+                        <!-- Go back button -->
+                        <td>
+                            <form method="get" action="" th:action="@{/}">
+                                <button class="btn btn-md btn-primary" type="submit">Go Back</button>
+                            </form>
+                        </td>
+                        <!-- Status code -->
+                        <td class="text-start">
+                            <p class="text-info"
+                                th:text="${statusCode} == null ? 'Status code: unknown' : 'Status code: ' + ${statusCode}">
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- Empty cell -->
+                        <td class="invisible">
+                            <hr>
+                        </td>
+                        <!-- Exception cause -->
+                        <td class="text-start">
+                            <p class="text-info"
+                                th:text="${exceptionCause} == null ? 'Cause: unknown' : 'Cause: ' + ${exceptionCause}">
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- Bug Icon -->
+                        <td>
+                            <span class="row m-2">
+                                <em class="fas fa-bug fa-2x text-muted"></em>
+                            </span>
+                        </td>
+                        <!-- Dev message -->
+                        <td class="text-start">
+                            <p class="text-warning">If problem persists, try getting in touch with developer!</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Error output -->
+            <div id="errorOutputContainer"
+                class="modal-footer border border-white rounded-3 flex-column bg-danger text-white w-100 bottom-0 m-auto mb-2 p-1">
+                <p class="text-start text-light p-5"
+                    th:text="${exceptionMessage} == null ? 'Message: unknown' : 'Message: ' + ${exceptionMessage}"></p>
+                <p class="text-light p-5"
+                    th:text="${lastError} == null ? 'Previous application error: unknown' : 'Previous application error: ' + ${lastError}">
+                </p>
+            </div>
+        </section>
+    </body>
+
 </html>

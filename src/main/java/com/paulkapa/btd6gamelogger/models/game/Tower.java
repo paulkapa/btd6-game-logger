@@ -56,6 +56,7 @@ public class Tower extends BaseEntity {
 
     /**
      * Preferred constructor.
+     *
      * @param name tower name
      * @param type tower type
      * @param cost tower cost
@@ -70,11 +71,12 @@ public class Tower extends BaseEntity {
 
     /**
      * Complete constructor.
-     * @param name tower name
-     * @param type tower type
-     * @param cost tower cost
-     * @param sellValue tower sell value
-     * @param pops tower pops
+     *
+     * @param name          tower name
+     * @param type          tower type
+     * @param cost          tower cost
+     * @param sellValue     tower sell value
+     * @param pops          tower pops
      * @param cashGenerated cash the tower generated
      */
     public Tower(String name, String type, int cost, int sellValue, long pops, int cashGenerated) {
@@ -87,6 +89,7 @@ public class Tower extends BaseEntity {
 
     /**
      * Copy constructor.
+     *
      * @param other the tower to copy data from
      */
     public Tower(Tower other) {
@@ -99,159 +102,206 @@ public class Tower extends BaseEntity {
 
     /**
      * Initializes default towers from storage if not previously initialized.
+     *
      * @return a list containing the default towers.
      * @throws IOException if towers cannot be found in storage
      */
     public static LinkedHashMap<String, Tower[]> getDefaultTowers() throws IOException {
-        if(!GameContainer.isInitDefaultTowers) {GameContainer.isInitDefaultTowers = true; return Tower.initDefaultTowers();}
+        if (!GameContainer.isInitDefaultTowers) {
+            GameContainer.isInitDefaultTowers = true;
+            return Tower.initDefaultTowers();
+        }
         return null;
     }
 
     /**
      * Return the list of all tower names found in the towers list provided.
+     *
      * @param towersSearch a list containing the towers to search for
      * @return a list containing all the tower names found
-     * @throws Exception if the list provided as search location is null or empty, or does not comply to the search
+     * @throws Exception if the list provided as search location is null or empty,
+     *                   or does not comply to the search
      */
     public static ArrayList<String> getTowersNames(LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<String> result = new ArrayList<>();
-        if(towersSearch == null) throw new Exception(
-            "Cannot search in empty map!",
-            new Throwable("Provided towersSearch is null."));
-        towersSearch.forEach((n, t) -> {for(int i=0; i<t.length; i++) result.add(t[i].getName());});
-        if(result.size() == 0) throw new Exception(
-            "No result matching the criteria!",
-            new Throwable("No tower found with not null name in the provided map."));
+        if (towersSearch == null)
+            throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
+        towersSearch.forEach((n, t) -> {
+            for (int i = 0; i < t.length; i++)
+                result.add(t[i].getName());
+        });
+        if (result.isEmpty())
+            throw new Exception("No result matching the criteria!",
+                    new Throwable("No tower found with not null name in the provided map."));
         return result;
     }
 
     /**
      * Return the tower found in the towers list provided that has a specific name.
-     * @param towerName the name of the tower to search for
+     *
+     * @param towerName    the name of the tower to search for
      * @param towersSearch a list containing the towers to search for
      * @return a tower with the requested name
-     * @throws Exception if the list provided as search location is null or empty, or if no tower was found with the specified tower name
+     * @throws Exception if the list provided as search location is null or empty,
+     *                   or if no tower was found with the specified tower name
      */
     public static Tower getTowerByName(String towerName, LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>(0);
         result.add(0, null);
-        if(towersSearch == null) throw new Exception(
-            "Cannot search in empty map!",
-            new Throwable("Provided towersSearch is null."));
-        towersSearch.forEach((n, t) -> {for(int i=0; i<t.length; i++)
-            if(result.get(0) == null && t[i].getName().equals(towerName)) {result.add(0, t[i]); break;}});
-        if(result.get(0) == null) throw new Exception(
-            "No result matching the criteria!",
-            new Throwable("No tower found with name '" + towerName + "'."));
+        if (towersSearch == null)
+            throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
+        towersSearch.forEach((n, t) -> {
+            for (int i = 0; i < t.length; i++)
+                if (result.get(0) == null && t[i].getName().equals(towerName)) {
+                    result.add(0, t[i]);
+                    break;
+                }
+        });
+        if (result.get(0) == null)
+            throw new Exception("No result matching the criteria!",
+                    new Throwable("No tower found with name '" + towerName + "'."));
         return result.get(0);
     }
 
     /**
-     * Return a list of towers found in the towers list provided that have a specific type.
-     * @param towerType the type of the towers to search for
+     * Return a list of towers found in the towers list provided that have a
+     * specific type.
+     *
+     * @param towerType    the type of the towers to search for
      * @param towersSearch a list containing the towers to search for
      * @return a list containing towers with the requested type
-     * @throws Exception if the list provided as search location is null or empty, or if no tower was found with the specified type
+     * @throws Exception if the list provided as search location is null or empty,
+     *                   or if no tower was found with the specified type
      */
-    public static ArrayList<Tower> getTowersByType(String towerType, LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
+    public static ArrayList<Tower> getTowersByType(String towerType, LinkedHashMap<String, Tower[]> towersSearch)
+            throws Exception {
         ArrayList<Tower> result = new ArrayList<>(0);
         result.add(0, null);
-        if(towersSearch == null) throw new Exception(
-            "Cannot search in empty map!",
-            new Throwable("Provided towersSearch is null."));
-        towersSearch.forEach((n, t) -> {if(result.size() == 0 && n.equals(towerType)) result.addAll(Arrays.asList(t));});
-        if(result.size() == 0) throw new Exception(
-            "No result matching the criteria!",
-            new Throwable("No towers with type '" + towerType + "' were found."));
+        if (towersSearch == null)
+            throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
+        towersSearch.forEach((n, t) -> {
+            if (result.isEmpty() && n.equals(towerType))
+                result.addAll(Arrays.asList(t));
+        });
+        if (result.isEmpty())
+            throw new Exception("No result matching the criteria!",
+                    new Throwable("No towers with type '" + towerType + "' were found."));
         return result;
     }
 
     /**
-     * Return a list of towers found in the towers list provided that are included in a specific cost range.
-     * @param min min cost to search for
-     * @param max max cost to search for
+     * Return a list of towers found in the towers list provided that are included
+     * in a specific cost range.
+     *
+     * @param min          min cost to search for
+     * @param max          max cost to search for
      * @param towersSearch a list containing the towers to search for
      * @return a list of towers that are included in the specified cost range
-     * @throws Exception if the list provided as search location is null or empty, or if no tower was found within the specified cost range
+     * @throws Exception if the list provided as search location is null or empty,
+     *                   or if no tower was found within the specified cost range
      */
-    public static ArrayList<Tower> getTowersByCost(int min, int max, LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
+    public static ArrayList<Tower> getTowersByCost(int min, int max, LinkedHashMap<String, Tower[]> towersSearch)
+            throws Exception {
         ArrayList<Tower> result = new ArrayList<>(0);
-        if(towersSearch == null) throw new Exception(
-            "Cannot search in empty map!",
-            new Throwable("Provided towersSearch is null."));
-        towersSearch.forEach((n, t) -> {for(int i=0; i<t.length; i++)
-            if(t[i].getCost() >= min && t[i].getCost() <= max) result.add(t[i]);});
-        if(result.size() == 0) throw new Exception(
-            "No result matching the criteria!",
-            new Throwable("No tower found with cost in range ['" + min + "','" +  max + "']."));
+        if (towersSearch == null)
+            throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
+        towersSearch.forEach((n, t) -> {
+            for (int i = 0; i < t.length; i++)
+                if (t[i].getCost() >= min && t[i].getCost() <= max)
+                    result.add(t[i]);
+        });
+        if (result.isEmpty())
+            throw new Exception("No result matching the criteria!",
+                    new Throwable("No tower found with cost in range ['" + min + "','" + max + "']."));
         return result;
     }
 
     /**
-     * Return a tower found in the towers list provided that has the highest sell value.
+     * Return a tower found in the towers list provided that has the highest sell
+     * value.
+     *
      * @param towersSearch a list containing the towers to search for
      * @return the tower with highest sell value found in the provided list
-     * @throws Exception if the list provided as search location is null or empty, or if no tower has the sell value greater than 0
+     * @throws Exception if the list provided as search location is null or empty,
+     *                   or if no tower has the sell value greater than 0
      */
     public static Tower getTowerWithHighestSellValue(LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>();
         result.add(0, null);
         result.add(1, new Tower(null, null, 0, 0, 0l, 0));
-        if(towersSearch == null) throw new Exception(
-            "Cannot search in empty map!",
-            new Throwable("Provided towersSearch is null."));
-        towersSearch.forEach((n, t) -> {for(int i=0; i<t.length; i++)
-            if(result.get(1).getSellValue() < t[i].getSellValue()) {result.get(1).setSellValue(t[i].getSellValue()); result.add(0, t[i]);}});
-        if(result.get(0) == null) throw new Exception(
-            "No result matching the criteria!",
-            new Throwable("No tower found with sell value greater than 0."));
+        if (towersSearch == null)
+            throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
+        towersSearch.forEach((n, t) -> {
+            for (int i = 0; i < t.length; i++)
+                if (result.get(1).getSellValue() < t[i].getSellValue()) {
+                    result.get(1).setSellValue(t[i].getSellValue());
+                    result.add(0, t[i]);
+                }
+        });
+        if (result.get(0) == null)
+            throw new Exception("No result matching the criteria!",
+                    new Throwable("No tower found with sell value greater than 0."));
         return result.get(0);
     }
 
     /**
      * Return a tower found in the towers list provided that has the most pops made.
+     *
      * @param towersSearch a list containing the towers to search for
      * @return the tower with the most pops made found in the provided list
-     * @throws Exception if the list provided as search location is null or empty, or if no tower has the pops value greater than 0
+     * @throws Exception if the list provided as search location is null or empty,
+     *                   or if no tower has the pops value greater than 0
      */
     public static Tower getTowerWithMostPops(LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>();
         result.add(0, null);
         result.add(1, new Tower(null, null, 0, 0, 0l, 0));
-        if(towersSearch == null) throw new Exception(
-            "Cannot search in empty map!",
-            new Throwable("Provided towersSearch is null."));
-        towersSearch.forEach((n, t) -> {for(int i=0; i<t.length; i++)
-            if(result.get(1).getPops() < t[i].getPops()) {result.get(1).setPops(t[i].getPops()); result.add(0, t[i]);}});
-        if(result.get(0) == null) throw new Exception(
-            "No result matching the criteria!",
-            new Throwable("No tower found with pops greater than 0."));
+        if (towersSearch == null)
+            throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
+        towersSearch.forEach((n, t) -> {
+            for (int i = 0; i < t.length; i++)
+                if (result.get(1).getPops() < t[i].getPops()) {
+                    result.get(1).setPops(t[i].getPops());
+                    result.add(0, t[i]);
+                }
+        });
+        if (result.get(0) == null)
+            throw new Exception("No result matching the criteria!",
+                    new Throwable("No tower found with pops greater than 0."));
         return result.get(0);
     }
 
     /**
      * Return a tower found in the towers list provided that has the cash generated.
+     *
      * @param towersSearch a list containing the towers to search for
      * @return the tower with the most cash generated found in the provided list
-     * @throws Exception if the list provided as search location is null or empty, or if no tower has the cashGenerated value greater than 0
+     * @throws Exception if the list provided as search location is null or empty,
+     *                   or if no tower has the cashGenerated value greater than 0
      */
     public static Tower getTowerWithMostCashGenerated(LinkedHashMap<String, Tower[]> towersSearch) throws Exception {
         ArrayList<Tower> result = new ArrayList<>();
         result.add(0, null);
         result.add(1, new Tower(null, null, 0, 0, 0l, 0));
-        if(towersSearch == null) throw new Exception(
-            "Cannot search in empty map!",
-            new Throwable("Provided towersSearch is null."));
-        towersSearch.forEach((n, t) -> {for(int i=0; i<t.length; i++)
-            if(result.get(1).getCashGenerated() < t[i].getCashGenerated()) {result.get(1).setCashGenerated(t[i].getCashGenerated()); result.add(0, t[i]);}});
-        if(result.get(0) == null) throw new Exception(
-            "No result matching the criteria!",
-            new Throwable("No tower found with cash generated greater than 0."));
+        if (towersSearch == null)
+            throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
+        towersSearch.forEach((n, t) -> {
+            for (int i = 0; i < t.length; i++)
+                if (result.get(1).getCashGenerated() < t[i].getCashGenerated()) {
+                    result.get(1).setCashGenerated(t[i].getCashGenerated());
+                    result.add(0, t[i]);
+                }
+        });
+        if (result.get(0) == null)
+            throw new Exception("No result matching the criteria!",
+                    new Throwable("No tower found with cash generated greater than 0."));
         return result.get(0);
     }
 
     /**
-     * Reads the default towers from 'towers.json' file found in application local storage.
+     * Reads the default towers from 'towers.json' file found in application local
+     * storage.
+     *
      * @return a list containing the default towers
      * @throws IOException if towers cannot be found in storage
      */
@@ -265,7 +315,14 @@ public class Tower extends BaseEntity {
         Tower objectType = new Tower();
 
         // opens a file as read-only
-        FileReader fr = new FileReader(new File(GameContainer.ABSOLUTE_PATH + GameContainer.RELATIVE_DATA_PATH + "towers.json"));
+        FileReader fr = null;
+        try {
+            fr = new FileReader(
+                    new File(GameContainer.ABSOLUTE_PATH + GameContainer.SRC_RELATIVE_DATA_PATH + "towers.json"));
+        } catch (IOException e) {
+            fr = new FileReader(
+                    new File(GameContainer.ABSOLUTE_PATH + GameContainer.PROD_RELATIVE_DATA_PATH + "towers.json"));
+        }
         // opens a read stream from the file reader
         BufferedReader br = new BufferedReader(fr);
         // gson object
@@ -274,11 +331,12 @@ public class Tower extends BaseEntity {
         JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
         // converts the element to an object
         JsonObject object = element.getAsJsonObject();
-        // parses trough the entries read and saves them in the respective types while building the method return value
-        for(Entry<String, JsonElement> e : object.entrySet()) {
+        // parses trough the entries read and saves them in the respective types while
+        // building the method return value
+        for (Entry<String, JsonElement> e : object.entrySet()) {
             JsonArray array = e.getValue().getAsJsonArray();
             ArrayList<Tower> currTowers = new ArrayList<>();
-            for(int i = 0; i < array.size(); i++) {
+            for (int i = 0; i < array.size(); i++) {
                 currTowers.add(new Tower(gson.fromJson(array.get(i), objectType.getClass())));
             }
             defaultTowers.put(e.getKey(), currTowers.toArray(arrayType));
@@ -291,55 +349,79 @@ public class Tower extends BaseEntity {
 
     /**
      * Gets the tower cost.
+     *
      * @return an int representing the tower cost
      */
-    public int getCost() {return this.cost;}
+    public int getCost() {
+        return this.cost;
+    }
 
     /**
      * Sets the tower cost.
+     *
      * @param cost the tower cost
      */
-    public void setCost(int cost) {this.cost = cost;}
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     /**
      * Gets the tower sell value.
+     *
      * @return an int representing the tower sell value
      */
-    public int getSellValue() {return this.sellValue;}
+    public int getSellValue() {
+        return this.sellValue;
+    }
 
     /**
      * Sets the tower sell value.
+     *
      * @param sellValue the tower sell value
      */
-    public void setSellValue(int sellValue) {this.sellValue = sellValue;}
+    public void setSellValue(int sellValue) {
+        this.sellValue = sellValue;
+    }
 
     /**
      * Gets the pops made by the tower.
+     *
      * @return a long representing the pops made by the tower
      */
-    public long getPops() {return this.pops;}
+    public long getPops() {
+        return this.pops;
+    }
 
     /**
      * Sets the pops made by the tower.
+     *
      * @param pops the pops made by the tower
      */
-    public void setPops(long pops) {this.pops = pops;}
+    public void setPops(long pops) {
+        this.pops = pops;
+    }
 
     /**
      * Gets the cash generated by the tower.
+     *
      * @return an int representing the cash genereated by the tower
      */
-    public int getCashGenerated() {return this.cashGenerated;}
+    public int getCashGenerated() {
+        return this.cashGenerated;
+    }
 
     /**
      * Sets the cash generated by the tower.
+     *
      * @param cashGenerated the cash generated by the tower
      */
-    public void setCashGenerated(int cashGenerated) {this.cashGenerated = cashGenerated;}
+    public void setCashGenerated(int cashGenerated) {
+        this.cashGenerated = cashGenerated;
+    }
 
     @Override
     public String createString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.delete(0, sb.length());
         sb.append(super.createString());
         sb.append(", cost=").append(this.getCost());
@@ -350,7 +432,9 @@ public class Tower extends BaseEntity {
     }
 
     @Override
-    public String toString() {return new Gson().toJson(this);}
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 
     @Override
     public int hashCode() {
