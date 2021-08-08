@@ -2,7 +2,9 @@
 <html lang="en">
 
     <head>
-        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Fragment</title>
     </head>
 
     <body>
@@ -40,32 +42,48 @@
                 </th:block>
             </table>
         </section>
-        <!-- Game information -->
-        <section id="loggerGameInfoGrid"
+        <!-- Rounds information -->
+        <section id="loggerRoundInfoGrid"
             class="modal-content border border-white rounded-3 col flex-column justify-content-center bg-dark w-100 m-auto mt-2"
             th:fragment="extended">
-            <table class="table text-white w-auto m-auto" aria-label="Rounds details">
-                <thead>
-                    <tr>
-                        <th scope="col">Round</th>
-                        <th scope="col">Start Cash</th>
-                        <th scope="col">Start Lives</th>
-                        <th scope="col">Current Cash</th>
-                        <th scope="col">Current Lives</th>
-                    </tr>
-                </thead>
-                <th:block>
-                    <tbody>
-                        <tr th:each="i : ${#numbers.sequence(0, 100)}" th:with="m = ${appData.getMap()}">
-                            <td th:text="${i}"></td>
-                            <td th:text="${i} == '0' ? ${m.currentCash} : ${m.currentCash*7*i}"></td>
-                            <td th:text="${i} == '0' ? ${m.currentLives} : ${m.currentLives}"></td>
-                            <td th:text="${i} == '0' ? ${m.currentCash} : ${m.currentCash*7*i + m.currentCash*7*(i-1)}"></td>
-                            <td th:text="${i} == '0' ? ${m.currentLives} : ${m.currentLives}"></td>
-                        </tr>
-                    </tbody>
+            <th:block th:each="s : ${appData.getRounds().keySet()}">
+                <th:block th:each="round : ${appData.getRounds().get(s)}">
+                    <table class="modal-content table table-responsive w-auto m-auto" aria-label="Rounds information">
+                        <thead>
+                            <tr>
+                                <th scope="col">Round</th>
+                                <th scope="col">RBE</th>
+                                <th scope="col">Cash</th>
+                                <th scope="col">Bloons</th>
+                                <th scope="col">Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td th:text="${round.nr}"></td>
+                                <td th:text="${round.rbe}"></td>
+                                <td th:text="${round.roundCash}"></td>
+                                <td>
+                                    <table class="modal-content table w-auto m-auto" aria-label="Bloons Waves">
+                                        <thead>
+                                            <th scope="colgroup">Bloon Type</th>
+                                            <th scope="colgroup">Count</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="b : ${round.bloons.keySet()}">
+                                                <td th:text="${b}"></td>
+                                                <td th:class="${b.contains('Red') ? 'text-danger' : (b.contains('Blue') ? 'text-info' : (b.contains('Green') ? 'text-success' : (b.contains('Yellow') ? 'text-warning' : (b.contains('Pink') ? '' : ''))))}"
+                                                    th:text="${round.bloons.get(b)}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td th:text="${round.duration} + 's'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </th:block>
-            </table>
+            </th:block>
         </section>
     </body>
 

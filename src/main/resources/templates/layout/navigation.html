@@ -2,7 +2,9 @@
 <html lang="en">
 
     <head>
-        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Fragment</title>
     </head>
 
     <body>
@@ -14,7 +16,7 @@
                 <!-- Show shutdown button -->
                 <div id="toggleShutdownButton"
                     th:class="${currentPageTitle == 'Login' && isLoggedIn == false} ? 'row flex-row justify-content-start text-info w-auto' : 'd-none'">
-                    <span class="col col-auto fas fa-sign-out-alt fa-5x"></span>
+                    <em class="col col-auto fas fa-sign-out-alt fa-3x"></em>
                     <!-- Shutdown button -->
                     <form id="shutdownContainer"
                         th:class="${currentPageTitle == 'Login' && isLoggedIn == false} ? 'col col-auto m-auto invisible' : 'd-none'"
@@ -57,7 +59,7 @@
                     <form id="userControlForm" class="row flex-row" method="post" action="/deleteUserAccount"
                         th:object="${newUser}">
                         <div id="navMess1" class="col col-auto d-none text-muted">
-                            <p>Please login to see more information!</p>
+                            <p>Please login with a personal account to see more information!</p>
                         </div>
                         <div id="navMess2" class="col col-auto d-none text-muted">
                             <p>Information available only on Home page!</p>

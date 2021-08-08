@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 import com.paulkapa.btd6gamelogger.models.game.Map;
+import com.paulkapa.btd6gamelogger.models.game.Round;
 import com.paulkapa.btd6gamelogger.models.game.Tower;
 import com.paulkapa.btd6gamelogger.models.game.Upgrade;
 import com.paulkapa.btd6gamelogger.models.system.User;
@@ -45,9 +46,11 @@ public class GameContainer extends BaseEntity {
     /**
      * All gamem modes.
      */
+    public static final String CHIMPS = "CHIMPS";
+    public static final String SANDBOX = "Sandbox";
     public static final String[] GAME_MODES = { "Standard", "Primary Monkeys Only", "Deflation",
             "Military Monkeys Only", "Apopalypse", "Reverse", "Magic Monkeys Only", "Double HP MOABs", "Half Cash",
-            "Alternate Bloon Rounds", "Impoppable", "CHIMPS", "Sandbox" };
+            "Alternate Bloon Rounds", "Impoppable", CHIMPS, SANDBOX };
 
     /**
      * Base starting cash.
@@ -223,6 +226,16 @@ public class GameContainer extends BaseEntity {
     public static boolean isInitDefaultMaps = false;
 
     /**
+     *
+     */
+    private static LinkedHashMap<String, Round[]> defaultRounds = null;
+
+    /**
+     *
+     */
+    public static boolean isInitDefaultRounds = false;
+
+    /**
      * The list of default towers found in the local-data directory.
      */
     private static LinkedHashMap<String, Tower[]> defaultTowers = null;
@@ -266,6 +279,11 @@ public class GameContainer extends BaseEntity {
      * The selected map.
      */
     private Map map;
+
+    /**
+     * The selected rounds.
+     */
+    private LinkedHashMap<String, Round[]> rounds;
 
     /**
      * The used towers.
@@ -375,6 +393,12 @@ public class GameContainer extends BaseEntity {
         if (!GameContainer.isInitDefaultMaps)
             GameContainer.defaultMaps = Map.getDefaultMaps();
         return GameContainer.defaultMaps;
+    }
+
+    public static LinkedHashMap<String, Round[]> getDefaultRounds() throws IOException {
+        if (!GameContainer.isInitDefaultRounds)
+            GameContainer.defaultRounds = Round.getDefaultRounds();
+        return GameContainer.defaultRounds;
     }
 
     /**
@@ -501,6 +525,20 @@ public class GameContainer extends BaseEntity {
     }
 
     /**
+     * @return the rounds
+     */
+    public LinkedHashMap<String, Round[]> getRounds() {
+        return rounds;
+    }
+
+    /**
+     * @param rounds the rounds to set
+     */
+    public void setRounds(LinkedHashMap<String, Round[]> rounds) {
+        this.rounds = rounds;
+    }
+
+    /**
      * Gets the towers in use.
      *
      * @return a list containing in use towers
@@ -546,24 +584,24 @@ public class GameContainer extends BaseEntity {
      */
     public static int calculateStartingCash(String gameMode) throws Exception {
         int mk = 0;
-        if (!gameMode.equals("CHIMPS") && !gameMode.equals("Sandbox")) {
+        if (!gameMode.equals(CHIMPS) && !gameMode.equals(SANDBOX)) {
             mk = GameContainer.MK_BONUS_STARTING_CASH;
         }
         for (String s : GameContainer.GAME_MODES)
             if (s.equals(gameMode))
                 switch (s) {
-                    case "Deflation": {
-                        return GameContainer.DEFLATION_STARTING_CASH + mk;
-                    }
-                    case "Half Cash": {
-                        return GameContainer.HALF_CASH_STARTING_CASH + mk;
-                    }
-                    case "Sandbox": {
-                        return GameContainer.SANDBOX_STARTING_CASH + mk;
-                    }
-                    default: {
-                        return GameContainer.BASE_STARTING_CASH + mk;
-                    }
+                case "Deflation": {
+                    return GameContainer.DEFLATION_STARTING_CASH + mk;
+                }
+                case "Half Cash": {
+                    return GameContainer.HALF_CASH_STARTING_CASH + mk;
+                }
+                case SANDBOX: {
+                    return GameContainer.SANDBOX_STARTING_CASH + mk;
+                }
+                default: {
+                    return GameContainer.BASE_STARTING_CASH + mk;
+                }
                 }
         throw new Exception("Couldn't find the provided game mode!",
                 new Throwable("The value '" + gameMode + "' is not a valid game mode."));
@@ -581,44 +619,44 @@ public class GameContainer extends BaseEntity {
      */
     public static int calculateStartingLives(String difficulty, String gameMode) throws Exception {
         int mk = 0;
-        if (!gameMode.equals("CHIMPS") || !gameMode.equals("Sandbox")) {
+        if (!gameMode.equals(CHIMPS) || !gameMode.equals(SANDBOX)) {
             mk = GameContainer.MK_BONUS_STARTING_LIVES;
         }
         for (String d : GameContainer.DIFFICULTIES)
             if (d.equals(difficulty))
                 switch (d) {
-                    case "Easy": {
-                        return gameMode.equals("Sandbox") ? GameContainer.SANDBOX_STARTING_LIVES
-                                : GameContainer.EASY_STARTING_LIVES + mk;
-                    }
-                    case "Medium": {
-                        return gameMode.equals("Sandbox") ? GameContainer.SANDBOX_STARTING_LIVES
-                                : GameContainer.BASE_STARTING_LIVES + mk;
-                    }
-                    case "Hard": {
-                        for (String m : GameContainer.GAME_MODES)
-                            if (m.equals(gameMode))
-                                switch (m) {
-                                    case "Impoppable": {
-                                        return GameContainer.IMPOPPABLE_STARTING_LIVES + mk;
-                                    }
-                                    case "CHIMPS": {
-                                        return GameContainer.CHIMPS_STARTING_LIVES + mk;
-                                    }
-                                    case "Sandbox": {
-                                        return GameContainer.SANDBOX_STARTING_LIVES + mk;
-                                    }
-                                    default: {
-                                        return GameContainer.HARD_STARTING_LIVES + mk;
-                                    }
-                                }
-                        throw new Exception("Couldn't find the provided game mode!",
-                                new Throwable("The value '" + gameMode + "' is not a valid game mode."));
-                    }
-                    default: {
-                        throw new Exception("Couldn't find the provided difficulty!",
-                                new Throwable("The value '" + difficulty + "' is not a valid difficulty."));
-                    }
+                case "Easy": {
+                    return gameMode.equals(SANDBOX) ? GameContainer.SANDBOX_STARTING_LIVES
+                            : GameContainer.EASY_STARTING_LIVES + mk;
+                }
+                case "Medium": {
+                    return gameMode.equals(SANDBOX) ? GameContainer.SANDBOX_STARTING_LIVES
+                            : GameContainer.BASE_STARTING_LIVES + mk;
+                }
+                case "Hard": {
+                    for (String m : GameContainer.GAME_MODES)
+                        if (m.equals(gameMode))
+                            switch (m) {
+                            case "Impoppable": {
+                                return GameContainer.IMPOPPABLE_STARTING_LIVES + mk;
+                            }
+                            case CHIMPS: {
+                                return GameContainer.CHIMPS_STARTING_LIVES + mk;
+                            }
+                            case SANDBOX: {
+                                return GameContainer.SANDBOX_STARTING_LIVES + mk;
+                            }
+                            default: {
+                                return GameContainer.HARD_STARTING_LIVES + mk;
+                            }
+                            }
+                    throw new Exception("Couldn't find the provided game mode!",
+                            new Throwable("The value '" + gameMode + "' is not a valid game mode."));
+                }
+                default: {
+                    throw new Exception("Couldn't find the provided difficulty!",
+                            new Throwable("The value '" + difficulty + "' is not a valid difficulty."));
+                }
                 }
         throw new Exception("Couldn't calculate Starting Lives!", new Throwable("Parameters read error."));
     }

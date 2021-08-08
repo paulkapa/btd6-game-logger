@@ -2,7 +2,9 @@
 <html lang="en">
 
     <head>
-        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Fragment</title>
     </head>
 
     <body>
@@ -85,29 +87,24 @@
                 <thead>
                     <tr>
                         <th scope="col">Name</th>
-                        <th scope="col">Type</th>
+                        <th scope="col" class="swopt">Type</th>
                         <th scope="col">Difficulty</th>
                         <th scope="col">Game Mode</th>
-                        <th scope="col">Monkey Knowledge</th>
                         <th scope="col">Monkey Knowledge</th>
                     </tr>
                 </thead>
                 <th:block>
                     <tbody>
                         <tr>
-                            <th:block th:each="m, mStat : ${maps.keySet()}">
-                                <th:block th:each="curr, currStat : ${maps.get(m)}">
-                                    <td class="tdout d-none" th:classappend="td + ${mStat.index*10 + currStat.index}"
-                                        th:text="${curr.name}"></td>
-                                    <td class="tdout d-none" th:classappend="td + ${mStat.index*10 + currStat.index}"
-                                        th:text="${curr.type}"></td>
-                                    <td class="tdout d-none td-diff"
-                                        th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
-                                    <td class="tdout d-none td-mode"
-                                        th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
-                                    <td class="tdout d-none td-mk"
-                                        th:classappend="td + ${mStat.index*10 + currStat.index}" th:text="''"></td>
-                                </th:block>
+                            <th:block
+                                th:each="m, mStat : ${T(com.paulkapa.btd6gamelogger.models.game.Map).getMapsAsArray()}">
+                                <td class="d-none" th:classappend="td + ${mStat.index}" th:text="${m.name}"></td>
+                                <td class="swopt d-none" th:classappend="td + ${mStat.index}" th:text="${m.type}">
+                                </td>
+                                <td class="d-none td-diff" th:classappend="td + ${mStat.index}" th:text="''"></td>
+                                <td class="d-none td-mode" th:classappend="td + ${mStat.index}" th:text="''">
+                                </td>
+                                <td class="d-none td-mk" th:classappend="td + ${mStat.index}" th:text="''"></td>
                             </th:block>
                         </tr>
                     </tbody>

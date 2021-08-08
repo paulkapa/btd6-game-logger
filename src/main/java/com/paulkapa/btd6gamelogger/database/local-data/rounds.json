@@ -1,0 +1,1322 @@
+{
+    "Standard": [
+        {
+            "nr": 1,
+            "rbe": 20,
+            "roundCash": 121,
+            "bloons": {
+                "Red": 20
+            },
+            "duration": 17.51
+        },
+        {
+            "nr": 2,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 3,
+            "rbe": 35,
+            "roundCash": 138,
+            "bloons": {
+                "Red": 25,
+                "Blue": 5
+            },
+            "duration": 16.71
+        },
+        {
+            "nr": 4,
+            "rbe": 71,
+            "roundCash": 175,
+            "bloons": {
+                "Red": 35,
+                "Blue": 18
+            },
+            "duration": 17.31
+        },
+        {
+            "nr": 5,
+            "rbe": 59,
+            "roundCash": 164,
+            "bloons": {
+                "Red": 5,
+                "Blue": 27
+            },
+            "duration": 16.5
+        },
+        {
+            "nr": 6,
+            "rbe": 57,
+            "roundCash": 182,
+            "bloons": {
+                "Red": 15,
+                "Blue": 15,
+                "Green": 4
+            },
+            "duration": 18.7
+        },
+        {
+            "nr": 7,
+            "rbe": 75,
+            "roundCash": 182,
+            "bloons": {
+                "Red": 20,
+                "Blue": 20,
+                "Green": 5
+            },
+            "duration": 26.8
+        },
+        {
+            "nr": 8,
+            "rbe": 92,
+            "roundCash": 200,
+            "bloons": {
+                "Red": 10,
+                "Blue": 20,
+                "Green": 14
+            },
+            "duration": 28.87
+        },
+        {
+            "nr": 9,
+            "rbe": 90,
+            "roundCash": 199,
+            "bloons": {
+                "Green": 30
+            },
+            "duration": 18.95
+        },
+        {
+            "nr": 10,
+            "rbe": 204,
+            "roundCash": 314,
+            "bloons": {
+                "Blue": 102
+            },
+            "duration": 47.99
+        },
+        {
+            "nr": 11,
+            "rbe": 78,
+            "roundCash": 189,
+            "bloons": {
+                "Red": 10,
+                "Blue": 10,
+                "Green": 12,
+                "Yellow": 3
+            },
+            "duration": 19.16
+        },
+        {
+            "nr": 12,
+            "rbe": 80,
+            "roundCash": 192,
+            "bloons": {
+                "Blue": 15,
+                "Green": 10,
+                "Yellow": 5
+            },
+            "duration": 17.39
+        },
+        {
+            "nr": 13,
+            "rbe": 169,
+            "roundCash": 282,
+            "bloons": {
+                "Blue": 50,
+                "Green": 23
+            },
+            "duration": 32.21
+        },
+        {
+            "nr": 14,
+            "rbe": 145,
+            "roundCash": 259,
+            "bloons": {
+                "Red": 49,
+                "Blue": 15,
+                "Green": 10,
+                "Yellow": 9
+            },
+            "duration": 26.63
+        },
+        {
+            "nr": 15,
+            "rbe": 151,
+            "roundCash": 266,
+            "bloons": {
+                "Red": 20,
+                "Blue": 15,
+                "Green": 12,
+                "Yellow": 10,
+                "Pink": 5
+            },
+            "duration": 25.0
+        },
+        {
+            "nr": 16,
+            "rbe": 152,
+            "roundCash": 268,
+            "bloons": {
+                "Green": 40,
+                "Yellow": 8
+            },
+            "duration": 16.02
+        },
+        {
+            "nr": 17,
+            "rbe": 48,
+            "roundCash": 165,
+            "bloons": {
+                "Regrow_Yellow": 12
+            },
+            "duration": 5.0
+        },
+        {
+            "nr": 18,
+            "rbe": 240,
+            "roundCash": 358,
+            "bloons": {
+                "Green": 80
+            },
+            "duration": 26.82
+        },
+        {
+            "nr": 19,
+            "rbe": 141,
+            "roundCash": 260,
+            "bloons": {
+                "Green": 10,
+                "Yellow": 4,
+                "Regrow_Yellow": 5,
+                "Pink": 15
+            },
+            "duration": 15.76
+        },
+        {
+            "nr": 20,
+            "rbe": 66,
+            "roundCash": 186,
+            "bloons": {
+                "Black": 6
+            },
+            "duration": 5.25
+        },
+        {
+            "nr": 21,
+            "rbe": 230,
+            "roundCash": 351,
+            "bloons": {
+                "Yellow": 40,
+                "Pink": 14
+            },
+            "duration": 18.12
+        },
+        {
+            "nr": 22,
+            "rbe": 176,
+            "roundCash": 298,
+            "bloons": {
+                "White": 16
+            },
+            "duration": 8.0
+        },
+        {
+            "nr": 23,
+            "rbe": 154,
+            "roundCash": 277,
+            "bloons": {
+                "Black": 7,
+                "White": 7
+            },
+            "duration": 6.82
+        },
+        {
+            "nr": 24,
+            "rbe": 43,
+            "roundCash": 167,
+            "bloons": {
+                "Blue": 20,
+                "Camo_Green": 1
+            },
+            "duration": 9.0
+        },
+        {
+            "nr": 25,
+            "rbe": 210,
+            "roundCash": 355,
+            "bloons": {
+                "Regrow_Yellow": 25,
+                "Purple": 10
+            },
+            "duration": 21.14
+        },
+        {
+            "nr": 26,
+            "rbe": 207,
+            "roundCash": 333,
+            "bloons": {
+                "Pink": 23,
+                "Zebra": 4
+            },
+            "duration": 14.51
+        },
+        {
+            "nr": 27,
+            "rbe": 525,
+            "roundCash": 662,
+            "bloons": {
+                "Red": 100,
+                "Blue": 60,
+                "Green": 54,
+                "Yellow": 45
+            },
+            "duration": 34.26
+        },
+        {
+            "nr": 28,
+            "rbe": 138,
+            "roundCash": 266,
+            "bloons": {
+                "Lead": 6
+            },
+            "duration": 5.0
+        },
+        {
+            "nr": 29,
+            "rbe": 260,
+            "roundCash": 389,
+            "bloons": {
+                "Yellow": 50,
+                "Regrow_Yellow": 15
+            },
+            "duration": 15.25
+        },
+        {
+            "nr": 30,
+            "rbe": 207,
+            "roundCash": 337,
+            "bloons": {
+                "Lead": 9
+            },
+            "duration": 13.07
+        },
+        {
+            "nr": 31,
+            "rbe": 406,
+            "roundCash": 537,
+            "bloons": {
+                "Black": 8,
+                "White": 8,
+                "Zebra": 8,
+                "Regrow_Zebra": 2
+            },
+            "duration": 15.91
+        },
+        {
+            "nr": 32,
+            "rbe": 495,
+            "roundCash": 627,
+            "bloons": {
+                "Black": 15,
+                "White": 20,
+                "Purple": 10
+            },
+            "duration": 27.96
+        },
+        {
+            "nr": 33,
+            "rbe": 72,
+            "roundCash": 205,
+            "bloons": {
+                "Camo_Red": 20,
+                "Camo_Yellow": 13
+            },
+            "duration": 25.34
+        },
+        {
+            "nr": 34,
+            "rbe": 778,
+            "roundCash": 912,
+            "bloons": {
+                "Yellow": 160,
+                "Zebra": 6
+            },
+            "duration": 36.0
+        },
+        {
+            "nr": 35,
+            "rbe": 1015,
+            "roundCash": 1150,
+            "bloons": {
+                "Pink": 35,
+                "Black": 30,
+                "White": 25,
+                "Rainbow": 5
+            },
+            "duration": 33.76
+        },
+        {
+            "nr": 36,
+            "rbe": 760,
+            "roundCash": 896,
+            "bloons": {
+                "Camo_Regrow_Green": 20,
+                "Pink": 140
+            },
+            "duration": 20.99
+        },
+        {
+            "nr": 37,
+            "rbe": 1202,
+            "roundCash": 1339,
+            "bloons": {
+                "Black": 25,
+                "White": 25,
+                "Camo_White": 7,
+                "Zebra": 10,
+                "Lead": 15
+            },
+            "duration": 43.51
+        },
+        {
+            "nr": 38,
+            "rbe": 1157,
+            "roundCash": 1277,
+            "bloons": {
+                "Pink": 42,
+                "White": 17,
+                "Zebra": 10,
+                "Lead": 14,
+                "Ceramic": 2
+            },
+            "duration": 29.06
+        },
+        {
+            "nr": 39,
+            "rbe": 1620,
+            "roundCash": 1759,
+            "bloons": {
+                "Black": 10,
+                "White": 10,
+                "Zebra": 20,
+                "Rainbow": 18,
+                "Regrow_Rainbow": 2
+            },
+            "duration": 37.93
+        },
+        {
+            "nr": 40,
+            "rbe": 616,
+            "roundCash": 521,
+            "bloons": {
+                "MOAB": 1
+            },
+            "duration": 1.0
+        },
+        {
+            "nr": 41,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 42,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 43,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 44,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 45,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 46,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 47,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 48,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 49,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 50,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 51,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 52,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 53,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 54,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 55,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 56,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 57,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 58,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 59,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 60,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 61,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 62,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 63,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 64,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 65,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 66,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 67,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 68,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 69,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 70,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 71,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 72,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 73,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 74,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 75,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 76,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 77,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 78,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 79,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 80,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 81,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 82,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 83,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 84,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 85,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 86,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 87,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 88,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 89,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 90,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 91,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 92,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 93,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 94,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 95,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 96,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 97,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 98,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 99,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 100,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 101,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 102,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 103,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 104,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 105,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 106,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 107,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 108,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 109,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 110,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 111,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 112,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 113,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 114,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 115,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 116,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 117,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 118,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 119,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 120,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 121,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 122,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 123,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 124,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 125,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 126,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 127,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 128,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 129,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 130,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 131,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 132,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 133,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 134,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 135,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 136,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 137,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 138,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 139,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        },
+        {
+            "nr": 140,
+            "rbe": 35,
+            "roundCash": 137,
+            "bloons": {
+                "Red": 35
+            },
+            "duration": 19.0
+        }
+    ]
+}

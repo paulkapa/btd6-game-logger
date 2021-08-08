@@ -5,7 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import com.google.gson.Gson;
@@ -112,6 +116,17 @@ public class Map extends BaseEntity {
             return Map.initDefaultMaps();
         } else
             return null;
+    }
+
+    public static Map[] getMapsAsArray() {
+        try {
+            List<Map> maps = new LinkedList<>();
+            GameContainer.getDefaultMaps().forEach((s, m) -> Collections.addAll(maps, m));
+            return maps.toArray(new Map[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Map[0];
+        }
     }
 
     /**
@@ -259,6 +274,10 @@ public class Map extends BaseEntity {
         this.currentLives = currentLives;
     }
 
+    public int getTypeSize() {
+        return new MapKey(super.getType()).getSize();
+    }
+
     @Override
     public String createString() {
         StringBuilder sb = new StringBuilder();
@@ -310,6 +329,96 @@ public class Map extends BaseEntity {
                 return false;
         } else if (!gameMode.equals(other.gameMode))
             return false;
+        return true;
+    }
+}
+
+class MapKey {
+
+    String[] key = new String[2];
+
+    MapKey(String type) {
+        this.key[0] = type;
+        switch (type) {
+        case "Begginer": {
+            this.key[1] = Integer.toString(18);
+            break;
+        }
+        case "Intermediate": {
+            this.key[1] = Integer.toString(15);
+            break;
+        }
+        case "Advanced": {
+            this.key[1] = Integer.toString(12);
+            break;
+        }
+        case "Expert": {
+            this.key[1] = Integer.toString(10);
+            break;
+        }
+        default: {
+            this.key[1] = Integer.toString(0);
+        }
+        }
+    }
+
+    /**
+     * @return the key
+     */
+    public String[] getKey() {
+        return key;
+    }
+
+    /**
+     * @param key the key to set
+     */
+    public void setKey(String[] key) {
+        this.key = key;
+    }
+
+    public String getType() {
+        return this.key[0];
+    }
+
+    public int getSize() {
+        return Integer.parseInt(this.key[1]);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#hashCode()
+     */
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(key);
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MapKey other = (MapKey) obj;
+        if (!Arrays.equals(key, other.key)) {
+            return false;
+        }
         return true;
     }
 }
