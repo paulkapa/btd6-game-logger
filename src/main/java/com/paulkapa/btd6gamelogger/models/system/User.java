@@ -131,8 +131,8 @@ public class User extends BaseEntity {
      * @throws NoSuchAlgorithmException if the specified hashing algorithm is not recognized
      */
     private static String encryptPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        StringBuffer sb = new StringBuffer();
+        var md = MessageDigest.getInstance("SHA-256");
+        var sb = new StringBuilder();
         byte[] saltBytes = User.visualizeAccountAge(123456789).getBytes();
         md.update(saltBytes);
         byte[] passBytes = password.trim().getBytes();
@@ -177,7 +177,10 @@ public class User extends BaseEntity {
      * <p>
      * Account age is calculated using the formula 'current date' - 'creation date'.
      */
-    public void setAccountAge() {this.accountAge = this.creationDate == null ? 0l : System.currentTimeMillis() - this.creationDate.getTime();}
+    public long setAccountAge() {
+        this.accountAge = this.creationDate == null ? 0l : System.currentTimeMillis() - this.creationDate.getTime();
+        return this.accountAge;
+    }
 
     /**
      * Transforms the account age provided as parameter
@@ -186,7 +189,7 @@ public class User extends BaseEntity {
      * @return a string containing the converted time
      */
     public static String visualizeAccountAge(long accountAge) {
-        StringBuffer sb = new StringBuffer();
+        var sb = new StringBuilder();
         long difference = accountAge;
         String y = null, d = null, h = "00 h ", m = ": 00 m ", s = ": 00 s", ms = ". 000 ms";
         while(difference != 0) {
@@ -219,7 +222,7 @@ public class User extends BaseEntity {
 
     @Override
     public String createString() {
-        StringBuffer sb = new StringBuffer();
+        var sb = new StringBuilder();
         sb.delete(0, sb.length());
         sb.append(super.createString());
         sb.append(", password=").append(this.password);
@@ -231,44 +234,4 @@ public class User extends BaseEntity {
 
     @Override
     public String toString() {return new Gson().toJson(this);}
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (int) (accountAge ^ (accountAge >>> 32));
-        result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (accountAge != other.accountAge)
-            return false;
-        if (creationDate == null) {
-            if (other.creationDate != null)
-                return false;
-        } else if (!creationDate.equals(other.creationDate))
-            return false;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        if (password == null) {
-            if (other.password != null)
-                return false;
-        } else if (!password.equals(other.password))
-            return false;
-        return true;
-    }
 }
