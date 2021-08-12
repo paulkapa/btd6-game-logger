@@ -710,13 +710,11 @@ public class GameContainer extends BaseEntity {
             try {
                 bwr.close();
                 fwr.close();
-            } catch (IOException e) {
-            }
+            } catch (IOException e) {e.printStackTrace();}
             System.out.println("Saved user activity to local storage!");
             ;
         } else {
             System.err.println("Error saving user activity to local storage!");
-            ;
         }
     }
 
@@ -750,8 +748,7 @@ public class GameContainer extends BaseEntity {
             try {
                 br.close();
                 fr.close();
-            } catch (IOException e) {
-            }
+            } catch (IOException e) { e.printStackTrace(); }
             return new GameContainer(gson.fromJson(br, GameContainer.class));
         } else {
             return null;
@@ -832,66 +829,5 @@ public class GameContainer extends BaseEntity {
     @Override
     public String toString() {
         return new Gson().toJson(this);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((diff == null) ? 0 : diff.hashCode());
-        result = prime * result + ((map == null) ? 0 : map.hashCode());
-        result = prime * result + ((mode == null) ? 0 : mode.hashCode());
-        result = prime * result + ((saveName == null) ? 0 : saveName.hashCode());
-        result = prime * result + ((towers == null) ? 0 : towers.hashCode());
-        result = prime * result + ((upgrades == null) ? 0 : upgrades.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        GameContainer other = (GameContainer) obj;
-        if (diff == null) {
-            if (other.diff != null)
-                return false;
-        } else if (!diff.equals(other.diff))
-            return false;
-        if (map == null) {
-            if (other.map != null)
-                return false;
-        } else if (!map.equals(other.map))
-            return false;
-        if (mode == null) {
-            if (other.mode != null)
-                return false;
-        } else if (!mode.equals(other.mode))
-            return false;
-        if (saveName == null) {
-            if (other.saveName != null)
-                return false;
-        } else if (!saveName.equals(other.saveName))
-            return false;
-        if (towers == null) {
-            if (other.towers != null)
-                return false;
-        } else if (!towers.equals(other.towers))
-            return false;
-        if (upgrades == null) {
-            if (other.upgrades != null)
-                return false;
-        } else if (!upgrades.equals(other.upgrades))
-            return false;
-        if (user == null) {
-            if (other.user != null)
-                return false;
-        } else if (!user.equals(other.user))
-            return false;
-        return true;
     }
 }

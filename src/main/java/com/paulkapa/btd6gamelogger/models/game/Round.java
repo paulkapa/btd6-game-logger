@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
@@ -107,7 +106,7 @@ public class Round extends BaseEntity {
             Round resultRound = null;
             for (String s : rounds.keySet()) {
                 Round[] curr = rounds.get(s);
-                for (int i = 0; i < curr.length; i++) {
+                for (var i = 0; i < curr.length; i++) {
                     if (curr[i].getRbe() > maxRbe) {
                         maxRbe = curr[i].getRbe();
                         resultRound = new Round(curr[i]);
@@ -126,11 +125,11 @@ public class Round extends BaseEntity {
         if (rounds.isEmpty()) {
             return null;
         } else {
-            int bloonDiversity = 0;
+            var bloonDiversity = 0;
             Round resultRound = null;
             for (String s : rounds.keySet()) {
                 Round[] curr = rounds.get(s);
-                for (int i = 0; i < curr.length; i++) {
+                for (var i = 0; i < curr.length; i++) {
                     if (curr[i].getBloons().size() > bloonDiversity) {
                         bloonDiversity = curr[i].getBloons().size();
                         resultRound = new Round(curr[i]);
@@ -149,11 +148,11 @@ public class Round extends BaseEntity {
         if (rounds.isEmpty()) {
             return null;
         } else {
-            long income = 0;
+            var income = 0l;
             Round resultRound = null;
             for (String s : rounds.keySet()) {
                 Round[] curr = rounds.get(s);
-                for (int i = 0; i < curr.length; i++) {
+                for (var i = 0; i < curr.length; i++) {
                     if (curr[i].getRoundCash() > income) {
                         income = curr[i].getRoundCash();
                         resultRound = new Round(curr[i]);
@@ -184,7 +183,7 @@ public class Round extends BaseEntity {
             for (Entry<String, Round[]> entry : rounds.entrySet()) {
                 var r = new Round[to - from + 1];
                 var index = -1;
-                for (int i = from - 1; i < to; i++) {
+                for (var i = from - 1; i < to; i++) {
                     index++;
                     r[index] = entry.getValue()[i];
                 }
@@ -229,9 +228,9 @@ public class Round extends BaseEntity {
                     new File(GameContainer.ABSOLUTE_PATH + GameContainer.PROD_RELATIVE_DATA_PATH + "rounds.json"));
         }
         // opens a read stream from the file reader
-        BufferedReader br = new BufferedReader(fr);
+        var br = new BufferedReader(fr);
         // gson object
-        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
+        var gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
         // reads entire file contents as a 'mapType'
         JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
         // converts the element to an object
@@ -239,9 +238,9 @@ public class Round extends BaseEntity {
         // parses trough the entries read and saves them in the respective types while
         // building the method return value
         for (Entry<String, JsonElement> e : object.entrySet()) {
-            JsonArray array = e.getValue().getAsJsonArray();
+            var array = e.getValue().getAsJsonArray();
             ArrayList<Round> currRounds = new ArrayList<>();
-            for (int i = 0; i < array.size(); i++) {
+            for (var i = 0; i < array.size(); i++) {
                 currRounds.add(new Round(gson.fromJson(array.get(i), objectType.getClass())));
             }
             defaultRounds.put(e.getKey(), currRounds.toArray(arrayType));
@@ -338,71 +337,8 @@ public class Round extends BaseEntity {
         this.duration = duration;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#hashCode()
-     */
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((bloons == null) ? 0 : bloons.hashCode());
-        long temp;
-        temp = Double.doubleToLongBits(duration);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + nr;
-        result = prime * result + (int) (rbe ^ (rbe >>> 32));
-        return result;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!super.equals(obj)) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Round other = (Round) obj;
-        if (bloons == null) {
-            if (other.bloons != null) {
-                return false;
-            }
-        } else if (!bloons.equals(other.bloons)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(duration) != Double.doubleToLongBits(other.duration)) {
-            return false;
-        }
-        if (nr != other.nr) {
-            return false;
-        }
-        if (rbe != other.rbe) {
-            return false;
-        }
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-
     @Override
     public String toString() {
         return new Gson().toJson(this);
     }
-
 }

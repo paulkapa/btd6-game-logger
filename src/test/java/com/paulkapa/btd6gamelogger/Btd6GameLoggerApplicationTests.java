@@ -1,5 +1,7 @@
 package com.paulkapa.btd6gamelogger;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.game.Map;
 import com.paulkapa.btd6gamelogger.models.game.Tower;
@@ -13,7 +15,7 @@ class Btd6GameLoggerApplicationTests {
 
     @Test
     void contextLoads() throws Exception {
-        assert GameContainer.getDefaultMaps() != null : "Could not initiate test case";
+        assertArrayEquals(new String[0], (String[]) new Object[0]);
         // Testing read default models from storage
         System.out.println(GameContainer.getDefaultMaps().getClass()
                 + "----------------------------------------------------------------------------------------");

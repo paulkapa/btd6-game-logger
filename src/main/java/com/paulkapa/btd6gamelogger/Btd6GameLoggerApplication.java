@@ -46,7 +46,7 @@ public class Btd6GameLoggerApplication {
 
             synchronized (starterInstance) {
                 springLogger.info("{} -> Parameters: [ {} ]. Shutdown in progress...",
-                        Thread.currentThread().getName(), argsString.toString());
+                        Thread.currentThread().getName(), argsString);
 
                 var msg = "";
                 for (var i = 0.347d; i < 5d; i += 1.001d) {
