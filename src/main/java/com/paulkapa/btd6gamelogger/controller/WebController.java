@@ -366,7 +366,7 @@ public class WebController implements CommandLineRunner, ApplicationContextAware
                 this.ui.flush();
                 // Add updated information to database
                 this.ui.save(updates);
-                this.btd6.replaceUser(updates);
+                this.btd6.replaceUser(this.ui.findByName(updates.getName()));
                 this.failedMessage = "Success! Account updated.";
 
                 var attrs = new String[] { this.btd6.getUser().getName(), updates.getName() };
@@ -401,10 +401,11 @@ public class WebController implements CommandLineRunner, ApplicationContextAware
                 this.ui.delete(this.ui.findByName(this.btd6.getUser().getName()));
                 this.ui.flush();
                 this.isLoggedIn = false;
+                this.isLoginAllowed = true;
                 this.isApplicationAllowed = false;
                 this.isApplicationStarted = false;
-                this.btd6.replaceUser(new User(null, "deleted", null));
-                this.failedMessage = "Info: Your account has been deleted from the database...";
+                this.btd6.resetContainer();
+                this.failedMessage = "Info: Your account has been removed from the server...";
             }
         } catch (Exception e) {
             if (this.isLoggedIn && this.ui.findByName(this.btd6.getUser().getName()) == null)
