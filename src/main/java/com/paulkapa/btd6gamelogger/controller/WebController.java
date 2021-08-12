@@ -1,18 +1,19 @@
 package com.paulkapa.btd6gamelogger.controller;
 
-import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.paulkapa.btd6gamelogger.Btd6GameLoggerApplication;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.database.system.UserInterface;
 import com.paulkapa.btd6gamelogger.models.game.Map;
 import com.paulkapa.btd6gamelogger.models.game.Round;
 import com.paulkapa.btd6gamelogger.models.system.User;
+import com.paulkapa.secret1.util.console.logging.CustomLoggerProvider;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +21,7 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +32,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.WebRequest;
 
 /**
  * <b>Web Servlet controller</b>
@@ -49,13 +50,7 @@ import org.springframework.web.context.request.WebRequest;
 @Transactional(readOnly = false)
 public class WebController implements ErrorController, CommandLineRunner, ApplicationContextAware {
 
-    /**
-     * org.slf4j.Logger accessor.
-     * <p>
-     * Prints logs to the console in the same format as the default Spring
-     * Application logs.
-     */
-    private static final Logger logger = LoggerFactory.getLogger(WebController.class);
+    private static final Logger logger = CustomLoggerProvider.getLogger(Btd6GameLoggerApplication.logger.getName());
     /**
      * The ApplicationContext attached to the running Spring Application.
      */
@@ -143,6 +138,8 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.isShutdownStarted = false;
         this.btd6 = new GameContainer();
         this.lastAppSelection = null;
+        CustomLoggerProvider.getLogger("reset");
+        logger.log(Level.INFO, "Test Log...");
     }
 
     /**
@@ -190,7 +187,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     rootModel.addAttribute("appSetup", this.lastAppSelection);
                     rootModel.addAttribute("appData", this.btd6);
                     rootModel.addAttribute(PAGE_TITLE_ATTR, "App");
-                    logger.info("Application accessed. Enjoy!");
+                    logger.log(Level.INFO, "Application accessed. Enjoy!");
                     return PAGE;
                 }
                 // Get Home page
@@ -204,14 +201,14 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     rootModel.addAttribute("modes", GameContainer.GAME_MODES);
                     rootModel.addAttribute("appSetup", new Map());
                     rootModel.addAttribute(PAGE_TITLE_ATTR, "Home");
-                    logger.info("Sign up process complete for: {}. Welcome!", this.btd6.getUser().getName());
+                    logger.log(Level.INFO, "Sign up process complete for: {}. Welcome!", this.btd6.getUser().getName());
                     return PAGE;
                 }
                 // Get Registration Page
                 else if (!this.isLoginAllowed && !this.isLoggedIn && this.isRegisterAllowed
                         && !this.isApplicationAllowed && !this.isApplicationStarted) {
                     rootModel.addAttribute(PAGE_TITLE_ATTR, "Register");
-                    logger.warn("Registration status: {failed : {}}. Returning to registration form.",
+                    logger.log(Level.WARNING, "Registration status: {failed : {}}. Returning to registration form.",
                             this.isFailedRegisterAttempt);
                     return PAGE;
                 }
@@ -219,7 +216,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                 else if (this.isLoginAllowed && !this.isLoggedIn && !this.isRegisterAllowed
                         && !this.isApplicationAllowed && !this.isApplicationStarted) {
                     rootModel.addAttribute(PAGE_TITLE_ATTR, "Login");
-                    logger.warn("Login status: {failed : {}}. Returning to login form.", this.isFailedLoginAttempt);
+                    logger.log(Level.WARNING, "Login status: {failed : {}}. Returning to login form.", this.isFailedLoginAttempt);
                     return PAGE;
                 }
                 // Get First Login Page
@@ -227,16 +224,16 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                 else if (!this.isLoginAllowed && !this.isLoggedIn && !this.isRegisterAllowed
                         && !this.isApplicationAllowed && !this.isApplicationStarted) {
                     rootModel.addAttribute(PAGE_TITLE_ATTR, "Login");
-                    logger.info("Performing First Time Login...");
+                    logger.log(Level.INFO, "Performing First Time Login...");
                     return PAGE;
                 }
                 // Request /error
                 else {
-                    logger.error(
-                            "Could not perform any view operations. Error controller called!\nLogin Status:\n\t{allowed : {}} {\n\tloggedIn : {}}\n\t{failed : {}}\nRegistration Status:\n\t{allowed : {}}\n\t{failed : {}}\nApplication Status:\n\t{allowed : {}}\n\t{started : {}}\nLast error:",
-                            this.isLoginAllowed, this.isLoggedIn, this.isFailedLoginAttempt, this.isRegisterAllowed,
-                            this.isFailedRegisterAttempt, this.isApplicationAllowed, this.isApplicationStarted,
-                            this.lastError);
+                    var attrs = new String[]{String.valueOf(this.isLoginAllowed), String.valueOf(this.isLoggedIn), String.valueOf(this.isFailedLoginAttempt), String.valueOf(this.isRegisterAllowed),
+                    String.valueOf(this.isFailedRegisterAttempt), String.valueOf(this.isApplicationAllowed), String.valueOf(this.isApplicationStarted),
+                    String.valueOf(this.lastError)};
+                    logger.log(Level.SEVERE,
+                            "Could not perform any view operations. Error controller called!\nLogin Status:\n\t{allowed : {}} {\n\tloggedIn : {}}\n\t{failed : {}}\nRegistration Status:\n\t{allowed : {}}\n\t{failed : {}}\nApplication Status:\n\t{allowed : {}}\n\t{started : {}}\nLast error:", attrs);
                     return "/error";
                 }
             }
@@ -246,8 +243,8 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
             this.isApplicationStarted = false;
             this.failedMessage = "Severe Application Error Detected!";
             this.lastError = e;
-            logger.error("Exception in root controller!", e);
-            return "/error";
+            logger.log(Level.SEVERE, "Exception in root controller!", e);
+            return "redirect:/error";
         }
     }
 
@@ -269,7 +266,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         // If method called as GET
         if (formInfo.getName() == null) {
             this.isFailedRegisterAttempt = false;
-            logger.warn("Request: redirect to registration form.");
+            logger.log(Level.WARNING, "Request: redirect to registration form.");
         }
         // If method called as POST
         else {
@@ -278,30 +275,31 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     this.failedMessage = "You tried to copy the default anonymous account. Account already exists!";
                 } else {
                     // New User constructed from form details
-                    User newUser = new User(formInfo.getName().trim(), "regular", formInfo.getPassword().trim(),
+                    var newUser = new User(formInfo.getName().trim(), "regular", formInfo.getPassword().trim(),
                             formInfo.getEmail().trim(), null);
                     // Check if account already exists in database
                     if (this.ui.findByName(newUser.getName()) != null) {
                         this.failedMessage = "Account already exists!";
-                        logger.warn("Register attempt: User [{}] already exists in database.", newUser.getName());
+                        logger.log(Level.WARNING, "Register attempt: User [{}] already exists in database.", newUser.getName());
                     }
                     // Perform final check and save account
                     else {
                         this.ui.save(newUser);
                         this.btd6.replaceUser(this.ui.findByNameAndPassword(newUser.getName(), newUser.getPassword()));
                         this.isFailedRegisterAttempt = !(newUser.equals(this.btd6.getUser()));
-                        this.btd6.replaceUser(null);
+                        this.btd6.replaceUser(new User());
                         this.isRegisterAllowed = this.isFailedRegisterAttempt;
                         this.failedMessage = !this.isFailedRegisterAttempt ? "Success! You may login..."
                                 : "Error creating account!";
-                        logger.info("Register attempt: [{}] {failed : {}}", newUser.getName(),
-                                this.isFailedRegisterAttempt);
+                        var attrs = new String[] { String.valueOf(newUser.getName()),
+                                String.valueOf(this.isFailedLoginAttempt) };
+                        logger.log(Level.INFO, "Register attempt: [{}] {failed : {}}", attrs);
                     }
                 }
             } catch (Exception e) {
                 this.failedMessage = "Registration failed. Application error detected, please try again!";
                 this.lastError = e;
-                logger.error("Register attempt failed due to exception.", e.getCause());
+                logger.log(Level.SEVERE, "Register attempt failed due to exception.", e);
             }
         }
         return REDIRECT;
@@ -323,10 +321,10 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         this.isApplicationAllowed = false;
         this.isApplicationStarted = false;
         // If method called as GET
-        logger.info("Login form info: {}", formInfo != null ? formInfo.createString() : "null");
+        logger.log(Level.INFO, "Login form info: {}", formInfo != null ? formInfo.createString() : "null");
         if (formInfo != null && formInfo.getName() == null) {
             this.isFailedLoginAttempt = false;
-            logger.warn("Request: redirect to login form!");
+            logger.log(Level.WARNING, "Request: redirect to login form!");
         }
         // If method called as POST
         else if (formInfo != null) {
@@ -341,9 +339,9 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     this.failedMessage = "Info: Current login is anonymous. You won't be able to save your activity.";
                 } else {
                     // New User constructed from form details
-                    User newUser = new User(formInfo.getName().trim(), "regular", formInfo.getPassword(), null, null);
+                    var newUser = new User(formInfo.getName().trim(), "regular", formInfo.getPassword(), null, null);
                     // Database query result for form details
-                    User result = ui.findByNameAndPassword(newUser.getName(), newUser.getPassword());
+                    var result = ui.findByNameAndPassword(newUser.getName(), newUser.getPassword());
                     // Check if account exists in database
                     if (result != null) {
                         newUser.setType(result.getType());
@@ -359,13 +357,12 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                         this.failedMessage = "Login failed. Provided information doesn't exist.";
                     }
                 }
-                logger.info("Sign in attempt: [{}] {status : {}}",
-                        formInfo.getName().trim() != null ? formInfo.getName().trim() : "null",
-                        ((this.isLoggedIn && !this.isFailedLoginAttempt) ? "successful" : "failed"));
+                var attrs = new String[]{formInfo.getName().trim() != null ? formInfo.getName().trim() : "null", ((this.isLoggedIn) ? "successful" : "failed")};
+                logger.log(Level.INFO, "Sign in attempt: [{}] {status : {}}", attrs);
             } catch (Exception e) {
                 this.failedMessage = "Login failed. Application error detected, please try again!";
                 this.lastError = e;
-                logger.error("Login attempt failed due to exception.", e.getCause());
+                logger.log(Level.SEVERE, "Login attempt failed due to exception.", e.getCause());
             }
         }
         return REDIRECT;
@@ -381,7 +378,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     public String updateUserInformation(@ModelAttribute User updatedUser) {
         try {
             // Updated user constructed from form details
-            User updates = new User(updatedUser.getName().trim(), "regular-modified", updatedUser.getPassword(),
+            var updates = new User(updatedUser.getName().trim(), "regular-modified", updatedUser.getPassword(),
                     updatedUser.getEmail(), this.btd6.getUser().getCreationDate());
             if (!this.btd6.getUser().getName().equals(updates.getName())
                     || !this.btd6.getUser().getPassword().equals(updates.getPassword())
@@ -394,15 +391,15 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
                     this.ui.save(updates);
                     this.btd6.replaceUser(updates);
                     this.failedMessage = "Success! Account updated.";
-                    logger.info("Update account attempt: User [{}] to User [{}] {status : success}",
-                            this.btd6.getUser().getName(), updates.getName());
+                    var attrs = new String[] { this.btd6.getUser().getName(), updates.getName() };
+                    logger.log(Level.INFO, "Update account attempt: User [{}] to User [{}] {status : success}", attrs);
                 } catch (Exception e) {
                     this.ui.save(this.btd6.getUser());
                     this.lastError = e;
                     this.failedMessage = "Update account information failed! No changes were made.";
-                    logger.warn(
-                            "Update account attempt: User [{}] to User [{}] {status : failed}. Rolling back changes...",
-                            this.btd6.getUser().getName(), updates.getName());
+                    var attrs = new String[] { this.btd6.getUser().getName(), updates.getName() };
+                    logger.log(Level.WARNING,
+                            "Update account attempt: User [{}] to User [{}] {status : failed}. Rolling back changes...", attrs);
                 }
             } else {
                 this.failedMessage = "Info: No changes made to your account!";
@@ -410,7 +407,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         } catch (Exception e) {
             this.lastError = e;
             this.failedMessage = "Update account failed. Application error detected, please try again!";
-            logger.error("Update account attempt failed due to Exception. No changes will be made.", e.getCause());
+            logger.log(Level.SEVERE, "Update account attempt failed due to Exception. No changes will be made.", e.getCause());
         }
         return REDIRECT;
     }
@@ -479,7 +476,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         if (!this.isLoginAllowed && this.isLoggedIn && !this.isFailedLoginAttempt && !this.isRegisterAllowed
                 && !this.isFailedRegisterAttempt && this.isApplicationAllowed && !this.isApplicationStarted
                 && appSetup.getName() != null && !appSetup.getName().equals("Map...")) {
-            Map selectedMap = new Map(Map.getMapByName(appSetup.getName(), GameContainer.getDefaultMaps()));
+            var selectedMap = new Map(Map.getMapByName(appSetup.getName(), GameContainer.getDefaultMaps()));
             selectedMap.setDifficulty(appSetup.getDifficulty());
             selectedMap.setGameMode(appSetup.getGameMode());
             selectedMap.setCurrentCash(GameContainer.calculateStartingCash(selectedMap.getGameMode()));
@@ -502,11 +499,12 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
      *
      * @param savedAppData the form data passed as a session container
      * @return redirect to "/"
+     * @throws Exception
      */
     @PostMapping(value = "/save")
-    public String saveAppData(@ModelAttribute GameContainer savedAppData) {
+    public String saveAppData(@ModelAttribute GameContainer savedAppData) throws Exception {
         this.failedMessage = "Info: It is not yet possible to save your activity!";
-        return REDIRECT;
+        throw new Exception("save all exception");
     }
 
     /**
@@ -529,7 +527,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
      */
     @ExceptionHandler(Exception.class)
     @RequestMapping("/error")
-    public String handleError(WebRequest request, RuntimeException externalException, Model errorInfo) {
+    public String handleError(HttpRequest request, RuntimeException externalException, Model errorInfo) {
         errorInfo.addAttribute("isLoginAllowed", this.isLoginAllowed);
         errorInfo.addAttribute("isFailedLoginAttempt", this.isFailedLoginAttempt);
         errorInfo.addAttribute("isLoggedIn", this.isLoggedIn);
@@ -543,9 +541,9 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         errorInfo.addAttribute("currUser", (this.isLoggedIn) ? this.btd6.getUser() : null);
         // Get request info if exists
         try {
-            request.getParameterMap().forEach((s, p) -> {
-                System.out.println(s + " :\n" + Arrays.toString(p));
-            });
+            request.getHeaders().forEach((s, p) -> {
+                System.out.println(s + " :");
+                p.forEach(str -> System.out.println(str));});
             String statusCode = null; // (Integer) request.getAttribute("javax.servlet.error.status_code");
             String exception = null; // (Exception) request.getAttribute("javax.servlet.error.exception");
             errorInfo.addAttribute("statusCode", ((statusCode == null) ? "unknow" : null)); // statusCode));
@@ -554,7 +552,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         } catch (Exception e) {
             this.lastError = e;
             this.failedMessage = "Severe Application Error Detected!";
-            logger.error("Exception in handleError().", e);
+            logger.log(Level.SEVERE, "Exception in handleError().", e);
         }
         errorInfo.addAttribute("lastError", this.lastError.toString());
         errorInfo.addAttribute("shutdown", this.isShutdownStarted);
@@ -569,7 +567,7 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
      */
     @PostMapping("/shutdown")
     public String shutdownContext() {
-        logger.info("Application shutdown initiated...");
+        logger.log(Level.INFO, "Application shutdown initiated...");
         this.isShutdownStarted = !this.isLoggedIn;
         return REDIRECT;
     }
@@ -582,12 +580,13 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
     public void truncate(String table) {
         try {
             em.createNativeQuery("TRUNCATE TABLE " + table).executeUpdate();
-            logger.warn("TRUNCATED table {}!", table);
+            logger.log(Level.WARNING, "TRUNCATED table {}!", table);
         } catch (Exception e) {
             this.isApplicationStarted = false;
             this.lastError = e;
             this.failedMessage = "SQL: Application Error Detected!";
-            logger.error("TRUNCATE ERROR on table {}!", table, e);
+            var attrs = new String[] { table, e.toString() };
+            logger.log(Level.SEVERE, "TRUNCATE ERROR on table {}!", attrs);
         }
     }
 
@@ -611,12 +610,12 @@ public class WebController implements ErrorController, CommandLineRunner, Applic
         try {
             this.truncate("users");
             this.ui.save(User.getDefaultUser());
-            logger.info("Saved default anonymous user into database!");
+            logger.log(Level.INFO, "Saved default anonymous user into database!");
         } catch (Exception e) {
             this.isApplicationStarted = false;
             this.failedMessage = "CommandLineRunner: Application Error Detected!";
             this.lastError = e;
-            logger.error("Run method error: ", e);
+            logger.log(Level.SEVERE, "Run method error: ", e);
         }
     }
 

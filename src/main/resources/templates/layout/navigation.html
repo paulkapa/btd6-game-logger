@@ -171,7 +171,7 @@
                     <!-- Extra Navigation - Save All -->
                     <form method="post" action="" th:action="@{/save}" th:object="${appData}"
                         th:class="${uname != 'btd6gluser' && isApplicationStarted == true} ? 'col col-auto nav-item m-1' : 'd-none'">
-                        <button type="submit" disabled
+                        <button type="submit" th:disabled="${uname != 'superadmin'} ? '' : false"
                             th:class="${isApplicationStarted == true} ? 'form-control btn btn-toolbar btn-primary' : 'd-none'"
                             th:text="${isApplicationStarted == true} ? 'Save All' : 'error'">>
                             Save All

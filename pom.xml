@@ -14,6 +14,7 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>16</java.version>
+        <mainClass>com.paulkapa.btd6gamelogger.Btd6GameLoggerApplication</mainClass>
     </properties>
     <dependencies>
         <dependency>
@@ -31,6 +32,12 @@
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.paulkapa</groupId>
+            <artifactId>secrets</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>

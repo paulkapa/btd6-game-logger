@@ -1,7 +1,10 @@
 package com.paulkapa.btd6gamelogger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.paulkapa.secret1.util.console.logging.CustomLoggerProvider;
+
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -18,18 +21,13 @@ public class Btd6GameLoggerApplication {
     private static SpringApplicationBuilder builder = null;
     private static String argsString = "null";
 
-    /**
-     * org.slf4j.Logger accessor.
-     * <p>
-     * Prints logs to the console in the same format as the default Spring
-     * Application logs.
-     */
-    private static final Logger logger = LoggerFactory.getLogger(Btd6GameLoggerApplication.class);
+    public static final Logger logger = CustomLoggerProvider.getLogger(Btd6GameLoggerApplication.class.getName());
 
     public static void main(String[] args) {
         if (instance == null) {
             instance = new Btd6GameLoggerApplication();
             addShutdownHook(args);
+            logger.log(Level.INFO, "Shutdown Hook attached!");
         }
         if (builder == null) {
             builder = new SpringApplicationBuilder(Btd6GameLoggerApplication.instance.getClass())
@@ -46,16 +44,17 @@ public class Btd6GameLoggerApplication {
             }
         }
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            String[] attrs = new String[] { Thread.currentThread().getName(), argsString };
             synchronized (builder) {
-                logger.info("{} -> Application launch parameters: {}. Shutdown in progress...",
-                        Thread.currentThread().getName(), argsString);
+                logger.log(Level.INFO, "{} -> Application launch parameters: {}. Shutdown in progress...",
+                        attrs);
                 var msg = "";
                 for (var i = 0.347d; i < 5d; i += 1.001d) {
                     msg = String.format("\u001B[1m%-10s\u001B[0m: ... %7.3f %% ...", Thread.currentThread().getName(),
                             (i * 23 >= 100) ? 100d : i * 23d);
-                    logger.info(msg);
+                    logger.log(Level.INFO, msg);
                 }
-                logger.info(
+                logger.log(Level.INFO,
                         "{} -> Aplication shutdown completed. You may close any remaining console windows opened by this application!",
                         Thread.currentThread().getName());
             }
