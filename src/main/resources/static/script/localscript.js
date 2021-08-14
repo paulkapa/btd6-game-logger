@@ -79,8 +79,8 @@ function handleSpinner() {
         var spinnerContainer = document.getElementById("spinnerContainer");
         var spinnerSVG = document.getElementById("spinnerSVG");
         spinnerSVG.onload = setTimeout(() => {
-            spinnerContainer.classList.add("d-none");
-            spinnerSVG.classList.add("d-none");
+            spinnerSVG.remove();
+            spinnerContainer.remove();
         }, 1500);
     } catch (error) { console.error("Error - handle spinner loading placeholder!\n" + error.name + " | " + error.message); }
 }
@@ -95,17 +95,10 @@ function handleAccountSection() {
             var navContent = document.getElementById("navbarToggleContent");
             var navBar = document.getElementById("navBar");
             var butt = document.getElementById("contentControl").getElementsByTagName("button").item(0);
-            var buttIcon = butt.getElementsByTagName("svg").item(0);
-            var bText = butt.getElementsByTagName("p").item(0);
-            if (bText.innerText.includes("View")) {
-                butt.innerHTML = null;
-                butt.append(buttIcon);
-                bText.innerText = "Hide Account";
-                butt.append(bText);
+            if (butt.innerText.includes("View")) {
+                butt.innerText = "Hide Account";
             } else {
-                butt.append(buttIcon);
-                bText.innerText = "View Account";
-                butt.append(bText);
+                butt.innerText = "View Account";
             }
             nav.classList.toggle("modal");
             nav.classList.toggle("modal-header");
@@ -241,8 +234,8 @@ function handleAccountSectionControls() {
                         message1.classList.add("d-none");
                         message2.classList.add("d-none");
                         message3.classList.add("d-none");
-                        break;
                     }
+                    break;
                 } case "Personal Information": {
                     if (currPageTitle.includes("Home")) {
                         usernameField.classList.remove("collapse");
@@ -258,13 +251,12 @@ function handleAccountSectionControls() {
                         message1.classList.add("d-none");
                         message2.classList.add("d-none");
                         message3.classList.add("d-none");
-                        break;
                     } else if (currPageTitle.includes("App")) {
                         message1.classList.add("d-none");
                         message2.classList.remove("d-none");
                         message3.classList.add("d-none");
-                        break;
                     }
+                    break;
                 } case "Saved Data": {
                     if (currPageTitle.includes("Home")) {
                         usernameField.classList.add("collapse");
@@ -280,14 +272,13 @@ function handleAccountSectionControls() {
                         message1.classList.add("d-none");
                         message2.classList.add("d-none");
                         message3.classList.remove("d-none");
-                        break;
                     } else if (currPageTitle.includes("App")) {
                         // TODO : remove message3 "... only avaialble on app page" since this is the app page.
                         message1.classList.add("d-none");
                         message2.classList.add("d-none");
                         message3.classList.remove("d-none");
-                        break;
                     }
+                    break;
                 } default: {
                     if (currPageTitle.includes("Home")) {
                         usernameField.classList.add("collapse");
@@ -301,12 +292,10 @@ function handleAccountSectionControls() {
                         deleteUserButton.classList.add("collapse");
                         deleteUserButton.setAttribute("disabled", "");
                         message3.classList.add("d-none");
-                        break;
                     } else if (currPageTitle.includes("App")) {
                         message1.classList.add("d-none");
                         message2.classList.add("d-none");
                         message3.classList.add("d-none");
-                        break;
                     } else {
                         usernameField.classList.remove("collapse");
                         passwordField.classList.add("collapse");
@@ -319,8 +308,8 @@ function handleAccountSectionControls() {
                         message1.classList.add("d-none");
                         message2.classList.add("d-none");
                         message3.classList.add("d-none");
-                        break;
                     }
+                    break;
                 }
             }
         });

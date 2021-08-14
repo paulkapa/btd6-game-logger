@@ -48,6 +48,7 @@ body::-webkit-scrollbar {
 body {
   -ms-overflow-style: none!important;  /* IE and Edge */
   scrollbar-width: none!important;  /* Firefox */
+  font-family: Consolas, monospace!important;
 }
 
 #spinnerContainer {
@@ -57,14 +58,16 @@ body {
   border-width: 0;
   z-index: 11000;
   margin: 0 auto;
-  top: 1.5em;
-  right: 2.5em;
+  top: 0.5em;
+  right: 0.5em;
   border-radius: 30%;
   background-color: transparent;
 }
 
 #spinnerSVG {
-    position: relative;
+  position: relative;
+  margin: 0 auto;
+  color: azure;
 }
 
 .alert-container {

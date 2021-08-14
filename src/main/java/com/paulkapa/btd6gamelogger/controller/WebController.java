@@ -26,6 +26,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,19 +61,19 @@ public class WebController implements CommandLineRunner, ApplicationContextAware
      */
     private ApplicationContext context;
 
-    public static final String REDIRECT = "redirect:/";
-    public static final String BACKUP = "backup";
-    public static final String ERROR = "error";
-    public static final String INDEX = "index";
-    public static final String LOGIN = "login";
-    public static final String REGISTER = "register";
-    public static final String HOME = "home";
-    public static final String APP = "app";
+    private static final String REDIRECT = "redirect:/";
+    private static final String BACKUP = "backup";
+    private static final String ERROR = "error";
+    private static final String INDEX = "index";
+    private static final String LOGIN = "login";
+    private static final String REGISTER = "register";
+    private static final String HOME = "home";
+    private static final String APP = "app";
     static final String PERSIST = "_persistent";
-    public static final String USER_NAME_ATTR = "uname";
-    public static final String EMAIL_ATTR = "uemail";
-    public static final String ACC_AGE_ATTR = "uaccountage";
-    public static final String PAGE_TITLE_ATTR = "currentPageTitle";
+    private static final String USER_NAME_ATTR = "uname";
+    private static final String EMAIL_ATTR = "uemail";
+    private static final String ACC_AGE_ATTR = "uaccountage";
+    private static final String PAGE_TITLE_ATTR = "currentPageTitle";
     private final Map<String, ModelAndViewImpl> modelAndViews = new LinkedHashMap<>();
 
     private boolean isLoginAllowed;
@@ -165,10 +166,9 @@ public class WebController implements CommandLineRunner, ApplicationContextAware
             /**
              * Backup page sent to the browser to start the application shutdown...
              */
-            getViewData(BACKUP).addData(globalData);
-            getViewData(BACKUP).addData("context", (ConfigurableApplicationContext) context);
+            getViewData(BACKUP).setStatus(HttpStatus.ACCEPTED);
 
-            logger.log(Level.WARNING, "Sent Shutdown request to main application!");
+            logger.log(Level.WARNING, "Sent \"Wait for Shutdown\" to main application!");
 
             return getViewData(BACKUP);
         } else {
@@ -510,9 +510,25 @@ public class WebController implements CommandLineRunner, ApplicationContextAware
     public String shutdownContext() {
         this.isShutdownStarted = !this.isLoggedIn;
 
-        logger.log(Level.INFO, "Application shutdown initiated...");
+        Logger.getGlobal().log(Level.INFO, "Waiting for shutdown...");
 
         return REDIRECT;
+    }
+
+    /**
+     * Application End.
+     *
+     * @return null
+     */
+    @PostMapping(path = "/shtdn")
+    public String shtdn() {
+        if (this.isShutdownStarted) {
+            var c = (ConfigurableApplicationContext) (this.context);
+            c.close();
+            return null;
+        } else {
+            return REDIRECT;
+        }
     }
 
     /**
