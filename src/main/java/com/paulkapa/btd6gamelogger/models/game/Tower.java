@@ -11,9 +11,7 @@ import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
@@ -127,7 +125,7 @@ public class Tower extends BaseEntity {
         if (towersSearch == null)
             throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
         towersSearch.forEach((n, t) -> {
-            for (int i = 0; i < t.length; i++)
+            for (var i = 0; i < t.length; i++)
                 result.add(t[i].getName());
         });
         if (result.isEmpty())
@@ -151,7 +149,7 @@ public class Tower extends BaseEntity {
         if (towersSearch == null)
             throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
         towersSearch.forEach((n, t) -> {
-            for (int i = 0; i < t.length; i++)
+            for (var i = 0; i < t.length; i++)
                 if (result.get(0) == null && t[i].getName().equals(towerName)) {
                     result.add(0, t[i]);
                     break;
@@ -206,7 +204,7 @@ public class Tower extends BaseEntity {
         if (towersSearch == null)
             throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
         towersSearch.forEach((n, t) -> {
-            for (int i = 0; i < t.length; i++)
+            for (var i = 0; i < t.length; i++)
                 if (t[i].getCost() >= min && t[i].getCost() <= max)
                     result.add(t[i]);
         });
@@ -232,7 +230,7 @@ public class Tower extends BaseEntity {
         if (towersSearch == null)
             throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
         towersSearch.forEach((n, t) -> {
-            for (int i = 0; i < t.length; i++)
+            for (var i = 0; i < t.length; i++)
                 if (result.get(1).getSellValue() < t[i].getSellValue()) {
                     result.get(1).setSellValue(t[i].getSellValue());
                     result.add(0, t[i]);
@@ -259,7 +257,7 @@ public class Tower extends BaseEntity {
         if (towersSearch == null)
             throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
         towersSearch.forEach((n, t) -> {
-            for (int i = 0; i < t.length; i++)
+            for (var i = 0; i < t.length; i++)
                 if (result.get(1).getPops() < t[i].getPops()) {
                     result.get(1).setPops(t[i].getPops());
                     result.add(0, t[i]);
@@ -286,7 +284,7 @@ public class Tower extends BaseEntity {
         if (towersSearch == null)
             throw new Exception("Cannot search in empty map!", new Throwable("Provided towersSearch is null."));
         towersSearch.forEach((n, t) -> {
-            for (int i = 0; i < t.length; i++)
+            for (var i = 0; i < t.length; i++)
                 if (result.get(1).getCashGenerated() < t[i].getCashGenerated()) {
                     result.get(1).setCashGenerated(t[i].getCashGenerated());
                     result.add(0, t[i]);
@@ -310,9 +308,9 @@ public class Tower extends BaseEntity {
         // aux variable to apply getClass() method on
         LinkedHashMap<String, Tower[]> mapType = new LinkedHashMap<>(0);
         // aux variable to apply getClass() method on
-        Tower[] arrayType = new Tower[0];
+        var arrayType = new Tower[0];
         // aux variable to apply getClass() method on
-        Tower objectType = new Tower();
+        var objectType = new Tower();
 
         // opens a file as read-only
         FileReader fr = null;
@@ -324,19 +322,19 @@ public class Tower extends BaseEntity {
                     new File(GameContainer.ABSOLUTE_PATH + GameContainer.PROD_RELATIVE_DATA_PATH + "towers.json"));
         }
         // opens a read stream from the file reader
-        BufferedReader br = new BufferedReader(fr);
+        var br = new BufferedReader(fr);
         // gson object
-        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
+        var gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
         // reads entire file contents as a 'mapType'
         JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
         // converts the element to an object
-        JsonObject object = element.getAsJsonObject();
+        var object = element.getAsJsonObject();
         // parses trough the entries read and saves them in the respective types while
         // building the method return value
         for (Entry<String, JsonElement> e : object.entrySet()) {
-            JsonArray array = e.getValue().getAsJsonArray();
+            var array = e.getValue().getAsJsonArray();
             ArrayList<Tower> currTowers = new ArrayList<>();
-            for (int i = 0; i < array.size(); i++) {
+            for (var i = 0; i < array.size(); i++) {
                 currTowers.add(new Tower(gson.fromJson(array.get(i), objectType.getClass())));
             }
             defaultTowers.put(e.getKey(), currTowers.toArray(arrayType));
@@ -421,7 +419,7 @@ public class Tower extends BaseEntity {
 
     @Override
     public String createString() {
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
         sb.delete(0, sb.length());
         sb.append(super.createString());
         sb.append(", cost=").append(this.getCost());
@@ -434,36 +432,5 @@ public class Tower extends BaseEntity {
     @Override
     public String toString() {
         return new Gson().toJson(this);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + cashGenerated;
-        result = prime * result + cost;
-        result = prime * result + (int) (pops ^ (pops >>> 32));
-        result = prime * result + sellValue;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Tower other = (Tower) obj;
-        if (cashGenerated != other.cashGenerated)
-            return false;
-        if (cost != other.cost)
-            return false;
-        if (pops != other.pops)
-            return false;
-        if (sellValue != other.sellValue)
-            return false;
-        return true;
     }
 }

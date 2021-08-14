@@ -9,9 +9,9 @@
     </parent>
     <groupId>com.paulkapa</groupId>
     <artifactId>btd6-game-logger</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2.9-BETA</version>
     <name>btd6-game-logger</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Web Application intended as a side-tool for the game Bloons Tower Defense 6.</description>
     <properties>
         <java.version>16</java.version>
     </properties>
@@ -31,6 +31,12 @@
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.paulkapa</groupId>
+            <artifactId>secrets</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -61,6 +67,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <release>16</release>
+                    <compilerArgs>-enable-preview</compilerArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>

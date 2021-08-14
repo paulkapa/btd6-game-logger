@@ -139,8 +139,7 @@
                         <button class="navbar-toggler row g-2 text-muted w-auto m-auto" type="button" autofocus
                             data-bs-toggle="collapse" data-bs-target="#navbarToggleContent"
                             aria-controls="navbarToggleContent" aria-expanded="false">
-                            <em class="fas fa-bars fa-2x col col-auto w-auto m-auto mt-1 d-inline"></em>
-                            <p class="col w-auto m-auto d-inline">View Account</p>
+                            View Account
                         </button>
                     </div>
                     <!-- Work in Progress notifier -->
@@ -150,9 +149,9 @@
                     </div>
                 </div>
                 <!-- App control-->
-                <div class="row flex-row justify-content-end w-auto mt-2">
+                <div th:class="${isLoggedIn == true || isApplicationAllowed == true} ? 'row flex-row justify-content-end w-auto mt-2' : 'd-none'">
                     <!-- Logout -->
-                    <form class="col nav-item w-auto m-auto" method="post" action=""
+                    <form th:class="${isLoggedIn == true || isApplicationAllowed == true} ? 'col nav-item w-auto m-auto' : 'd-none'" method="post" action=""
                         th:action="${isLoggedIn == true || isApplicationAllowed == true} ? '/logout' : ''">
                         <button id="loginControl" type="submit"
                             th:class="${isLoggedIn == true || isApplicationAllowed == true} ? 'form-control btn btn-toolbar btn-primary' : 'd-none'"
@@ -161,7 +160,7 @@
                         </button>
                     </form>
                     <!-- Extra Navigation - Back Home -->
-                    <form class="col col-auto nav-item m-1" method="post" action="" th:action="@{/home}">
+                    <form th:class="${isApplicationStarted == true} ? 'col col-auto nav-item m-1' : 'd-none'" method="post" action="" th:action="@{/home}">
                         <button type="submit"
                             th:class="${isApplicationStarted == true} ? 'form-control btn btn-toolbar btn-primary' : 'd-none'"
                             th:text="${isApplicationStarted == true} ? 'Back Home' : 'error'">>
@@ -171,7 +170,7 @@
                     <!-- Extra Navigation - Save All -->
                     <form method="post" action="" th:action="@{/save}" th:object="${appData}"
                         th:class="${uname != 'btd6gluser' && isApplicationStarted == true} ? 'col col-auto nav-item m-1' : 'd-none'">
-                        <button type="submit" disabled
+                        <button type="submit" th:disabled="${uname != 'superadmin'} ? '' : false"
                             th:class="${isApplicationStarted == true} ? 'form-control btn btn-toolbar btn-primary' : 'd-none'"
                             th:text="${isApplicationStarted == true} ? 'Save All' : 'error'">>
                             Save All

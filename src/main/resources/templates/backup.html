@@ -3,15 +3,12 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>You may close this tab...</title>
+        <title>BTD6 G-L | Shutdown</title>
     </head>
 
     <body style="background-color: rgb(60, 60, 70);">
-        <th:block th:if="${shutdown == true}">
-            <div th:text="${context.close()}"></div>
-        </th:block>
+        <div><form action="/shtdn" method="POST"><input type="submit" value="Shutdown..."></form></div>
     </body>
 
 </html>

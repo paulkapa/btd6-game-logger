@@ -14,9 +14,7 @@ import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
@@ -143,8 +141,8 @@ public class Map extends BaseEntity {
         if (mapsSearch == null)
             throw new Exception("Cannot search in empty map!", new Throwable("Provided mapsSearch is null."));
         mapsSearch.forEach((n, m) -> {
-            for (int i = 0; i < m.length; i++)
-                if (result.size() == 0 && m[i].getName().equals(mapName))
+            for (var i = 0; i < m.length; i++)
+                if (result.isEmpty() && m[i].getName().equals(mapName))
                     result.add(m[i]);
         });
         if (result.get(0) == null)
@@ -165,9 +163,9 @@ public class Map extends BaseEntity {
         // aux variable to apply getClass() method on
         LinkedHashMap<String, Map[]> mapType = new LinkedHashMap<>(0);
         // aux variable to apply getClass() method on
-        Map[] arrayType = new Map[0];
+        var arrayType = new Map[0];
         // aux variable to apply getClass() method on
-        Map type = new Map();
+        var type = new Map();
 
         // opens a file as read-only
         FileReader fr = null;
@@ -179,19 +177,19 @@ public class Map extends BaseEntity {
                     new File(GameContainer.ABSOLUTE_PATH + GameContainer.PROD_RELATIVE_DATA_PATH + "maps.json"));
         }
         // opens a read stream from the file reader
-        BufferedReader br = new BufferedReader(fr);
+        var br = new BufferedReader(fr);
         // gson object
-        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
+        var gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
         // reads entire file contents as a 'mapType'
         JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
         // converts the element to an object
-        JsonObject object = element.getAsJsonObject();
+        var object = element.getAsJsonObject();
         // parses trough the entries read and saves them in the respective types while
         // building the method return value
         for (Entry<String, JsonElement> e : object.entrySet()) {
-            JsonArray array = e.getValue().getAsJsonArray();
+            var array = e.getValue().getAsJsonArray();
             ArrayList<Map> currMaps = new ArrayList<>();
-            for (int i = 0; i < array.size(); i++) {
+            for (var i = 0; i < array.size(); i++) {
                 currMaps.add(new Map(gson.fromJson(array.get(i), type.getClass())));
             }
             defaultMaps.put(e.getKey(), currMaps.toArray(arrayType));
@@ -280,7 +278,7 @@ public class Map extends BaseEntity {
 
     @Override
     public String createString() {
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
         sb.delete(0, sb.length());
         sb.append(super.createString());
         sb.append(", difficulty=").append(getDifficulty());
@@ -293,43 +291,6 @@ public class Map extends BaseEntity {
     @Override
     public String toString() {
         return new Gson().toJson(this);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (int) (currentCash ^ (currentCash >>> 32));
-        result = prime * result + currentLives;
-        result = prime * result + ((difficulty == null) ? 0 : difficulty.hashCode());
-        result = prime * result + ((gameMode == null) ? 0 : gameMode.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Map other = (Map) obj;
-        if (currentCash != other.currentCash)
-            return false;
-        if (currentLives != other.currentLives)
-            return false;
-        if (difficulty == null) {
-            if (other.difficulty != null)
-                return false;
-        } else if (!difficulty.equals(other.difficulty))
-            return false;
-        if (gameMode == null) {
-            if (other.gameMode != null)
-                return false;
-        } else if (!gameMode.equals(other.gameMode))
-            return false;
-        return true;
     }
 }
 
@@ -392,8 +353,8 @@ class MapKey {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
+        final var prime = 31;
+        var result = 1;
         result = prime * result + Arrays.hashCode(key);
         return result;
     }
@@ -416,9 +377,6 @@ class MapKey {
             return false;
         }
         MapKey other = (MapKey) obj;
-        if (!Arrays.equals(key, other.key)) {
-            return false;
-        }
-        return true;
+        return Arrays.equals(key, other.key);
     }
 }

@@ -11,9 +11,7 @@ import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
@@ -132,8 +130,8 @@ public class Upgrade extends BaseEntity {
         result.add(0, 0);
         if (upgradesList != null)
             upgradesList.forEach((s, u) -> {
-                for (int i = 0; i < u.length; i++)
-                    for (int j = 0; j < u[i].length; j++)
+                for (var i = 0; i < u.length; i++)
+                    for (var j = 0; j < u[i].length; j++)
                         if (!u[i][j].isLocked())
                             result.add(0, result.get(0) + 1);
             });
@@ -152,8 +150,8 @@ public class Upgrade extends BaseEntity {
         result.add(0, 0);
         if (upgradesList != null)
             upgradesList.forEach((s, u) -> {
-                for (int i = 0; i < u.length; i++)
-                    for (int j = 0; j < u[i].length; j++)
+                for (var i = 0; i < u.length; i++)
+                    for (var j = 0; j < u[i].length; j++)
                         if (!u[i][j].isApplied())
                             result.add(0, result.get(0) + 1);
             });
@@ -215,11 +213,11 @@ public class Upgrade extends BaseEntity {
         // aux variable to apply getClass() method on
         LinkedHashMap<String, Upgrade[][]> mapType = new LinkedHashMap<>(0);
         // aux variable to apply getClass() method on
-        Upgrade[][] arrayType = new Upgrade[0][0];
+        var arrayType = new Upgrade[0][0];
         // aux variable to apply getClass() method on
-        Upgrade[] objectType = new Upgrade[0];
+        var objectType = new Upgrade[0];
         // aux variable to apply getClass() method on
-        Upgrade type = new Upgrade();
+        var type = new Upgrade();
 
         // opens a file as read-only
         FileReader fr = null;
@@ -231,25 +229,25 @@ public class Upgrade extends BaseEntity {
                     new File(GameContainer.ABSOLUTE_PATH + GameContainer.PROD_RELATIVE_DATA_PATH + "upgrades.json"));
         }
         // opens a read stream from the file reader
-        BufferedReader br = new BufferedReader(fr);
+        var br = new BufferedReader(fr);
         // gson object
-        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
+        var gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
         // reads entire file contents as a 'mapType'
         JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
         // converts the element to an object
-        JsonObject object = element.getAsJsonObject();
+        var object = element.getAsJsonObject();
         // parses trough the entries read and saves them in the respective types while
         // building the method return value
         for (Entry<String, JsonElement> e : object.entrySet()) {
-            JsonArray array = e.getValue().getAsJsonArray();
+            var array = e.getValue().getAsJsonArray();
             ArrayList<Upgrade[][]> currUpgradePaths = new ArrayList<>();
-            for (int i = 0; i < array.size(); i++) {
-                JsonArray insideArray = e.getValue().getAsJsonArray();
+            for (var i = 0; i < array.size(); i++) {
+                var insideArray = e.getValue().getAsJsonArray();
                 ArrayList<Upgrade[]> currUpgradeTiers = new ArrayList<>();
-                for (int j = 0; j < insideArray.size(); j++) {
-                    JsonArray objectsArray = insideArray.get(j).getAsJsonArray();
+                for (var j = 0; j < insideArray.size(); j++) {
+                    var objectsArray = insideArray.get(j).getAsJsonArray();
                     ArrayList<Upgrade> objects = new ArrayList<>();
-                    for (int k = 0; k < objectsArray.size(); k++) {
+                    for (var k = 0; k < objectsArray.size(); k++) {
                         objects.add(new Upgrade(gson.fromJson(objectsArray.get(k), type.getClass())));
                     }
                     currUpgradeTiers.add(objects.toArray(objectType));
@@ -380,7 +378,7 @@ public class Upgrade extends BaseEntity {
 
     @Override
     public String createString() {
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
         sb.delete(0, sb.length());
         sb.append(super.createString());
         sb.append(", tower_name=").append(this.getCost());
@@ -394,45 +392,5 @@ public class Upgrade extends BaseEntity {
     @Override
     public String toString() {
         return new Gson().toJson(this);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + cost;
-        result = prime * result + (isApplied ? 1231 : 1237);
-        result = prime * result + (isLocked ? 1231 : 1237);
-        result = prime * result + path;
-        result = prime * result + tier;
-        result = prime * result + ((towerName == null) ? 0 : towerName.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Upgrade other = (Upgrade) obj;
-        if (cost != other.cost)
-            return false;
-        if (isApplied != other.isApplied)
-            return false;
-        if (isLocked != other.isLocked)
-            return false;
-        if (path != other.path)
-            return false;
-        if (tier != other.tier)
-            return false;
-        if (towerName == null) {
-            if (other.towerName != null)
-                return false;
-        } else if (!towerName.equals(other.towerName))
-            return false;
-        return true;
     }
 }
