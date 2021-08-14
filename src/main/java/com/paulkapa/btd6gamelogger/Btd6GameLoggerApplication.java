@@ -72,6 +72,7 @@ public class Btd6GameLoggerApplication {
         var url = "http://localhost:8080";
         msg = String.format("Trying to open application at \'%s\' ...", url);
         logger.log(Level.INFO, msg);
+        os = os.toLowerCase();
 
         if (os.contains("win")) {
             Runtime.getRuntime().exec("cmd.exe /c start \"\" \"" + url + "\"");
