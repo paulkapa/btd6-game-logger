@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,6 +16,7 @@ import java.util.Map.Entry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
@@ -160,12 +162,12 @@ public class Map extends BaseEntity {
      */
     private static LinkedHashMap<String, Map[]> initDefaultMaps() throws IOException {
         LinkedHashMap<String, Map[]> defaultMaps = new LinkedHashMap<>();
-        // aux variable to apply getClass() method on
-        LinkedHashMap<String, Map[]> mapType = new LinkedHashMap<>(0);
-        // aux variable to apply getClass() method on
+        // Type variables
+        Type mapType = new TypeToken<LinkedHashMap<String, Map[]>>() {
+        }.getType();
         var arrayType = new Map[0];
-        // aux variable to apply getClass() method on
-        var type = new Map();
+        Type type = new TypeToken<Map>() {
+        }.getType();
 
         // opens a file as read-only
         FileReader fr = null;
@@ -181,7 +183,7 @@ public class Map extends BaseEntity {
         // gson object
         var gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
         // reads entire file contents as a 'mapType'
-        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
+        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType)));
         // converts the element to an object
         var object = element.getAsJsonObject();
         // parses trough the entries read and saves them in the respective types while
@@ -190,7 +192,7 @@ public class Map extends BaseEntity {
             var array = e.getValue().getAsJsonArray();
             ArrayList<Map> currMaps = new ArrayList<>();
             for (var i = 0; i < array.size(); i++) {
-                currMaps.add(new Map(gson.fromJson(array.get(i), type.getClass())));
+                currMaps.add(new Map(gson.fromJson(array.get(i), type)));
             }
             defaultMaps.put(e.getKey(), currMaps.toArray(arrayType));
         }
@@ -301,25 +303,25 @@ class MapKey {
     MapKey(String type) {
         this.key[0] = type;
         switch (type) {
-        case "Begginer": {
-            this.key[1] = Integer.toString(18);
-            break;
-        }
-        case "Intermediate": {
-            this.key[1] = Integer.toString(15);
-            break;
-        }
-        case "Advanced": {
-            this.key[1] = Integer.toString(12);
-            break;
-        }
-        case "Expert": {
-            this.key[1] = Integer.toString(10);
-            break;
-        }
-        default: {
-            this.key[1] = Integer.toString(0);
-        }
+            case "Begginer": {
+                this.key[1] = Integer.toString(18);
+                break;
+            }
+            case "Intermediate": {
+                this.key[1] = Integer.toString(15);
+                break;
+            }
+            case "Advanced": {
+                this.key[1] = Integer.toString(12);
+                break;
+            }
+            case "Expert": {
+                this.key[1] = Integer.toString(10);
+                break;
+            }
+            default: {
+                this.key[1] = Integer.toString(0);
+            }
         }
     }
 

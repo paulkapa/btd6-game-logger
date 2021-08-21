@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -12,6 +13,7 @@ import java.util.Map.Entry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
@@ -210,14 +212,13 @@ public class Upgrade extends BaseEntity {
      */
     private static LinkedHashMap<String, Upgrade[][]> initDefaultUpgrades() throws Exception {
         LinkedHashMap<String, Upgrade[][]> defaultUpgrades = new LinkedHashMap<>();
-        // aux variable to apply getClass() method on
-        LinkedHashMap<String, Upgrade[][]> mapType = new LinkedHashMap<>(0);
-        // aux variable to apply getClass() method on
+        // Type variables
+        Type mapType = new TypeToken<LinkedHashMap<String, Upgrade[][]>>() {
+        }.getType();
         var arrayType = new Upgrade[0][0];
-        // aux variable to apply getClass() method on
         var objectType = new Upgrade[0];
-        // aux variable to apply getClass() method on
-        var type = new Upgrade();
+        Type type = new TypeToken<Tower>() {
+        }.getType();
 
         // opens a file as read-only
         FileReader fr = null;
@@ -233,7 +234,7 @@ public class Upgrade extends BaseEntity {
         // gson object
         var gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
         // reads entire file contents as a 'mapType'
-        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
+        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType)));
         // converts the element to an object
         var object = element.getAsJsonObject();
         // parses trough the entries read and saves them in the respective types while
@@ -248,15 +249,13 @@ public class Upgrade extends BaseEntity {
                     var objectsArray = insideArray.get(j).getAsJsonArray();
                     ArrayList<Upgrade> objects = new ArrayList<>();
                     for (var k = 0; k < objectsArray.size(); k++) {
-                        objects.add(new Upgrade(gson.fromJson(objectsArray.get(k), type.getClass())));
+                        objects.add(new Upgrade(gson.fromJson(objectsArray.get(k), type)));
                     }
                     currUpgradeTiers.add(objects.toArray(objectType));
                 }
                 currUpgradePaths.add(currUpgradeTiers.toArray(arrayType));
-                System.out.println(currUpgradePaths.get(i));
             }
             defaultUpgrades.put(e.getKey(), currUpgradePaths.get(0));
-            System.out.println(Arrays.asList(defaultUpgrades.get(e.getKey())).toString());
         }
         br.close();
         fr.close();

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -12,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
@@ -104,8 +106,8 @@ public class Round extends BaseEntity {
         } else {
             long maxRbe = 0;
             Round resultRound = null;
-            for (String s : rounds.keySet()) {
-                Round[] curr = rounds.get(s);
+            for (Entry<String, Round[]> e : rounds.entrySet()) {
+                Round[] curr = e.getValue();
                 for (var i = 0; i < curr.length; i++) {
                     if (curr[i].getRbe() > maxRbe) {
                         maxRbe = curr[i].getRbe();
@@ -113,7 +115,7 @@ public class Round extends BaseEntity {
                     }
                 }
             }
-            if (maxRbe != 0 && resultRound != null) {
+            if (maxRbe != 0) {
                 return resultRound;
             } else {
                 return null;
@@ -127,8 +129,8 @@ public class Round extends BaseEntity {
         } else {
             var bloonDiversity = 0;
             Round resultRound = null;
-            for (String s : rounds.keySet()) {
-                Round[] curr = rounds.get(s);
+            for (Entry<String, Round[]> e : rounds.entrySet()) {
+                Round[] curr = e.getValue();
                 for (var i = 0; i < curr.length; i++) {
                     if (curr[i].getBloons().size() > bloonDiversity) {
                         bloonDiversity = curr[i].getBloons().size();
@@ -136,7 +138,7 @@ public class Round extends BaseEntity {
                     }
                 }
             }
-            if (bloonDiversity != 0 && resultRound != null) {
+            if (bloonDiversity != 0) {
                 return resultRound;
             } else {
                 return null;
@@ -150,8 +152,8 @@ public class Round extends BaseEntity {
         } else {
             var income = 0l;
             Round resultRound = null;
-            for (String s : rounds.keySet()) {
-                Round[] curr = rounds.get(s);
+            for (Entry<String, Round[]> e : rounds.entrySet()) {
+                Round[] curr = e.getValue();
                 for (var i = 0; i < curr.length; i++) {
                     if (curr[i].getRoundCash() > income) {
                         income = curr[i].getRoundCash();
@@ -159,7 +161,7 @@ public class Round extends BaseEntity {
                     }
                 }
             }
-            if (income != 0 && resultRound != null) {
+            if (income != 0) {
                 return resultRound;
             } else {
                 return null;
@@ -200,7 +202,7 @@ public class Round extends BaseEntity {
     }
 
     public static LinkedHashMap<String, Round[]> getDefaultRounds(String diff, String mode) throws IOException {
-        // TODO - currently the same as Round.getDefaultRounds(void)
+        // TODO - currently the same as Round.getDefaultRounds(void) | Has to provide access to a specific range of rounds
         if (!GameContainer.isInitDefaultRounds) {
             GameContainer.isInitDefaultRounds = true;
             return Round.initDefaultRounds();
@@ -211,12 +213,12 @@ public class Round extends BaseEntity {
 
     private static LinkedHashMap<String, Round[]> initDefaultRounds() throws IOException {
         LinkedHashMap<String, Round[]> defaultRounds = new LinkedHashMap<>();
-        // aux variable to apply getClass() method on
-        LinkedHashMap<String, Round[]> mapType = new LinkedHashMap<>(0);
-        // aux variable to apply getClass() method on
+        // Type variables
+        Type mapType = new TypeToken<LinkedHashMap<String, Round[]>>() {
+        }.getType();
         var arrayType = new Round[0];
-        // aux variable to apply getClass() method on
-        var objectType = new Round();
+        Type objectType = new TypeToken<Round>() {
+        }.getType();
 
         // opens a file as read-only
         FileReader fr = null;
@@ -232,7 +234,7 @@ public class Round extends BaseEntity {
         // gson object
         var gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
         // reads entire file contents as a 'mapType'
-        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
+        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType)));
         // converts the element to an object
         JsonObject object = element.getAsJsonObject();
         // parses trough the entries read and saves them in the respective types while
@@ -241,7 +243,7 @@ public class Round extends BaseEntity {
             var array = e.getValue().getAsJsonArray();
             ArrayList<Round> currRounds = new ArrayList<>();
             for (var i = 0; i < array.size(); i++) {
-                currRounds.add(new Round(gson.fromJson(array.get(i), objectType.getClass())));
+                currRounds.add(new Round(gson.fromJson(array.get(i), objectType)));
             }
             defaultRounds.put(e.getKey(), currRounds.toArray(arrayType));
         }
