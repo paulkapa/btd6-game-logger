@@ -531,6 +531,12 @@ public class WebController implements CommandLineRunner, ApplicationContextAware
         }
     }
 
+    @PostMapping(path = "/cancelShtdn")
+    public String cancelShtdn() {
+        this.isShutdownStarted = false;
+        return REDIRECT;
+    }
+
     /**
      * Truncates the provided table.
      *

@@ -400,6 +400,15 @@ function handleAppSelection() {
             var curr;
             var allowed;
 
+            var standardGame = document.getElementById("standardGame");
+            var standardSelection = document.getElementById("standardSelection");
+            var customGame = document.getElementById("customGame");
+            var sandboxGame = document.getElementById("sandboxGame");
+
+            standardGame.addEventListener("click", () => {
+                standardSelection.classList.toggle("d-none");
+            });
+
             setupForm.addEventListener("reset", () => {
                 mapOutput.innerText = "Select...";
                 diffOutput.innerText = "Select...";
