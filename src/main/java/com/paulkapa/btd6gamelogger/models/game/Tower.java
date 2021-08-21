@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -12,6 +13,7 @@ import java.util.Map.Entry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 import com.paulkapa.btd6gamelogger.database.game.GameContainer;
 import com.paulkapa.btd6gamelogger.models.BaseEntity;
 
@@ -62,7 +64,7 @@ public class Tower extends BaseEntity {
     public Tower(String name, String type, int cost) {
         super(name, type);
         this.cost = cost;
-        this.sellValue = (int) Math.ceil((double) cost * 0.7d);
+        this.sellValue = (int) Math.ceil(cost * 0.7d);
         this.pops = 0l;
         this.cashGenerated = 0;
     }
@@ -305,12 +307,12 @@ public class Tower extends BaseEntity {
      */
     private static LinkedHashMap<String, Tower[]> initDefaultTowers() throws IOException {
         LinkedHashMap<String, Tower[]> defaultTowers = new LinkedHashMap<>();
-        // aux variable to apply getClass() method on
-        LinkedHashMap<String, Tower[]> mapType = new LinkedHashMap<>(0);
-        // aux variable to apply getClass() method on
+        // Type variables
+        Type mapType = new TypeToken<LinkedHashMap<String, Tower[]>>() {
+        }.getType();
         var arrayType = new Tower[0];
-        // aux variable to apply getClass() method on
-        var objectType = new Tower();
+        Type objectType = new TypeToken<Tower>() {
+        }.getType();
 
         // opens a file as read-only
         FileReader fr = null;
@@ -326,7 +328,7 @@ public class Tower extends BaseEntity {
         // gson object
         var gson = new GsonBuilder().setPrettyPrinting().serializeNulls().enableComplexMapKeySerialization().create();
         // reads entire file contents as a 'mapType'
-        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType.getClass())));
+        JsonElement element = gson.toJsonTree(new LinkedHashMap<>(gson.fromJson(br, mapType)));
         // converts the element to an object
         var object = element.getAsJsonObject();
         // parses trough the entries read and saves them in the respective types while
@@ -335,7 +337,7 @@ public class Tower extends BaseEntity {
             var array = e.getValue().getAsJsonArray();
             ArrayList<Tower> currTowers = new ArrayList<>();
             for (var i = 0; i < array.size(); i++) {
-                currTowers.add(new Tower(gson.fromJson(array.get(i), objectType.getClass())));
+                currTowers.add(new Tower(gson.fromJson(array.get(i), objectType)));
             }
             defaultTowers.put(e.getKey(), currTowers.toArray(arrayType));
         }
